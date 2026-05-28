@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   <title>PD Soluções Digitais</title>
 
   <style>
+
     *{
       margin:0;
       padding:0;
@@ -13,81 +16,97 @@
       font-family:Arial, Helvetica, sans-serif;
     }
 
+    html{
+      scroll-behavior:smooth;
+    }
+
     body{
       background:#050505;
       color:#ffffff;
       overflow-x:hidden;
+      position:relative;
     }
+
+    /* MARCA D'ÁGUA */
 
     .background-logo{
       position:fixed;
       top:50%;
       left:50%;
       transform:translate(-50%,-50%);
-      width:500px;
-      opacity:0.04;
+      width:550px;
+      opacity:0.035;
       z-index:-1;
+      pointer-events:none;
     }
+
+    /* HEADER */
 
     header{
       width:100%;
-      padding:40px 20px;
+      padding:50px 20px 30px;
       text-align:center;
     }
 
-    header img{
+    .logo-top{
       width:120px;
-      margin-bottom:20px;
+      margin-bottom:25px;
+      border-radius:20px;
+      box-shadow:0 0 30px rgba(0,255,136,0.15);
     }
 
     h1{
-      font-size:22px;
-      font-weight:600;
-      margin-bottom:10px;
       color:#00ff88;
-      letter-spacing:1px;
+      font-size:24px;
+      letter-spacing:2px;
+      margin-bottom:10px;
+      font-weight:600;
     }
 
     .subtitle{
       font-size:12px;
-      color:#cfcfcf;
-      letter-spacing:2px;
+      color:#d0d0d0;
+      letter-spacing:3px;
     }
+
+    /* HERO */
 
     .hero{
       max-width:1000px;
       margin:auto;
-      padding:80px 20px;
       text-align:center;
+      padding:90px 20px;
     }
 
     .hero h2{
-      font-size:30px;
-      margin-bottom:20px;
-      color:#ffffff;
+      font-size:34px;
+      margin-bottom:25px;
+      line-height:50px;
+      font-weight:600;
     }
 
     .hero p{
-      font-size:12px;
-      color:#cfcfcf;
       max-width:700px;
       margin:auto;
-      line-height:24px;
+      font-size:12px;
+      color:#bdbdbd;
+      line-height:26px;
+      letter-spacing:1px;
     }
 
     .buttons{
-      margin-top:40px;
+      margin-top:45px;
     }
 
     .buttons a{
-      display:inline-block;
-      padding:14px 30px;
-      margin:10px;
-      border-radius:8px;
       text-decoration:none;
-      font-size:12px;
+      display:inline-block;
+      margin:10px;
+      padding:14px 28px;
+      border-radius:10px;
+      font-size:11px;
+      letter-spacing:2px;
       transition:0.3s;
-      letter-spacing:1px;
     }
 
     .btn-primary{
@@ -98,6 +117,7 @@
 
     .btn-primary:hover{
       opacity:0.8;
+      transform:translateY(-3px);
     }
 
     .btn-secondary{
@@ -105,62 +125,94 @@
       color:#00ff88;
     }
 
+    .btn-secondary:hover{
+      background:#00ff88;
+      color:#000;
+    }
+
+    /* SEÇÕES */
+
     .section{
-      padding:80px 20px;
       max-width:1200px;
       margin:auto;
+      padding:90px 20px;
     }
 
     .section-title{
       text-align:center;
-      font-size:18px;
-      margin-bottom:50px;
       color:#00ff88;
-      letter-spacing:2px;
+      font-size:18px;
+      letter-spacing:3px;
+      margin-bottom:60px;
     }
+
+    /* CARDS */
 
     .cards{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
       gap:25px;
     }
 
     .card{
-      background:#0d0d0d;
-      border:1px solid #1b1b1b;
-      border-radius:12px;
-      padding:30px;
+      background:#0c0c0c;
+      border:1px solid #1a1a1a;
+      border-radius:16px;
+      padding:35px;
       transition:0.3s;
+      text-align:center;
     }
 
     .card:hover{
       border-color:#00ff88;
       transform:translateY(-5px);
+      box-shadow:0 0 30px rgba(0,255,136,0.08);
     }
 
     .card h3{
-      font-size:14px;
-      margin-bottom:20px;
       color:#00ff88;
-      letter-spacing:1px;
+      margin-bottom:20px;
+      font-size:13px;
+      letter-spacing:2px;
     }
 
     .card p{
-      font-size:12px;
-      color:#bdbdbd;
-      line-height:22px;
-    }
-
-    footer{
-      padding:50px 20px;
-      text-align:center;
-      border-top:1px solid #111;
-      margin-top:80px;
-    }
-
-    footer p{
+      color:#bcbcbc;
       font-size:11px;
-      color:#777;
+      line-height:24px;
+      margin-bottom:30px;
+      letter-spacing:1px;
+    }
+
+    .card a{
+      text-decoration:none;
+      display:inline-block;
+      background:#00ff88;
+      color:#000;
+      padding:12px 20px;
+      border-radius:8px;
+      font-size:10px;
+      letter-spacing:1px;
+      font-weight:bold;
+      transition:0.3s;
+    }
+
+    .card a:hover{
+      opacity:0.85;
+    }
+
+    /* DIFERENCIAIS */
+
+    .diferenciais{
+      text-align:center;
+      max-width:900px;
+      margin:auto;
+    }
+
+    .diferenciais p{
+      color:#bcbcbc;
+      font-size:12px;
+      line-height:28px;
       letter-spacing:1px;
     }
 
@@ -168,10 +220,29 @@
       color:#00ff88;
     }
 
+    /* FOOTER */
+
+    footer{
+      margin-top:70px;
+      padding:40px 20px;
+      border-top:1px solid #111;
+      text-align:center;
+    }
+
+    footer p{
+      color:#777;
+      font-size:11px;
+      letter-spacing:2px;
+      line-height:24px;
+    }
+
+    /* MOBILE */
+
     @media(max-width:768px){
 
       .hero h2{
-        font-size:22px;
+        font-size:24px;
+        line-height:38px;
       }
 
       .hero p{
@@ -182,24 +253,35 @@
         width:300px;
       }
 
+      .buttons a{
+        width:90%;
+      }
+
     }
+
   </style>
 </head>
 
 <body>
 
-  <!-- LOGO MARCA D'ÁGUA -->
-  <img src="logo.png" class="background-logo">
+  <!-- MARCA D'ÁGUA -->
+  <img src="PD_Solucoes_Digitais_Arte_Oficial.png" class="background-logo">
+
+  <!-- HEADER -->
 
   <header>
-    <img src="logo.png" alt="PD Soluções Digitais">
+
+    <img src="PD_Solucoes_Digitais_Arte_Oficial.png" class="logo-top">
 
     <h1>PD SOLUÇÕES DIGITAIS</h1>
 
     <div class="subtitle">
       EMPRESARIAL | RESIDENCIAL | DIGITAL
     </div>
+
   </header>
+
+  <!-- HERO -->
 
   <section class="hero">
 
@@ -209,23 +291,26 @@
     </h2>
 
     <p>
-      Soluções em suporte técnico, redes, segurança eletrônica,
-      serviços digitais e consultoria empresarial.
-      Atendimento profissional para empresas, comércios,
-      escritórios e residências.
+      Soluções em suporte técnico, consultoria empresarial,
+      segurança eletrônica, redes, infraestrutura e serviços digitais.
+      Atendimento profissional para empresas, comércios e residências.
     </p>
 
     <div class="buttons">
-      <a href="https://wa.me/55SEUNUMERO" class="btn-primary">
+
+      <a href="https://wa.me/5532999999999?text=Olá,%20tenho%20interesse%20nos%20serviços%20da%20PD%20Soluções%20Digitais." class="btn-primary">
         FALAR NO WHATSAPP
       </a>
 
       <a href="#servicos" class="btn-secondary">
-        NOSSOS SERVIÇOS
+        VER SERVIÇOS
       </a>
+
     </div>
 
   </section>
+
+  <!-- SERVIÇOS -->
 
   <section class="section" id="servicos">
 
@@ -236,48 +321,74 @@
     <div class="cards">
 
       <div class="card">
+
         <h3>SUPORTE TÉCNICO</h3>
 
         <p>
-          Formatação, upgrades, SSD, manutenção,
-          notebooks, computadores, suporte remoto
-          e atendimento técnico profissional.
+          Formatação, upgrades, SSD,
+          manutenção de computadores,
+          notebooks e suporte remoto.
         </p>
+
+        <a href="https://wa.me/5532999999999?text=Olá,%20tenho%20interesse%20em%20suporte%20técnico.">
+          SOLICITAR SUPORTE
+        </a>
+
       </div>
 
       <div class="card">
-        <h3>EMPRESARIAL</h3>
+
+        <h3>CONSULTORIA EMPRESARIAL</h3>
 
         <p>
-          Planos mensais de suporte técnico,
-          consultoria empresarial, infraestrutura,
-          redes e atendimento por chamados.
+          Planos mensais por chamados,
+          consultoria em TI,
+          infraestrutura e suporte corporativo.
         </p>
+
+        <a href="https://wa.me/5532999999999?text=Olá,%20tenho%20interesse%20nos%20planos%20empresariais.">
+          SOLICITAR CONSULTORIA
+        </a>
+
       </div>
 
       <div class="card">
-        <h3>SEGURANÇA</h3>
+
+        <h3>SEGURANÇA ELETRÔNICA</h3>
 
         <p>
-          Instalação e suporte para câmeras,
-          DVRs, alarmes, monitoramento,
-          controle de acesso e redes.
+          Câmeras, DVRs, alarmes,
+          monitoramento, redes
+          e controle de acesso.
         </p>
+
+        <a href="https://wa.me/5532999999999?text=Olá,%20tenho%20interesse%20em%20segurança%20eletrônica.">
+          SOLICITAR ORÇAMENTO
+        </a>
+
       </div>
 
       <div class="card">
+
         <h3>SERVIÇOS DIGITAIS</h3>
 
         <p>
-          Auxílio com Gov.br, certidões,
+          Gov.br, certidões,
           documentos, agendamentos,
-          MEI, DAS e solicitações digitais.
+          MEI e solicitações digitais.
         </p>
+
+        <a href="https://wa.me/5532999999999?text=Olá,%20preciso%20de%20ajuda%20com%20serviços%20digitais.">
+          SOLICITAR AJUDA
+        </a>
+
       </div>
 
     </div>
 
   </section>
+
+  <!-- PLANOS -->
 
   <section class="section">
 
@@ -288,27 +399,31 @@
     <div class="cards">
 
       <div class="card">
+
         <h3>PLANO ESSENCIAL</h3>
 
         <p>
-          Ideal para pequenos negócios que
-          precisam de suporte técnico rápido,
+          Ideal para pequenos negócios
+          que precisam de suporte rápido,
           organizado e profissional.
         </p>
+
       </div>
 
       <div class="card">
+
         <h3>PLANO PROFISSIONAL</h3>
 
         <p>
           Atendimento prioritário,
           acompanhamento técnico
-          e suporte especializado
-          para empresas em crescimento.
+          e suporte especializado.
         </p>
+
       </div>
 
       <div class="card">
+
         <h3>PLANO CONSULTIVO</h3>
 
         <p>
@@ -316,18 +431,43 @@
           monitoramento, consultoria
           e soluções completas em TI.
         </p>
+
       </div>
 
     </div>
 
   </section>
 
+  <!-- DIFERENCIAIS -->
+
+  <section class="section">
+
+    <div class="section-title">
+      DIFERENCIAIS
+    </div>
+
+    <div class="diferenciais">
+
+      <p>
+        A <span class="highlight">PD Soluções Digitais</span>
+        oferece tecnologia acessível, suporte profissional
+        e atendimento humanizado para empresas e residências.
+
+        Atuamos com foco em rapidez, segurança,
+        continuidade operacional e soluções inteligentes
+        para manter sua operação funcionando.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+
   <footer>
 
     <p>
-      <span class="highlight">
-        PD SOLUÇÕES DIGITAIS
-      </span>
+      PD SOLUÇÕES DIGITAIS
       <br><br>
       Tecnologia • Segurança • Serviços Digitais
     </p>

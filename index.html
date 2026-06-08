@@ -6,262 +6,69 @@
   <title>PD Soluções Digitais</title>
 
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial, Helvetica, sans-serif;
-    }
-
-    html{
-      scroll-behavior:smooth;
-    }
-
-    body{
-      background:#050505;
-      color:#fff;
-      overflow-x:hidden;
-      min-height:100vh;
-    }
-
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;}
+    html{scroll-behavior:smooth;}
+    body{background:#050505;color:#fff;overflow-x:hidden;min-height:100vh;}
     body::before{
-      content:"";
-      position:fixed;
-      inset:0;
+      content:"";position:fixed;inset:0;
       background:
         radial-gradient(circle at 20% 20%, rgba(0,255,136,0.10), transparent 28%),
         radial-gradient(circle at 80% 80%, rgba(0,255,136,0.08), transparent 30%),
         linear-gradient(135deg, #050505 0%, #080808 45%, #020202 100%);
       z-index:-3;
     }
-
     body::after{
-      content:"PD";
-      position:fixed;
-      top:50%;
-      left:50%;
-      transform:translate(-50%,-50%);
-      font-size:240px;
-      font-weight:800;
-      letter-spacing:20px;
-      color:rgba(0,255,136,0.025);
-      z-index:-2;
-      pointer-events:none;
+      content:"PD";position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+      font-size:240px;font-weight:800;letter-spacing:20px;color:rgba(0,255,136,0.025);
+      z-index:-2;pointer-events:none;
     }
-
     .watermark-img{
-      position:fixed;
-      top:50%;
-      left:50%;
-      transform:translate(-50%,-50%);
-      width:620px;
-      max-width:80vw;
-      opacity:0.045;
-      z-index:-1;
-      pointer-events:none;
-      filter:grayscale(15%);
+      position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+      width:620px;max-width:80vw;opacity:0.045;z-index:-1;pointer-events:none;filter:grayscale(15%);
     }
-
-    header{
-      text-align:center;
-      padding:60px 20px 30px;
-    }
-
+    header{text-align:center;padding:60px 20px 30px;}
     .brand-seal{
-      width:78px;
-      height:78px;
-      margin:0 auto 22px;
-      border:1px solid rgba(0,255,136,0.35);
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#00ff88;
-      font-size:26px;
-      font-weight:700;
-      letter-spacing:2px;
-      box-shadow:0 0 35px rgba(0,255,136,0.10);
+      width:78px;height:78px;margin:0 auto 22px;border:1px solid rgba(0,255,136,0.35);
+      border-radius:50%;display:flex;align-items:center;justify-content:center;color:#00ff88;
+      font-size:26px;font-weight:700;letter-spacing:2px;box-shadow:0 0 35px rgba(0,255,136,0.10);
       background:rgba(0,0,0,0.45);
     }
-
-    h1{
-      color:#ffffff;
-      font-size:24px;
-      letter-spacing:2px;
-      margin-bottom:10px;
-      font-weight:700;
-    }
-
-    .pd-green{
-      color:#00ff88;
-    }
-
-    .subtitle{
-      font-size:12px;
-      color:#cfcfcf;
-      letter-spacing:3px;
-    }
-
-    .hero{
-      max-width:1000px;
-      margin:auto;
-      padding:80px 20px;
-      text-align:center;
-    }
-
-    .hero h2{
-      font-size:34px;
-      line-height:48px;
-      margin-bottom:25px;
-      font-weight:600;
-    }
-
-    .hero p{
-      max-width:720px;
-      margin:auto;
-      color:#bdbdbd;
-      font-size:12px;
-      line-height:26px;
-      letter-spacing:1px;
-    }
-
-    .buttons{
-      margin-top:40px;
-    }
-
+    h1{color:#fff;font-size:24px;letter-spacing:2px;margin-bottom:10px;font-weight:700;}
+    .pd-green{color:#00ff88;}
+    .subtitle{font-size:12px;color:#cfcfcf;letter-spacing:3px;}
+    .hero{max-width:1000px;margin:auto;padding:80px 20px;text-align:center;}
+    .hero h2{font-size:34px;line-height:48px;margin-bottom:25px;font-weight:600;}
+    .hero p{max-width:720px;margin:auto;color:#bdbdbd;font-size:12px;line-height:26px;letter-spacing:1px;}
+    .buttons{margin-top:40px;}
     .btn{
-      display:inline-block;
-      text-decoration:none;
-      border-radius:10px;
-      padding:13px 22px;
-      margin:8px;
-      font-size:10px;
-      letter-spacing:1.5px;
-      font-weight:bold;
-      transition:0.3s;
-      text-align:center;
+      display:inline-block;text-decoration:none;border-radius:10px;padding:13px 22px;margin:8px;
+      font-size:10px;letter-spacing:1.5px;font-weight:bold;transition:0.3s;text-align:center;
     }
-
-    .btn-primary{
-      background:#00ff88;
-      color:#000;
-    }
-
-    .btn-primary:hover{
-      opacity:0.85;
-      transform:translateY(-3px);
-    }
-
-    .btn-secondary{
-      border:1px solid #00ff88;
-      color:#00ff88;
-    }
-
-    .btn-secondary:hover{
-      background:#00ff88;
-      color:#000;
-    }
-
-    .section{
-      max-width:1200px;
-      margin:auto;
-      padding:80px 20px;
-    }
-
-    .section-title{
-      text-align:center;
-      color:#00ff88;
-      font-size:18px;
-      letter-spacing:3px;
-      margin-bottom:55px;
-    }
-
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:25px;
-    }
-
+    .btn-primary{background:#00ff88;color:#000;}
+    .btn-primary:hover{opacity:0.85;transform:translateY(-3px);}
+    .btn-secondary{border:1px solid #00ff88;color:#00ff88;background:transparent;}
+    .btn-secondary:hover{background:#00ff88;color:#000;}
+    .section{max-width:1200px;margin:auto;padding:80px 20px;}
+    .section-title{text-align:center;color:#00ff88;font-size:18px;letter-spacing:3px;margin-bottom:55px;}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:25px;}
     .card{
-      background:rgba(12,12,12,0.92);
-      border:1px solid #1b1b1b;
-      border-radius:16px;
-      padding:30px;
-      text-align:center;
-      transition:0.3s;
-      backdrop-filter:blur(6px);
+      background:rgba(12,12,12,0.92);border:1px solid #1b1b1b;border-radius:16px;padding:30px;
+      text-align:center;transition:0.3s;backdrop-filter:blur(6px);
     }
-
-    .card:hover{
-      border-color:#00ff88;
-      transform:translateY(-5px);
-      box-shadow:0 0 30px rgba(0,255,136,0.08);
-    }
-
-    .card h3{
-      color:#00ff88;
-      font-size:13px;
-      letter-spacing:2px;
-      margin-bottom:18px;
-    }
-
-    .card p{
-      color:#bdbdbd;
-      font-size:11px;
-      line-height:23px;
-      letter-spacing:1px;
-      margin-bottom:25px;
-    }
-
-    .card .btn{
-      display:block;
-      width:100%;
-      margin:8px 0;
-    }
-
-    .highlight{
-      color:#00ff88;
-    }
-
-    footer{
-      text-align:center;
-      padding:45px 20px;
-      border-top:1px solid #111;
-      margin-top:60px;
-    }
-
-    footer p{
-      color:#777;
-      font-size:11px;
-      letter-spacing:2px;
-      line-height:24px;
-    }
-
+    .card:hover{border-color:#00ff88;transform:translateY(-5px);box-shadow:0 0 30px rgba(0,255,136,0.08);}
+    .card h3{color:#00ff88;font-size:13px;letter-spacing:2px;margin-bottom:18px;}
+    .card p{color:#bdbdbd;font-size:11px;line-height:23px;letter-spacing:1px;margin-bottom:25px;}
+    .card .btn{display:block;width:100%;margin:8px 0;}
+    .highlight{color:#00ff88;}
+    footer{text-align:center;padding:45px 20px;border-top:1px solid #111;margin-top:60px;}
+    footer p{color:#777;font-size:11px;letter-spacing:2px;line-height:24px;}
     @media(max-width:768px){
-      .hero{
-        padding:65px 18px;
-      }
-
-      .hero h2{
-        font-size:24px;
-        line-height:36px;
-      }
-
-      .hero p{
-        font-size:11px;
-      }
-
-      body::after{
-        font-size:130px;
-      }
-
-      .watermark-img{
-        width:330px;
-      }
-
-      .btn{
-        width:90%;
-      }
+      .hero{padding:65px 18px;}
+      .hero h2{font-size:24px;line-height:36px;}
+      .hero p{font-size:11px;}
+      body::after{font-size:130px;}
+      .watermark-img{width:330px;}
+      .btn{width:90%;}
     }
   </style>
 </head>
@@ -272,19 +79,12 @@
 
   <header>
     <div class="brand-seal">PD</div>
-
     <h1><span class="pd-green">PD</span> SOLUÇÕES DIGITAIS</h1>
-
-    <div class="subtitle">
-      EMPRESARIAL | RESIDENCIAL | DIGITAL
-    </div>
+    <div class="subtitle">EMPRESARIAL | RESIDENCIAL | DIGITAL</div>
   </header>
 
   <section class="hero">
-    <h2>
-      Tecnologia acessível,<br>
-      suporte profissional.
-    </h2>
+    <h2>Tecnologia acessível,<br>suporte profissional.</h2>
 
     <p>
       Suporte técnico, consultoria empresarial, segurança eletrônica,
@@ -297,6 +97,14 @@
         FALAR NO WHATSAPP
       </a>
 
+      <a class="btn btn-secondary" href="orcamento_mobile.html">
+        ORÇAMENTO RÁPIDO
+      </a>
+
+      <a class="btn btn-secondary" href="mailto:pablosouza624@gmail.com?subject=Solicitação%20de%20orçamento%20-%20PD%20Soluções%20Digitais&body=Olá,%20PD%20Soluções%20Digitais.%0D%0A%0D%0AGostaria%20de%20solicitar%20um%20orçamento.%0D%0A%0D%0ANome:%0D%0AEmpresa:%0D%0ATelefone:%0D%0ACidade/Bairro:%0D%0AServiço%20desejado:%0D%0ADescrição%20da%20necessidade:%0D%0A%0D%0AAguardo%20retorno.">
+        SOLICITAR POR E-MAIL
+      </a>
+
       <a class="btn btn-secondary" href="#servicos">
         VER SERVIÇOS
       </a>
@@ -307,11 +115,9 @@
     <div class="section-title">SERVIÇOS</div>
 
     <div class="cards">
-
       <div class="card">
         <h3>SUPORTE TÉCNICO</h3>
         <p>Manutenção, formatação, upgrades, SSD, notebooks, computadores e suporte remoto.</p>
-
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20solicitar%20formatação%20de%20computador.">FORMATAÇÃO</a>
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20instalar%20SSD%20ou%20fazer%20upgrade%20no%20meu%20computador.">SSD / UPGRADE</a>
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20manutenção%20em%20notebook%20ou%20computador.">MANUTENÇÃO</a>
@@ -322,7 +128,6 @@
       <div class="card">
         <h3>CONSULTORIA EMPRESARIAL</h3>
         <p>Planos mensais, suporte por chamados, infraestrutura e orientação técnica para empresas.</p>
-
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20conhecer%20os%20planos%20mensais%20de%20chamados.">PLANOS DE CHAMADOS</a>
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20suporte%20de%20TI%20para%20minha%20empresa.">SUPORTE EMPRESARIAL</a>
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20consultoria%20em%20TI%20para%20minha%20empresa.">CONSULTORIA EM TI</a>
@@ -333,7 +138,6 @@
       <div class="card">
         <h3>SEGURANÇA ELETRÔNICA</h3>
         <p>Câmeras, DVRs, alarmes, monitoramento, redes e controle de acesso.</p>
-
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20orçamento%20para%20instalação%20de%20câmeras.">CÂMERAS</a>
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20configuração%20ou%20suporte%20em%20DVR.">DVR</a>
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20tenho%20interesse%20em%20alarme%20ou%20suporte%20para%20alarme.">ALARMES</a>
@@ -344,14 +148,12 @@
       <div class="card">
         <h3>SERVIÇOS DIGITAIS</h3>
         <p>Auxílio para resolver solicitações digitais com segurança, orientação e atendimento humanizado.</p>
-
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20ajuda%20com%20Gov.br.">GOV.BR</a>
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20emitir%20ou%20solicitar%20uma%20certidão.">CERTIDÕES</a>
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20fazer%20um%20agendamento%20online.">AGENDAMENTOS</a>
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20ajuda%20com%20documentos%20digitais.">DOCUMENTOS DIGITAIS</a>
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20ajuda%20com%20MEI,%20DAS%20ou%20Receita%20Federal.">MEI / DAS</a>
       </div>
-
     </div>
   </section>
 
@@ -359,7 +161,6 @@
     <div class="section-title">PLANOS EMPRESARIAIS</div>
 
     <div class="cards">
-
       <div class="card">
         <h3>PLANO ESSENCIAL</h3>
         <p>Para pequenos negócios que precisam de suporte rápido, organizado e profissional.</p>
@@ -377,7 +178,6 @@
         <p>Para empresas que precisam de prevenção, infraestrutura, segurança e estratégia em TI.</p>
         <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20conhecer%20o%20Plano%20Consultivo%20da%20PD%20Soluções%20Digitais.">CONHECER PLANO</a>
       </div>
-
     </div>
   </section>
 

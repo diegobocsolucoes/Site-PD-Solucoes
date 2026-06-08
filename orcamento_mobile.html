@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PD Soluções Digitais - Orçamento Mobile</title>
+<title>PD Soluções Digitais - Orçamento Interno</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial, Helvetica, sans-serif;}
@@ -27,21 +27,36 @@ button{width:100%;border:none;border-radius:12px;padding:15px;font-size:13px;fon
 .small{color:#999;font-size:11px;line-height:18px;text-align:center;}
 .output{white-space:pre-wrap;background:#050505;border:1px solid #333;border-radius:12px;padding:14px;color:#eaeaea;font-size:13px;line-height:22px;margin-top:12px;}
 .footer{text-align:center;color:#777;font-size:11px;line-height:20px;margin-top:18px;}
-.hidden{display:none;}
+.hidden{display:none!important;}
 .internal-area{display:none;background:#080808;border:1px dashed #333;border-radius:12px;padding:12px;margin-top:10px;}
 .internal-note{color:#777;font-size:11px;line-height:18px;margin-bottom:10px;}
+.lock-screen{min-height:70vh;display:flex;align-items:center;justify-content:center;}
+.lock-card{width:100%;max-width:420px;background:#0b0b0b;border:1px solid #1f1f1f;border-radius:18px;padding:24px;text-align:center;}
+.lock-card h1{font-size:18px;margin-bottom:10px;}
+.lock-card p{color:#aaa;font-size:12px;line-height:20px;margin-bottom:18px;}
 @media(max-width:600px){body{padding:10px}.container{padding:15px}h1{font-size:18px}}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div id="telaSenha" class="lock-screen">
+  <div class="lock-card">
+    <h1>PD SOLUÇÕES DIGITAIS</h1>
+    <p>Área interna para geração de orçamento.<br>Não compartilhar este acesso com clientes.</p>
+    <label>Senha interna</label>
+    <input id="senha" type="password" placeholder="Digite a senha">
+    <button class="btn-green" onclick="validarSenha()">ACESSAR ORÇAMENTO</button>
+    <div id="erroSenha" class="small" style="margin-top:12px;color:#ff7777;"></div>
+  </div>
+</div>
+
+<div class="container hidden" id="appOrcamento">
 
   <div class="header">
     <img src="artes/PD_Solucoes_Digitais_Arte_Oficial.png" class="logo" onerror="this.style.display='none'">
     <h1>PD SOLUÇÕES DIGITAIS</h1>
-    <div class="subtitle">ORÇAMENTO MOBILE</div>
+    <div class="subtitle">ORÇAMENTO INTERNO</div>
   </div>
 
   <div class="box">
@@ -97,7 +112,7 @@ button{width:100%;border:none;border-radius:12px;padding:15px;font-size:13px;fon
 
     <div class="internal-area" id="valorInternoBox">
       <div class="internal-note">
-        Área interna. O valor não aparece na tela inicial, nem na lista de itens. Ele só aparece no orçamento gerado.
+        Área interna. O valor não aparece na lista de serviços nem nos itens adicionados. Ele só aparece no orçamento gerado.
       </div>
 
       <label>Valor unitário interno</label>
@@ -114,7 +129,7 @@ button{width:100%;border:none;border-radius:12px;padding:15px;font-size:13px;fon
   </div>
 
   <div class="box">
-    <h2>Finalização</h2>
+    <h2>Finalização interna</h2>
 
     <label>Desconto, se houver</label>
     <input id="desconto" type="number" step="0.01" value="0">
@@ -150,10 +165,27 @@ button{width:100%;border:none;border-radius:12px;padding:15px;font-size:13px;fon
 </div>
 
 <script>
+const SENHA_INTERNA = "PD2026";
 let itens = [];
 let mensagemGerada = "";
 let linkWhatsApp = "";
 const TAXA_DESLOCAMENTO_OCULTA = 30;
+
+function validarSenha(){
+  const senha = document.getElementById("senha").value.trim();
+  if(senha === SENHA_INTERNA){
+    document.getElementById("telaSenha").classList.add("hidden");
+    document.getElementById("appOrcamento").classList.remove("hidden");
+  }else{
+    document.getElementById("erroSenha").innerText = "Senha incorreta.";
+  }
+}
+
+document.getElementById("senha").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    validarSenha();
+  }
+});
 
 function moeda(v){
   return v.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});

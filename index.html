@@ -1,51 +1,338 @@
-<section class="section" id="servicos">
-  <div class="section-title">SERVIÇOS</div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PD Soluções Digitais</title>
 
-  <div class="cards">
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, Helvetica, sans-serif;
+    }
 
-    <div class="card">
-      <h3>SUPORTE TÉCNICO</h3>
-      <p>Manutenção, formatação, upgrades, SSD, notebooks, computadores e suporte remoto.</p>
+    html{
+      scroll-behavior:smooth;
+    }
 
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20solicitar%20formatação%20de%20computador.">FORMATAÇÃO</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20instalar%20SSD%20ou%20fazer%20upgrade%20no%20meu%20computador.">SSD / UPGRADE</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20manutenção%20em%20notebook%20ou%20computador.">MANUTENÇÃO</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20backup%20ou%20recuperação%20de%20arquivos.">BACKUP</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20suporte%20remoto.">SUPORTE REMOTO</a>
+    body{
+      background:#050505;
+      color:#fff;
+      overflow-x:hidden;
+    }
+
+    .background-logo{
+      position:fixed;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      width:560px;
+      opacity:0.035;
+      z-index:-1;
+      pointer-events:none;
+    }
+
+    header{
+      text-align:center;
+      padding:50px 20px 30px;
+    }
+
+    .logo-top{
+      width:125px;
+      border-radius:18px;
+      margin-bottom:25px;
+      box-shadow:0 0 35px rgba(0,255,136,0.15);
+    }
+
+    h1{
+      color:#00ff88;
+      font-size:24px;
+      letter-spacing:2px;
+      margin-bottom:10px;
+    }
+
+    .subtitle{
+      font-size:12px;
+      color:#ccc;
+      letter-spacing:3px;
+    }
+
+    .hero{
+      max-width:1000px;
+      margin:auto;
+      padding:85px 20px;
+      text-align:center;
+    }
+
+    .hero h2{
+      font-size:34px;
+      line-height:48px;
+      margin-bottom:25px;
+    }
+
+    .hero p{
+      max-width:720px;
+      margin:auto;
+      color:#bdbdbd;
+      font-size:12px;
+      line-height:26px;
+      letter-spacing:1px;
+    }
+
+    .buttons{
+      margin-top:40px;
+    }
+
+    .btn{
+      display:inline-block;
+      text-decoration:none;
+      border-radius:10px;
+      padding:13px 22px;
+      margin:8px;
+      font-size:10px;
+      letter-spacing:1.5px;
+      font-weight:bold;
+      transition:0.3s;
+      text-align:center;
+    }
+
+    .btn-primary{
+      background:#00ff88;
+      color:#000;
+    }
+
+    .btn-primary:hover{
+      opacity:0.85;
+      transform:translateY(-3px);
+    }
+
+    .btn-secondary{
+      border:1px solid #00ff88;
+      color:#00ff88;
+    }
+
+    .btn-secondary:hover{
+      background:#00ff88;
+      color:#000;
+    }
+
+    .section{
+      max-width:1200px;
+      margin:auto;
+      padding:80px 20px;
+    }
+
+    .section-title{
+      text-align:center;
+      color:#00ff88;
+      font-size:18px;
+      letter-spacing:3px;
+      margin-bottom:55px;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:25px;
+    }
+
+    .card{
+      background:#0c0c0c;
+      border:1px solid #1b1b1b;
+      border-radius:16px;
+      padding:30px;
+      text-align:center;
+      transition:0.3s;
+    }
+
+    .card:hover{
+      border-color:#00ff88;
+      transform:translateY(-5px);
+      box-shadow:0 0 30px rgba(0,255,136,0.08);
+    }
+
+    .card h3{
+      color:#00ff88;
+      font-size:13px;
+      letter-spacing:2px;
+      margin-bottom:18px;
+    }
+
+    .card p{
+      color:#bdbdbd;
+      font-size:11px;
+      line-height:23px;
+      letter-spacing:1px;
+      margin-bottom:25px;
+    }
+
+    .card .btn{
+      display:block;
+      width:100%;
+      margin:8px 0;
+    }
+
+    .highlight{
+      color:#00ff88;
+    }
+
+    footer{
+      text-align:center;
+      padding:45px 20px;
+      border-top:1px solid #111;
+      margin-top:60px;
+    }
+
+    footer p{
+      color:#777;
+      font-size:11px;
+      letter-spacing:2px;
+      line-height:24px;
+    }
+
+    @media(max-width:768px){
+      .hero h2{
+        font-size:24px;
+        line-height:36px;
+      }
+
+      .background-logo{
+        width:310px;
+      }
+
+      .btn{
+        width:90%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <img src="artes/PD_Solucoes_Digitais_Arte_Oficial.png" class="background-logo" alt="PD Soluções Digitais">
+
+  <header>
+    <img src="artes/PD_Solucoes_Digitais_Arte_Oficial.png" class="logo-top" alt="PD Soluções Digitais">
+
+    <h1>PD SOLUÇÕES DIGITAIS</h1>
+
+    <div class="subtitle">
+      EMPRESARIAL | RESIDENCIAL | DIGITAL
     </div>
+  </header>
 
-    <div class="card">
-      <h3>CONSULTORIA EMPRESARIAL</h3>
-      <p>Planos mensais, suporte por chamados, infraestrutura e orientação técnica para empresas.</p>
+  <section class="hero">
+    <h2>
+      Tecnologia acessível,<br>
+      suporte profissional.
+    </h2>
 
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20conhecer%20os%20planos%20mensais%20de%20chamados.">PLANOS DE CHAMADOS</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20suporte%20de%20TI%20para%20minha%20empresa.">SUPORTE EMPRESARIAL</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20consultoria%20em%20TI%20para%20minha%20empresa.">CONSULTORIA EM TI</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20reduzir%20custos%20com%20TI%20na%20minha%20empresa.">REDUZIR CUSTOS</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20tenho%20interesse%20em%20atendimento%20preventivo%20de%20TI.">ATENDIMENTO PREVENTIVO</a>
+    <p>
+      Suporte técnico, consultoria empresarial, segurança eletrônica,
+      redes, infraestrutura e serviços digitais para empresas,
+      comércios e residências.
+    </p>
+
+    <div class="buttons">
+      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20tenho%20interesse%20nos%20serviços%20da%20PD%20Soluções%20Digitais.">
+        FALAR NO WHATSAPP
+      </a>
+
+      <a class="btn btn-secondary" href="#servicos">
+        VER SERVIÇOS
+      </a>
     </div>
+  </section>
 
-    <div class="card">
-      <h3>SEGURANÇA ELETRÔNICA</h3>
-      <p>Câmeras, DVRs, alarmes, monitoramento, redes e controle de acesso.</p>
+  <section class="section" id="servicos">
+    <div class="section-title">SERVIÇOS</div>
 
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20orçamento%20para%20instalação%20de%20câmeras.">CÂMERAS</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20configuração%20ou%20suporte%20em%20DVR.">DVR</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20tenho%20interesse%20em%20alarme%20ou%20suporte%20para%20alarme.">ALARMES</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20controle%20de%20acesso.">CONTROLE DE ACESSO</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20tenho%20interesse%20em%20monitoramento%20ou%20segurança%20eletrônica.">MONITORAMENTO</a>
+    <div class="cards">
+
+      <div class="card">
+        <h3>SUPORTE TÉCNICO</h3>
+        <p>Manutenção, formatação, upgrades, SSD, notebooks, computadores e suporte remoto.</p>
+
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20solicitar%20formatação%20de%20computador.">FORMATAÇÃO</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20instalar%20SSD%20ou%20fazer%20upgrade%20no%20meu%20computador.">SSD / UPGRADE</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20manutenção%20em%20notebook%20ou%20computador.">MANUTENÇÃO</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20backup%20ou%20recuperação%20de%20arquivos.">BACKUP</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20suporte%20remoto.">SUPORTE REMOTO</a>
+      </div>
+
+      <div class="card">
+        <h3>CONSULTORIA EMPRESARIAL</h3>
+        <p>Planos mensais, suporte por chamados, infraestrutura e orientação técnica para empresas.</p>
+
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20conhecer%20os%20planos%20mensais%20de%20chamados.">PLANOS DE CHAMADOS</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20suporte%20de%20TI%20para%20minha%20empresa.">SUPORTE EMPRESARIAL</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20consultoria%20em%20TI%20para%20minha%20empresa.">CONSULTORIA EM TI</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20reduzir%20custos%20com%20TI%20na%20minha%20empresa.">REDUZIR CUSTOS</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20tenho%20interesse%20em%20atendimento%20preventivo%20de%20TI.">ATENDIMENTO PREVENTIVO</a>
+      </div>
+
+      <div class="card">
+        <h3>SEGURANÇA ELETRÔNICA</h3>
+        <p>Câmeras, DVRs, alarmes, monitoramento, redes e controle de acesso.</p>
+
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20orçamento%20para%20instalação%20de%20câmeras.">CÂMERAS</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20configuração%20ou%20suporte%20em%20DVR.">DVR</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20tenho%20interesse%20em%20alarme%20ou%20suporte%20para%20alarme.">ALARMES</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20controle%20de%20acesso.">CONTROLE DE ACESSO</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20tenho%20interesse%20em%20monitoramento%20ou%20segurança%20eletrônica.">MONITORAMENTO</a>
+      </div>
+
+      <div class="card">
+        <h3>SERVIÇOS DIGITAIS</h3>
+        <p>Auxílio para resolver solicitações digitais com segurança, orientação e atendimento humanizado.</p>
+
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20ajuda%20com%20Gov.br.">GOV.BR</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20emitir%20ou%20solicitar%20uma%20certidão.">CERTIDÕES</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20fazer%20um%20agendamento%20online.">AGENDAMENTOS</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20ajuda%20com%20documentos%20digitais.">DOCUMENTOS DIGITAIS</a>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20ajuda%20com%20MEI,%20DAS%20ou%20Receita%20Federal.">MEI / DAS</a>
+      </div>
+
     </div>
+  </section>
 
-    <div class="card">
-      <h3>SERVIÇOS DIGITAIS</h3>
-      <p>Auxílio para resolver solicitações digitais com segurança, orientação e atendimento humanizado.</p>
+  <section class="section">
+    <div class="section-title">PLANOS EMPRESARIAIS</div>
 
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20ajuda%20com%20Gov.br.">GOV.BR</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20emitir%20ou%20solicitar%20uma%20certidão.">CERTIDÕES</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20fazer%20um%20agendamento%20online.">AGENDAMENTOS</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20ajuda%20com%20documentos%20digitais.">DOCUMENTOS DIGITAIS</a>
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20ajuda%20com%20MEI,%20DAS%20ou%20Receita%20Federal.">MEI / DAS</a>
+    <div class="cards">
+
+      <div class="card">
+        <h3>PLANO ESSENCIAL</h3>
+        <p>Para pequenos negócios que precisam de suporte rápido, organizado e profissional.</p>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20conhecer%20o%20Plano%20Essencial%20da%20PD%20Soluções%20Digitais.">CONHECER PLANO</a>
+      </div>
+
+      <div class="card">
+        <h3>PLANO PROFISSIONAL</h3>
+        <p>Para empresas que precisam de prioridade, acompanhamento e suporte técnico recorrente.</p>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20conhecer%20o%20Plano%20Profissional%20da%20PD%20Soluções%20Digitais.">CONHECER PLANO</a>
+      </div>
+
+      <div class="card">
+        <h3>PLANO CONSULTIVO</h3>
+        <p>Para empresas que precisam de prevenção, infraestrutura, segurança e estratégia em TI.</p>
+        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20conhecer%20o%20Plano%20Consultivo%20da%20PD%20Soluções%20Digitais.">CONHECER PLANO</a>
+      </div>
+
     </div>
+  </section>
 
-  </div>
-</section>
+  <footer>
+    <p>
+      <span class="highlight">PD SOLUÇÕES DIGITAIS</span>
+      <br><br>
+      Tecnologia acessível, suporte profissional.
+      <br>
+      Tecnologia • Segurança • Serviços Digitais
+    </p>
+  </footer>
+
+</body>
+</html>

@@ -6,191 +6,31 @@
 <title>PD Soluções Digitais - Orçamento Mobile</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial, Helvetica, sans-serif;
-}
-
-body{
-  background:#050505;
-  color:#fff;
-  padding:16px;
-}
-
-.container{
-  max-width:720px;
-  margin:auto;
-  background:#0b0b0b;
-  border:1px solid #1f1f1f;
-  border-radius:18px;
-  padding:20px;
-}
-
-.header{
-  text-align:center;
-  margin-bottom:24px;
-}
-
-.logo{
-  width:90px;
-  border-radius:16px;
-  margin-bottom:14px;
-  opacity:.95;
-}
-
-h1{
-  color:#00ff88;
-  font-size:20px;
-  letter-spacing:2px;
-  margin-bottom:6px;
-}
-
-.subtitle{
-  font-size:11px;
-  color:#cfcfcf;
-  letter-spacing:2px;
-}
-
-.box{
-  background:#111;
-  border:1px solid #222;
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:16px;
-}
-
-.box h2{
-  color:#00ff88;
-  font-size:14px;
-  letter-spacing:1px;
-  margin-bottom:14px;
-}
-
-label{
-  display:block;
-  font-size:12px;
-  color:#d0d0d0;
-  margin-bottom:6px;
-}
-
-input, select, textarea{
-  width:100%;
-  background:#050505;
-  border:1px solid #333;
-  color:#fff;
-  border-radius:10px;
-  padding:13px;
-  margin-bottom:12px;
-  font-size:15px;
-}
-
-textarea{
-  min-height:90px;
-  resize:vertical;
-}
-
-button{
-  width:100%;
-  border:none;
-  border-radius:12px;
-  padding:15px;
-  font-size:13px;
-  font-weight:bold;
-  letter-spacing:1px;
-  margin-top:8px;
-  cursor:pointer;
-}
-
-.btn-green{
-  background:#00ff88;
-  color:#000;
-}
-
-.btn-dark{
-  background:#1a1a1a;
-  color:#00ff88;
-  border:1px solid #00ff88;
-}
-
-.item{
-  border-bottom:1px solid #222;
-  padding:10px 0;
-  font-size:13px;
-  color:#ddd;
-}
-
-.item:last-child{
-  border-bottom:none;
-}
-
-.total{
-  text-align:center;
-  color:#00ff88;
-  font-size:28px;
-  font-weight:bold;
-  margin-top:10px;
-}
-
-.small{
-  color:#999;
-  font-size:11px;
-  line-height:18px;
-  text-align:center;
-}
-
-.output{
-  white-space:pre-wrap;
-  background:#050505;
-  border:1px solid #333;
-  border-radius:12px;
-  padding:14px;
-  color:#eaeaea;
-  font-size:13px;
-  line-height:22px;
-  margin-top:12px;
-}
-
-.footer{
-  text-align:center;
-  color:#777;
-  font-size:11px;
-  line-height:20px;
-  margin-top:18px;
-}
-
-.hidden{
-  display:none;
-}
-
-.internal-area{
-  display:none;
-  background:#080808;
-  border:1px dashed #333;
-  border-radius:12px;
-  padding:12px;
-  margin-top:10px;
-}
-
-.internal-note{
-  color:#777;
-  font-size:11px;
-  line-height:18px;
-  margin-bottom:10px;
-}
-
-@media(max-width:600px){
-  body{
-    padding:10px;
-  }
-  .container{
-    padding:15px;
-  }
-  h1{
-    font-size:18px;
-  }
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial, Helvetica, sans-serif;}
+body{background:#050505;color:#fff;padding:16px;}
+.container{max-width:720px;margin:auto;background:#0b0b0b;border:1px solid #1f1f1f;border-radius:18px;padding:20px;}
+.header{text-align:center;margin-bottom:24px;}
+.logo{width:90px;border-radius:16px;margin-bottom:14px;opacity:.95;}
+h1{color:#00ff88;font-size:20px;letter-spacing:2px;margin-bottom:6px;}
+.subtitle{font-size:11px;color:#cfcfcf;letter-spacing:2px;}
+.box{background:#111;border:1px solid #222;border-radius:14px;padding:16px;margin-bottom:16px;}
+.box h2{color:#00ff88;font-size:14px;letter-spacing:1px;margin-bottom:14px;}
+label{display:block;font-size:12px;color:#d0d0d0;margin-bottom:6px;}
+input, select, textarea{width:100%;background:#050505;border:1px solid #333;color:#fff;border-radius:10px;padding:13px;margin-bottom:12px;font-size:15px;}
+textarea{min-height:90px;resize:vertical;}
+button{width:100%;border:none;border-radius:12px;padding:15px;font-size:13px;font-weight:bold;letter-spacing:1px;margin-top:8px;cursor:pointer;}
+.btn-green{background:#00ff88;color:#000;}
+.btn-dark{background:#1a1a1a;color:#00ff88;border:1px solid #00ff88;}
+.item{border-bottom:1px solid #222;padding:10px 0;font-size:13px;color:#ddd;}
+.item:last-child{border-bottom:none;}
+.total{text-align:center;color:#00ff88;font-size:28px;font-weight:bold;margin-top:10px;}
+.small{color:#999;font-size:11px;line-height:18px;text-align:center;}
+.output{white-space:pre-wrap;background:#050505;border:1px solid #333;border-radius:12px;padding:14px;color:#eaeaea;font-size:13px;line-height:22px;margin-top:12px;}
+.footer{text-align:center;color:#777;font-size:11px;line-height:20px;margin-top:18px;}
+.hidden{display:none;}
+.internal-area{display:none;background:#080808;border:1px dashed #333;border-radius:12px;padding:12px;margin-top:10px;}
+.internal-note{color:#777;font-size:11px;line-height:18px;margin-bottom:10px;}
+@media(max-width:600px){body{padding:10px}.container{padding:15px}h1{font-size:18px}}
 </style>
 </head>
 
@@ -231,20 +71,20 @@ button{
 
     <label>Serviço / item</label>
     <select id="servico">
-      <option value="Formatação de computador/notebook|120">Formatação de computador/notebook</option>
-      <option value="Instalação de SSD|100">Instalação de SSD</option>
-      <option value="Manutenção preventiva|100">Manutenção preventiva</option>
-      <option value="Backup de arquivos|80">Backup de arquivos</option>
-      <option value="Suporte remoto|60">Suporte remoto</option>
-      <option value="Configuração de roteador|80">Configuração de roteador</option>
-      <option value="Melhoria de Wi-Fi|120">Melhoria de Wi-Fi</option>
-      <option value="Configuração de DVR|120">Configuração de DVR</option>
-      <option value="Instalação/configuração de câmera|120">Instalação/configuração de câmera</option>
-      <option value="Auxílio Gov.br|40">Auxílio Gov.br</option>
-      <option value="Certidão / documento digital|40">Certidão / documento digital</option>
-      <option value="Agendamento online|35">Agendamento online</option>
-      <option value="MEI / DAS / Receita Federal|50">MEI / DAS / Receita Federal</option>
-      <option value="Item manual|0">Item manual</option>
+      <option value="Formatação de computador/notebook" data-valor="120">Formatação de computador/notebook</option>
+      <option value="Instalação de SSD" data-valor="100">Instalação de SSD</option>
+      <option value="Manutenção preventiva" data-valor="100">Manutenção preventiva</option>
+      <option value="Backup de arquivos" data-valor="80">Backup de arquivos</option>
+      <option value="Suporte remoto" data-valor="60">Suporte remoto</option>
+      <option value="Configuração de roteador" data-valor="80">Configuração de roteador</option>
+      <option value="Melhoria de Wi-Fi" data-valor="120">Melhoria de Wi-Fi</option>
+      <option value="Configuração de DVR" data-valor="120">Configuração de DVR</option>
+      <option value="Instalação/configuração de câmera" data-valor="120">Instalação/configuração de câmera</option>
+      <option value="Auxílio Gov.br" data-valor="40">Auxílio Gov.br</option>
+      <option value="Certidão / documento digital" data-valor="40">Certidão / documento digital</option>
+      <option value="Agendamento online" data-valor="35">Agendamento online</option>
+      <option value="MEI / DAS / Receita Federal" data-valor="50">MEI / DAS / Receita Federal</option>
+      <option value="Item manual" data-valor="0">Item manual</option>
     </select>
 
     <label>Nome do item manual, se necessário</label>
@@ -324,19 +164,18 @@ function alternarValorInterno(){
   box.style.display = box.style.display === "block" ? "none" : "block";
 }
 
-document.getElementById("servico").addEventListener("change", function(){
-  const partes = this.value.split("|");
-  document.getElementById("valor").value = partes[1] || 0;
-});
-
-window.onload = function(){
-  const partes = document.getElementById("servico").value.split("|");
-  document.getElementById("valor").value = partes[1] || 0;
+function atualizarValorPadrao(){
+  const select = document.getElementById("servico");
+  const selected = select.options[select.selectedIndex];
+  document.getElementById("valor").value = selected.dataset.valor || 0;
 }
 
+document.getElementById("servico").addEventListener("change", atualizarValorPadrao);
+window.onload = atualizarValorPadrao;
+
 function adicionarItem(){
-  const servicoValor = document.getElementById("servico").value.split("|");
-  let nome = servicoValor[0];
+  const select = document.getElementById("servico");
+  let nome = select.value;
   const manual = document.getElementById("manual").value.trim();
   const qtd = parseInt(document.getElementById("qtd").value || "1");
   const valor = parseFloat(document.getElementById("valor").value || "0");

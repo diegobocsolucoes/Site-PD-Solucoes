@@ -21,48 +21,91 @@
       background:#050505;
       color:#fff;
       overflow-x:hidden;
+      min-height:100vh;
     }
 
-    .background-logo{
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(0,255,136,0.10), transparent 28%),
+        radial-gradient(circle at 80% 80%, rgba(0,255,136,0.08), transparent 30%),
+        linear-gradient(135deg, #050505 0%, #080808 45%, #020202 100%);
+      z-index:-3;
+    }
+
+    body::after{
+      content:"PD";
       position:fixed;
       top:50%;
       left:50%;
       transform:translate(-50%,-50%);
-      width:560px;
-      opacity:0.035;
+      font-size:240px;
+      font-weight:800;
+      letter-spacing:20px;
+      color:rgba(0,255,136,0.025);
+      z-index:-2;
+      pointer-events:none;
+    }
+
+    .watermark-img{
+      position:fixed;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      width:620px;
+      max-width:80vw;
+      opacity:0.045;
       z-index:-1;
       pointer-events:none;
+      filter:grayscale(15%);
     }
 
     header{
       text-align:center;
-      padding:50px 20px 30px;
+      padding:60px 20px 30px;
     }
 
-    .logo-top{
-      width:125px;
-      border-radius:18px;
-      margin-bottom:25px;
-      box-shadow:0 0 35px rgba(0,255,136,0.15);
+    .brand-seal{
+      width:78px;
+      height:78px;
+      margin:0 auto 22px;
+      border:1px solid rgba(0,255,136,0.35);
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#00ff88;
+      font-size:26px;
+      font-weight:700;
+      letter-spacing:2px;
+      box-shadow:0 0 35px rgba(0,255,136,0.10);
+      background:rgba(0,0,0,0.45);
     }
 
     h1{
-      color:#00ff88;
+      color:#ffffff;
       font-size:24px;
       letter-spacing:2px;
       margin-bottom:10px;
+      font-weight:700;
+    }
+
+    .pd-green{
+      color:#00ff88;
     }
 
     .subtitle{
       font-size:12px;
-      color:#ccc;
+      color:#cfcfcf;
       letter-spacing:3px;
     }
 
     .hero{
       max-width:1000px;
       margin:auto;
-      padding:85px 20px;
+      padding:80px 20px;
       text-align:center;
     }
 
@@ -70,6 +113,7 @@
       font-size:34px;
       line-height:48px;
       margin-bottom:25px;
+      font-weight:600;
     }
 
     .hero p{
@@ -139,12 +183,13 @@
     }
 
     .card{
-      background:#0c0c0c;
+      background:rgba(12,12,12,0.92);
       border:1px solid #1b1b1b;
       border-radius:16px;
       padding:30px;
       text-align:center;
       transition:0.3s;
+      backdrop-filter:blur(6px);
     }
 
     .card:hover{
@@ -193,13 +238,25 @@
     }
 
     @media(max-width:768px){
+      .hero{
+        padding:65px 18px;
+      }
+
       .hero h2{
         font-size:24px;
         line-height:36px;
       }
 
-      .background-logo{
-        width:310px;
+      .hero p{
+        font-size:11px;
+      }
+
+      body::after{
+        font-size:130px;
+      }
+
+      .watermark-img{
+        width:330px;
       }
 
       .btn{
@@ -211,12 +268,12 @@
 
 <body>
 
-  <img src="artes/PD_Solucoes_Digitais_Arte_Oficial.png" class="background-logo" alt="PD Soluções Digitais">
+  <img src="artes/PD_Solucoes_Digitais_Arte_Oficial.png" class="watermark-img" alt="" onerror="this.remove()">
 
   <header>
-    <img src="artes/PD_Solucoes_Digitais_Arte_Oficial.png" class="logo-top" alt="PD Soluções Digitais">
+    <div class="brand-seal">PD</div>
 
-    <h1>PD SOLUÇÕES DIGITAIS</h1>
+    <h1><span class="pd-green">PD</span> SOLUÇÕES DIGITAIS</h1>
 
     <div class="subtitle">
       EMPRESARIAL | RESIDENCIAL | DIGITAL

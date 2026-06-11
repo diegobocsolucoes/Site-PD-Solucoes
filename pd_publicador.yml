@@ -1,0 +1,55 @@
+name: PD Publicador Automático
+
+on:
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: "O que publicar?"
+        required: true
+        default: "next"
+        type: choice
+        options:
+          - next
+          - all
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    env:
+      IG_ENABLED: ${{ vars.IG_ENABLED }}
+      LINKEDIN_ENABLED: ${{ vars.LINKEDIN_ENABLED }}
+      META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
+      META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+      LINKEDIN_AUTHOR_URN: ${{ secrets.LINKEDIN_AUTHOR_URN }}
+      LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+      BASE_IMAGE_URL: ${{ vars.BASE_IMAGE_URL }}
+
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Publicar próximo item
+        if: ${{ github.event.inputs.modo == 'next' }}
+        run: |
+          python pd_publicador_automatico.py --next || python pd_publicador_automatico.py
+
+      - name: Publicar todos os pendentes
+        if: ${{ github.event.inputs.modo == 'all' }}
+        run: |
+          python pd_publicador_automatico.py --all || python pd_publicador_automatico.py
+
+      - name: Salvar status da fila
+        run: |
+          git config user.name "PD Publicador"
+          git config user.email "actions@github.com"
+          git add fila_publicacoes.csv log_publicacoes.txt || true
+          git diff --cached --quiet || git commit -m "Atualiza status das publicações"
+          git push || true

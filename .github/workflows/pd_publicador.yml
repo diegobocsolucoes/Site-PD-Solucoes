@@ -24,7 +24,7 @@ jobs:
       LINKEDIN_ENABLED: ${{ vars.LINKEDIN_ENABLED }}
       META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
       META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
-      LINKEDIN_AUTHOR_URN: ${{ secrets.LINKIN_AUTHOR_URN }}
+      LINKEDIN_AUTHOR_URN: ${{ secrets.LINKEDIN_AUTHOR_URN }}
       LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
       BASE_IMAGE_URL: ${{ vars.BASE_IMAGE_URL }}
 
@@ -41,16 +41,15 @@ jobs:
         run: |
           echo "Arquivos na raiz:"
           ls -la
-          echo "Verificando arquivos obrigatórios..."
           test -f pd_publicador_automatico.py
           test -f fila_publicacoes.csv
 
       - name: Executar publicador
         run: |
           if [ "${{ github.event.inputs.modo }}" = "next" ]; then
-            python pd_publicador_automatico.py --next
+            printf "1\n4\n" | python pd_publicador_automatico.py
           else
-            python pd_publicador_automatico.py --all
+            printf "2\n4\n" | python pd_publicador_automatico.py
           fi
 
       - name: Salvar status da fila

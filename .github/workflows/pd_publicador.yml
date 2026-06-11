@@ -24,7 +24,7 @@ jobs:
       LINKEDIN_ENABLED: ${{ vars.LINKEDIN_ENABLED }}
       META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
       META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
-      LINKEDIN_AUTHOR_URN: ${{ secrets.LINKEDIN_AUTHOR_URN }}
+      LINKEDIN_AUTHOR_URN: ${{ secrets.LINKIN_AUTHOR_URN }}
       LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
       BASE_IMAGE_URL: ${{ vars.BASE_IMAGE_URL }}
 
@@ -37,15 +37,24 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Publicar próximo item
-        if: ${{ github.event.inputs.modo == 'next' }}
-        run: python pd_publicador_automatico.py --next
+      - name: Verificar arquivos do publicador
+        run: |
+          echo "Arquivos na raiz:"
+          ls -la
+          echo "Verificando arquivos obrigatórios..."
+          test -f pd_publicador_automatico.py
+          test -f fila_publicacoes.csv
 
-      - name: Publicar todos os pendentes
-        if: ${{ github.event.inputs.modo == 'all' }}
-        run: python pd_publicador_automatico.py --all
+      - name: Executar publicador
+        run: |
+          if [ "${{ github.event.inputs.modo }}" = "next" ]; then
+            python pd_publicador_automatico.py --next
+          else
+            python pd_publicador_automatico.py --all
+          fi
 
       - name: Salvar status da fila
+        if: always()
         run: |
           git config user.name "PD Publicador"
           git config user.email "actions@github.com"

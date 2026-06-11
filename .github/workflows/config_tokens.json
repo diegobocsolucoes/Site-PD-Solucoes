@@ -1,0 +1,21 @@
+{
+  "instagram": {
+    "enabled": false,
+    "ig_user_id": "COLE_AQUI_O_INSTAGRAM_BUSINESS_ACCOUNT_ID",
+    "access_token": "COLE_AQUI_O_TOKEN_META",
+    "default_image_host_note": "A API do Instagram precisa que a imagem esteja acessível por URL pública HTTPS. Use a pasta hospedagem ou suba as imagens no seu site/GitHub Pages."
+  },
+  "linkedin": {
+    "enabled": false,
+    "author_urn": "COLE_AQUI_O_URN_DA_PESSOA_OU_ORGANIZACAO",
+    "access_token": "COLE_AQUI_O_TOKEN_LINKEDIN"
+  },
+  "posting": {
+    "platforms": [
+      "instagram",
+      "linkedin"
+    ],
+    "mode": "manual_next",
+    "wait_seconds_between_posts": 5
+  }
+}

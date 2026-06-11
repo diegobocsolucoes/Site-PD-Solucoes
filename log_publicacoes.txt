@@ -1,1 +1,5 @@
 [2026-06-11 19:21:15] ERRO GERAL: EOF when reading a line
+[2026-06-11 19:24:55] Publicando Instagram: Assistência técnica em informática
+[2026-06-11 19:24:55] Instagram desativado no config_tokens.json.
+[2026-06-11 19:25:00] Publicando LinkedIn: Assistência técnica em informática
+[2026-06-11 19:25:00] LinkedIn desativado no config_tokens.json.

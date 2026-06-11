@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PD Publicador iPhone</title>
+<style>
+*{box-sizing:border-box;font-family:Arial, Helvetica, sans-serif}
+body{margin:0;background:#050505;color:#fff;padding:18px}
+.container{max-width:560px;margin:auto;background:#0d0d0d;border:1px solid #1f1f1f;border-radius:18px;padding:18px}
+h1{color:#00ff88;font-size:22px;text-align:center}
+p{color:#cfcfcf;line-height:1.45;font-size:14px}
+label{display:block;margin:14px 0 6px;color:#ddd;font-size:13px}
+input,select{width:100%;padding:13px;border-radius:10px;border:1px solid #333;background:#050505;color:#fff;font-size:14px}
+button,a{display:block;width:100%;padding:14px;margin-top:12px;border-radius:12px;border:0;background:#00ff88;color:#000;font-weight:bold;text-align:center;text-decoration:none;font-size:14px}
+.secondary{background:transparent;color:#00ff88;border:1px solid #00ff88}
+.warn{border:1px solid #00ff8855;background:#07140d;border-radius:12px;padding:12px;margin:15px 0;color:#d8d8d8;font-size:13px}
+pre{white-space:pre-wrap;background:#050505;border:1px solid #333;border-radius:12px;padding:12px;color:#ddd;min-height:90px}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>PD Publicador iPhone</h1>
+<p>Execute o publicador automático pelo iPhone usando GitHub Actions.</p>
+<div class="warn">O token do GitHub deve ter permissão apenas no repositório da PD. Não compartilhe o token.</div>
+
+<label>Usuário/organização do GitHub</label>
+<input id="owner" placeholder="Ex: diegobocsolucoes">
+
+<label>Nome do repositório</label>
+<input id="repo" placeholder="Ex: Site-PD-Solucoes">
+
+<label>Branch</label>
+<input id="branch" value="main">
+
+<label>GitHub Token</label>
+<input id="token" type="password" placeholder="Cole seu token do GitHub">
+
+<label>Modo de publicação</label>
+<select id="modo">
+<option value="next">Publicar próximo da fila</option>
+<option value="all">Publicar todos pendentes</option>
+</select>
+
+<button onclick="disparar()">EXECUTAR PUBLICADOR</button>
+<button class="secondary" onclick="salvarLocal()">SALVAR CONFIGURAÇÃO</button>
+<button class="secondary" onclick="limparLocal()">LIMPAR CONFIGURAÇÃO</button>
+<a class="secondary" href="https://github.com/actions" target="_blank">Abrir GitHub Actions</a>
+
+<h3>Resultado</h3>
+<pre id="resultado">Aguardando execução...</pre>
+</div>
+
+<script>
+function salvarLocal(){
+  const data = {
+    owner: document.getElementById('owner').value,
+    repo: document.getElementById('repo').value,
+    branch: document.getElementById('branch').value
+  };
+  localStorage.setItem('pd_publicador_config', JSON.stringify(data));
+  alert('Configuração salva. O token não foi salvo.');
+}
+function carregarLocal(){
+  try{
+    const data = JSON.parse(localStorage.getItem('pd_publicador_config') || '{}');
+    if(data.owner) document.getElementById('owner').value = data.owner;
+    if(data.repo) document.getElementById('repo').value = data.repo;
+    if(data.branch) document.getElementById('branch').value = data.branch;
+  }catch(e){}
+}
+function limparLocal(){
+  localStorage.removeItem('pd_publicador_config');
+  alert('Configuração limpa.');
+}
+async function disparar(){
+  const owner = document.getElementById('owner').value.trim();
+  const repo = document.getElementById('repo').value.trim();
+  const branch = document.getElementById('branch').value.trim() || 'main';
+  const token = document.getElementById('token').value.trim();
+  const modo = document.getElementById('modo').value;
+  const resultado = document.getElementById('resultado');
+  if(!owner || !repo || !token){
+    alert('Preencha owner, repo e token.');
+    return;
+  }
+  resultado.textContent = 'Enviando solicitação para o GitHub Actions...';
+  const url = `https://api.github.com/repos/${owner}/${repo}/actions/workflows/pd_publicador.yml/dispatches`;
+  try{
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ref: branch, inputs: {modo: modo}})
+    });
+    if(resp.status === 204){
+      resultado.textContent = 'Publicador iniciado com sucesso. Abra o GitHub Actions para acompanhar.';
+    }else{
+      const txt = await resp.text();
+      resultado.textContent = `Erro HTTP ${resp.status}\n\n${txt}`;
+    }
+  }catch(e){
+    resultado.textContent = 'Erro ao chamar GitHub API: ' + e;
+  }
+}
+carregarLocal();
+</script>
+</body>
+</html>

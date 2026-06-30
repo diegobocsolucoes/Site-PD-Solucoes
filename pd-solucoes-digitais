@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Redirecionando para PD Soluções Digitais</title>
   <meta name="robots" content="noindex, follow">
-  <meta http-equiv="refresh" content="0; url=/">
-  <script>window.location.replace('/');</script>
+  <link rel="canonical" href="https://diegobocsolucoes.github.io/Site-PD-Solucoes/">
+  <meta http-equiv="refresh" content="0; url=/Site-PD-Solucoes/">
+  <script>window.location.replace('/Site-PD-Solucoes/');</script>
 </head>
 <body>
-  <p>Redirecionando para <a href="/">PD Soluções Digitais</a>.</p>
+  <p>Redirecionando para <a href="/Site-PD-Solucoes/">PD Soluções Digitais</a>.</p>
 </body>
 </html>

@@ -3,10 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PD Soluções Digitais</title>
+  <title>PD Soluções Digitais | Técnico em Informática em Contagem - MG</title>
+  <meta name="description" content="Suporte técnico em informática em Contagem e Belo Horizonte. Manutenção de computadores e notebooks, redes, câmeras, consultoria de TI e serviços digitais com atendimento via WhatsApp.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#050505">
+  <meta property="og:title" content="PD Soluções Digitais | Técnico em Informática em Contagem - MG">
+  <meta property="og:description" content="Suporte técnico, consultoria de TI, segurança eletrônica, redes e serviços digitais para empresas, comércios e residências.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:image" content="assets/pd-background.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "#pd-solucoes-digitais",
+    "name": "PD Soluções Digitais",
+    "description": "Técnico em informática em Contagem - MG, com suporte técnico, manutenção de computadores, consultoria em TI, redes, segurança eletrônica e serviços digitais.",
+    "telephone": "+55 31 99548-3280",
+    "email": "pablosouza624@gmail.com",
+    "areaServed": [
+      "Contagem - MG",
+      "Belo Horizonte - MG",
+      "Região Metropolitana de Belo Horizonte"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Contagem",
+      "addressRegion": "MG",
+      "addressCountry": "BR"
+    },
+    "priceRange": "$$",
+    "makesOffer": [
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Suporte técnico em informática"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Manutenção de computadores e notebooks"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Consultoria de TI para empresas"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Instalação e suporte em câmeras e redes"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Serviços digitais e suporte remoto"}}
+    ]
+  }
+  </script>
 
   <style>
-    :root{--pd-bg:url("assets/pd-background.jpg");}
+    :root{--pd-bg:url("assets/pd-background.jpg");--pd-green:#00ff88;--pd-dark:#050505;--pd-muted:#cfcfcf;}
     *{margin:0;padding:0;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;}
     html{scroll-behavior:smooth;}
     body{background:#050505 var(--pd-bg) center top/cover fixed no-repeat;color:#fff;overflow-x:hidden;min-height:100vh;position:relative;isolation:isolate;}
@@ -22,45 +61,56 @@
     header{text-align:center;padding:60px 20px 30px;}
     .brand-seal{
       width:78px;height:78px;margin:0 auto 22px;border:1px solid rgba(0,255,136,0.35);
-      border-radius:50%;display:flex;align-items:center;justify-content:center;color:#00ff88;
+      border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--pd-green);
       font-size:26px;font-weight:700;letter-spacing:2px;box-shadow:0 0 35px rgba(0,255,136,0.10);
       background:rgba(0,0,0,0.45);
     }
     h1{color:#fff;font-size:24px;letter-spacing:2px;margin-bottom:10px;font-weight:700;}
-    .pd-green{color:#00ff88;}
+    .pd-green{color:var(--pd-green);}
     .subtitle{font-size:12px;color:#cfcfcf;letter-spacing:3px;}
     .hero{max-width:1000px;margin:auto;padding:80px 20px;text-align:center;}
     .hero h2{font-size:34px;line-height:48px;margin-bottom:25px;font-weight:600;}
-    .hero p{max-width:720px;margin:auto;color:#d4d4d4;font-size:12px;line-height:26px;letter-spacing:1px;}
+    .hero p{max-width:760px;margin:auto;color:#d4d4d4;font-size:12px;line-height:26px;letter-spacing:1px;}
     .buttons{margin-top:40px;}
     .btn{
-      display:inline-block;text-decoration:none;border-radius:10px;padding:13px 22px;margin:8px;
+      display:inline-block;text-decoration:none;border-radius:8px;padding:13px 22px;margin:8px;
       font-size:10px;letter-spacing:1.5px;font-weight:bold;transition:0.3s;text-align:center;
     }
-    .btn-primary{background:#00ff88;color:#000;}
+    .btn-primary{background:var(--pd-green);color:#000;}
     .btn-primary:hover{opacity:0.85;transform:translateY(-3px);}
-    .btn-secondary{border:1px solid #00ff88;color:#00ff88;background:rgba(0,0,0,0.25);}
-    .btn-secondary:hover{background:#00ff88;color:#000;}
+    .btn-secondary{border:1px solid var(--pd-green);color:var(--pd-green);background:rgba(0,0,0,0.25);}
+    .btn-secondary:hover{background:var(--pd-green);color:#000;}
     .section{max-width:1200px;margin:auto;padding:80px 20px;}
-    .section-title{text-align:center;color:#00ff88;font-size:18px;letter-spacing:3px;margin-bottom:55px;}
-    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:25px;}
-    .card{
-      background:rgba(8,8,8,0.88);border:1px solid rgba(0,255,136,0.12);border-radius:16px;padding:30px;
+    .section-title{text-align:center;color:var(--pd-green);font-size:18px;letter-spacing:3px;margin-bottom:55px;}
+    .cards,.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:25px;}
+    .card,.info-card{
+      background:rgba(8,8,8,0.88);border:1px solid rgba(0,255,136,0.12);border-radius:8px;padding:30px;
       text-align:center;transition:0.3s;backdrop-filter:blur(6px);
     }
-    .card:hover{border-color:#00ff88;transform:translateY(-5px);box-shadow:0 0 30px rgba(0,255,136,0.08);}
-    .card h3{color:#00ff88;font-size:13px;letter-spacing:2px;margin-bottom:18px;}
-    .card p{color:#cfcfcf;font-size:11px;line-height:23px;letter-spacing:1px;margin-bottom:25px;}
+    .card:hover,.info-card:hover{border-color:var(--pd-green);transform:translateY(-5px);box-shadow:0 0 30px rgba(0,255,136,0.08);}
+    .card h3,.info-card h3{color:var(--pd-green);font-size:13px;letter-spacing:2px;margin-bottom:18px;}
+    .card p,.info-card p{color:#cfcfcf;font-size:11px;line-height:23px;letter-spacing:1px;margin-bottom:25px;}
     .card .btn{display:block;width:100%;margin:8px 0;}
-    .highlight{color:#00ff88;}
-    footer{text-align:center;padding:45px 20px;border-top:1px solid rgba(0,255,136,0.10);margin-top:60px;}
+    .trust-list{max-width:840px;margin:0 auto;color:#d4d4d4;font-size:12px;line-height:28px;letter-spacing:1px;text-align:center;}
+    .trust-list strong{color:var(--pd-green);}
+    .highlight{color:var(--pd-green);}
+    .whatsapp-fixed{
+      position:fixed;right:18px;bottom:18px;z-index:20;background:var(--pd-green);color:#000;
+      text-decoration:none;border-radius:999px;padding:14px 18px;font-size:11px;font-weight:800;letter-spacing:1px;
+      box-shadow:0 12px 35px rgba(0,255,136,0.20);border:1px solid rgba(255,255,255,0.12);
+    }
+    .whatsapp-fixed:hover{transform:translateY(-3px);}
+    footer{text-align:center;padding:45px 20px 85px;border-top:1px solid rgba(0,255,136,0.10);margin-top:60px;}
     footer p{color:#9b9b9b;font-size:11px;letter-spacing:2px;line-height:24px;}
     @media(max-width:768px){
       body{background-attachment:scroll;background-position:center top;}
+      header{padding:58px 18px 22px;}
       .hero{padding:65px 18px;}
       .hero h2{font-size:24px;line-height:36px;}
       .hero p{font-size:11px;}
       .btn{width:90%;}
+      .section{padding:60px 18px;}
+      .whatsapp-fixed{left:18px;right:18px;text-align:center;}
     }
   </style>
 </head>
@@ -70,16 +120,15 @@
   <header>
     <div class="brand-seal">PD</div>
     <h1><span class="pd-green">PD</span> SOLUÇÕES DIGITAIS</h1>
-    <div class="subtitle">EMPRESARIAL | RESIDENCIAL | DIGITAL</div>
+    <div class="subtitle">TÉCNICO EM INFORMÁTICA | CONTAGEM - MG</div>
   </header>
 
   <section class="hero">
-    <h2>Tecnologia acessível,<br>suporte profissional.</h2>
+    <h2>Técnico em informática em<br>Contagem e região.</h2>
 
     <p>
-      Suporte técnico, consultoria empresarial, segurança eletrônica,
-      redes, infraestrutura e serviços digitais para empresas,
-      comércios e residências.
+      Suporte técnico, manutenção de computadores e notebooks, consultoria empresarial,
+      redes, segurança eletrônica e serviços digitais para empresas, comércios e residências.
     </p>
 
     <div class="buttons">
@@ -87,7 +136,7 @@
         FALAR NO WHATSAPP
       </a>
 
-      <a class="btn btn-secondary" target="_blank" href="https://mail.google.com/mail/?view=cm&fs=1&to=pablosouza624%40gmail.com&su=Solicita%C3%A7%C3%A3o%20de%20or%C3%A7amento%20-%20PD%20Solu%C3%A7%C3%B5es%20Digitais&body=Ol%C3%A1%2C%20PD%20Solu%C3%A7%C3%B5es%20Digitais.%0A%0AGostaria%20de%20solicitar%20um%20or%C3%A7amento.%0A%0ANome%3A%0AEmpresa%3A%0ATelefone%3A%0ACidade%2FBairro%3A%0AServi%C3%A7o%20desejado%3A%0ADescri%C3%A7%C3%A3o%20da%20necessidade%3A%0A%0AAguardo%20retorno.">
+      <a class="btn btn-secondary" target="_blank" rel="noopener" href="https://mail.google.com/mail/?view=cm&fs=1&to=pablosouza624%40gmail.com&su=Solicita%C3%A7%C3%A3o%20de%20or%C3%A7amento%20-%20PD%20Solu%C3%A7%C3%B5es%20Digitais&body=Ol%C3%A1%2C%20PD%20Solu%C3%A7%C3%B5es%20Digitais.%0A%0AGostaria%20de%20solicitar%20um%20or%C3%A7amento.%0A%0ANome%3A%0AEmpresa%3A%0ATelefone%3A%0ACidade%2FBairro%3A%0AServi%C3%A7o%20desejado%3A%0ADescri%C3%A7%C3%A3o%20da%20necessidade%3A%0A%0AAguardo%20retorno.">
         SOLICITAR POR E-MAIL
       </a>
 
@@ -143,6 +192,33 @@
     </div>
   </section>
 
+  <section class="section" id="atendimento">
+    <div class="section-title">ATENDIMENTO LOCAL</div>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>REGIÃO ATENDIDA</h3>
+        <p>Atendimento em Contagem, Belo Horizonte e região metropolitana, com suporte presencial e remoto conforme a necessidade.</p>
+      </div>
+      <div class="info-card">
+        <h3>EMPRESAS E RESIDÊNCIAS</h3>
+        <p>Suporte para computadores, notebooks, redes, câmeras, sistemas, rotina de escritório e organização da infraestrutura de TI.</p>
+      </div>
+      <div class="info-card">
+        <h3>ORÇAMENTO DIRETO</h3>
+        <p>Chame no WhatsApp, explique o problema e receba orientação inicial para escolher o atendimento ideal.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">CONFIANÇA</div>
+    <p class="trust-list">
+      <strong>PD Soluções Digitais</strong> oferece atendimento técnico com comunicação clara, orçamento direto,
+      suporte humanizado e foco em resolver o problema com segurança. Atendemos chamados avulsos,
+      demandas residenciais e planos para pequenos negócios.
+    </p>
+  </section>
+
   <section class="section">
     <div class="section-title">PLANOS EMPRESARIAIS</div>
 
@@ -167,13 +243,19 @@
     </div>
   </section>
 
+  <a class="whatsapp-fixed" href="https://wa.me/5531995483280?text=Olá,%20tenho%20interesse%20nos%20serviços%20da%20PD%20Soluções%20Digitais." target="_blank" rel="noopener" aria-label="Falar no WhatsApp com a PD Soluções Digitais">
+    FALAR NO WHATSAPP
+  </a>
+
   <footer>
     <p>
       <span class="highlight">PD SOLUÇÕES DIGITAIS</span>
       <br><br>
-      Tecnologia acessível, suporte profissional.
+      Técnico em informática em Contagem - MG
       <br>
-      Tecnologia • Segurança • Serviços Digitais
+      Atendimento presencial e remoto | WhatsApp: (31) 99548-3280
+      <br>
+      Tecnologia | Segurança | Serviços Digitais
     </p>
   </footer>
 

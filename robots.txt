@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://diegobocsolucoes.github.io/Site-PD-Solucoes/sitemap.xml

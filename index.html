@@ -1,415 +1,74 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal do Cliente | PD Soluções Digitais</title>
-  <meta name="description" content="Portal do Cliente da PD Soluções Digitais. Suporte técnico para desktops e notebooks, consultorias, atendimento empresarial e soluções em Contagem - MG." />
-  <meta name="robots" content="index, follow" />
-  <meta name="theme-color" content="#050706" />
-  <link rel="canonical" href="https://diegobocsolucoes.github.io/Site-PD-Solucoes/" />
-  <meta property="og:title" content="Portal do Cliente | PD Soluções Digitais" />
-  <meta property="og:description" content="Solicite serviços, orçamentos e consultorias da PD Soluções Digitais." />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="pt_BR" />
-  <meta property="og:url" content="https://diegobocsolucoes.github.io/Site-PD-Solucoes/" />
-  <meta property="og:image" content="https://diegobocsolucoes.github.io/Site-PD-Solucoes/assets/pd-background.jpg" />
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "PD Soluções Digitais",
-    "url": "https://diegobocsolucoes.github.io/Site-PD-Solucoes/",
-    "image": "https://diegobocsolucoes.github.io/Site-PD-Solucoes/assets/pd-background.jpg",
-    "description": "Técnico em informática autônomo em Contagem - MG, com atendimento para desktops, notebooks e pequenos negócios.",
-    "telephone": "+55 31 99548-3280",
-    "email": "pablosouza624@gmail.com",
-    "areaServed": "Contagem - MG",
-    "address": {"@type":"PostalAddress","addressLocality":"Contagem","addressRegion":"MG","addressCountry":"BR"},
-    "priceRange": "$"
-  }
-  </script>
-
-  <style>
-    :root{
-      --bg:#050706;
-      --panel:rgba(9,13,11,.88);
-      --panel2:rgba(12,18,15,.84);
-      --green:#00ef83;
-      --green-soft:#73ffba;
-      --line:rgba(0,239,131,.18);
-      --line-strong:rgba(0,239,131,.48);
-      --text:#f4f7f5;
-      --muted:#a7b2ac;
-      --danger:#ffca6b;
-      --radius:18px;
-      --max:1180px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{
-      min-height:100vh;
-      background:#050706 url("assets/pd-background.jpg") center top/cover fixed no-repeat;
-      color:var(--text);
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      line-height:1.5;
-      overflow-x:hidden;
-    }
-    body:before{
-      content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-      background:
-        linear-gradient(180deg,rgba(2,4,3,.70),rgba(3,6,4,.94) 48%,rgba(3,5,4,.98)),
-        radial-gradient(circle at 15% 8%,rgba(0,239,131,.14),transparent 30%),
-        radial-gradient(circle at 88% 18%,rgba(0,239,131,.08),transparent 24%);
-    }
-    body>*{position:relative;z-index:1}
-    a{color:inherit}
-    button,input,select,textarea{font:inherit}
-    .shell{width:min(calc(100% - 32px),var(--max));margin:auto}
-
-    .topbar{
-      position:sticky;top:0;z-index:50;
-      background:rgba(4,7,5,.84);backdrop-filter:blur(18px);
-      border-bottom:1px solid var(--line);
-    }
-    .nav{min-height:74px;display:flex;align-items:center;gap:24px;justify-content:space-between}
-    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;min-width:0}
-    .brand-mark{
-      width:42px;height:42px;border:1px solid var(--line-strong);border-radius:12px;
-      display:grid;place-items:center;color:var(--green);font-weight:900;letter-spacing:-1px;
-      background:linear-gradient(145deg,rgba(0,239,131,.13),rgba(0,0,0,.25));
-      box-shadow:inset 0 0 24px rgba(0,239,131,.06);
-    }
-    .brand-copy strong{display:block;font-size:14px;letter-spacing:.08em}
-    .brand-copy span{display:block;color:var(--muted);font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-top:2px}
-    .navlinks{display:flex;align-items:center;gap:18px}
-    .navlinks a{text-decoration:none;color:#c7d0cb;font-size:13px}
-    .navlinks a:hover{color:var(--green)}
-    .nav-cta{padding:11px 16px;border-radius:12px;background:var(--green);color:#03110a!important;font-weight:800}
-
-    .hero{padding:68px 0 38px}
-    .hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:28px;align-items:stretch}
-    .hero-main,.hero-aside{
-      border:1px solid var(--line);border-radius:28px;background:rgba(5,8,6,.72);backdrop-filter:blur(10px);
-    }
-    .hero-main{padding:46px;overflow:hidden;position:relative}
-    .hero-main:after{content:"PD";position:absolute;right:-12px;bottom:-56px;font-weight:900;font-size:190px;color:rgba(0,239,131,.028);line-height:1}
-    .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--green-soft);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.16em;margin-bottom:18px}
-    .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px rgba(0,239,131,.7)}
-    h1{font-size:clamp(36px,5.5vw,68px);line-height:1.02;letter-spacing:-.045em;max-width:850px}
-    h1 span{color:var(--green)}
-    .hero-main>p{max-width:720px;color:#c3ccc7;font-size:17px;margin-top:22px}
-    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-    .btn{border:0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 19px;border-radius:13px;font-weight:850;font-size:13px;transition:.2s}
-    .btn-primary{background:var(--green);color:#031109}
-    .btn-primary:hover{filter:brightness(1.07);transform:translateY(-1px)}
-    .btn-secondary{border:1px solid var(--line-strong);background:rgba(0,239,131,.03);color:var(--green-soft)}
-    .btn-secondary:hover{background:rgba(0,239,131,.10)}
-    .micro{font-size:11px;color:#829087;margin-top:14px}
-
-    .hero-aside{padding:26px;display:flex;flex-direction:column;justify-content:space-between}
-    .aside-label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.15em}
-    .coverage{margin-top:14px;padding:18px;border:1px solid var(--line);border-radius:17px;background:rgba(0,0,0,.20)}
-    .coverage strong{font-size:21px;display:block}
-    .coverage span{color:var(--muted);font-size:12px}
-    .stat-list{display:grid;gap:10px;margin-top:18px}
-    .stat{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.07);gap:10px}
-    .stat:last-child{border-bottom:0}
-    .stat span{font-size:12px;color:#adb8b2}.stat b{font-size:13px;color:#fff;text-align:right}
-    .notice{margin-top:18px;padding:14px 15px;border-radius:14px;background:rgba(255,202,107,.07);border:1px solid rgba(255,202,107,.18);color:#e6d7bc;font-size:11px}
-
-    section{padding:48px 0}
-    .section-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:24px}
-    .section-head h2{font-size:clamp(26px,4vw,40px);letter-spacing:-.035em}
-    .section-head p{max-width:540px;color:var(--muted);font-size:13px}
-
-    .entry-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .entry-card{
-      min-height:185px;padding:23px;border:1px solid var(--line);border-radius:20px;background:var(--panel);
-      text-decoration:none;display:flex;flex-direction:column;justify-content:space-between;transition:.2s;
-    }
-    .entry-card:hover{border-color:var(--line-strong);transform:translateY(-2px);background:rgba(9,15,12,.94)}
-    .entry-icon{width:42px;height:42px;border-radius:13px;background:rgba(0,239,131,.09);border:1px solid var(--line);display:grid;place-items:center;color:var(--green);font-weight:900}
-    .entry-card h3{font-size:18px;margin-top:22px}.entry-card p{color:var(--muted);font-size:12px;margin-top:6px}.entry-card .arrow{color:var(--green);font-size:12px;font-weight:800;margin-top:14px}
-
-    .catalog-wrap{border:1px solid var(--line);border-radius:24px;background:rgba(5,9,7,.76);padding:22px}
-    .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-    .filter{border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.025);color:#bbc5bf;border-radius:999px;padding:9px 13px;font-size:11px;font-weight:750;cursor:pointer}
-    .filter.active{background:rgba(0,239,131,.12);border-color:var(--line-strong);color:var(--green-soft)}
-    .service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-    .service{
-      border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.20);border-radius:16px;padding:17px;
-      display:flex;align-items:flex-start;justify-content:space-between;gap:14px;min-height:94px;
-    }
-    .service h3{font-size:13px;line-height:1.35}.service small{color:#829087;font-size:10px;display:block;margin-top:5px}.price{color:var(--green);font-weight:900;font-size:14px;white-space:nowrap}.quote{color:#ffd89a;font-size:11px;white-space:nowrap;font-weight:800}
-
-    .split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    .feature{border:1px solid var(--line);border-radius:22px;background:var(--panel);padding:27px}
-    .feature .tag{display:inline-block;padding:6px 9px;border-radius:999px;border:1px solid var(--line);color:var(--green-soft);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
-    .feature h3{font-size:25px;line-height:1.15;margin-top:18px}.feature>p{color:var(--muted);font-size:13px;margin-top:10px;max-width:540px}
-    .feature-price{font-size:34px;font-weight:900;color:#fff;margin-top:22px}.feature-price span{font-size:12px;color:var(--muted);font-weight:600}
-    .checklist{display:grid;gap:8px;margin-top:18px}.check{font-size:12px;color:#bdc7c1;display:flex;gap:9px}.check:before{content:"✓";color:var(--green);font-weight:900}
-
-    .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
-    .plan{padding:23px;border-radius:19px;border:1px solid var(--line);background:rgba(5,9,7,.80);position:relative;overflow:hidden}
-    .plan.recommended{border-color:rgba(0,239,131,.46);background:linear-gradient(180deg,rgba(0,239,131,.08),rgba(5,9,7,.90))}
-    .plan-badge{font-size:9px;color:var(--green);text-transform:uppercase;letter-spacing:.14em;font-weight:900}.plan h3{font-size:20px;margin-top:9px}.plan .big{font-size:31px;font-weight:900;margin-top:12px}.plan .per{font-size:11px;color:var(--muted)}.plan ul{margin:16px 0 0 17px;color:#b8c2bc;font-size:11px;display:grid;gap:7px}
-
-    .rules{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
-    .rule{padding:16px;border-radius:15px;border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.20)}
-    .rule b{display:block;color:#fff;font-size:12px}.rule span{display:block;color:var(--muted);font-size:10px;margin-top:5px}
-
-    .cta-panel{padding:34px;border-radius:24px;border:1px solid var(--line-strong);background:linear-gradient(135deg,rgba(0,239,131,.10),rgba(4,8,6,.88) 52%,rgba(0,0,0,.86));display:flex;align-items:center;justify-content:space-between;gap:25px}
-    .cta-panel h2{font-size:30px;letter-spacing:-.03em}.cta-panel p{color:#b8c2bd;font-size:13px;margin-top:7px;max-width:660px}
-
-    footer{padding:42px 0 90px;border-top:1px solid rgba(255,255,255,.07);margin-top:35px}
-    .footer-grid{display:flex;justify-content:space-between;gap:30px;align-items:flex-start}.footer-copy{font-size:11px;color:#849088;max-width:650px}.footer-copy strong{color:#fff;display:block;font-size:13px;margin-bottom:6px}.footer-links{display:flex;gap:14px;flex-wrap:wrap}.footer-links a{font-size:11px;color:#aab4ae;text-decoration:none}.footer-links a:hover{color:var(--green)}
-
-    .whatsapp{position:fixed;right:20px;bottom:20px;z-index:60;text-decoration:none;background:var(--green);color:#031109;font-weight:900;border-radius:999px;padding:13px 17px;font-size:12px;box-shadow:0 10px 38px rgba(0,239,131,.20)}
-
-    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:26px 14px;overflow:auto}
-    .modal-backdrop.open{display:flex}
-    .modal{width:min(720px,100%);background:#080d0a;border:1px solid var(--line-strong);border-radius:24px;padding:25px;margin:auto}
-    .modal-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.modal-head h2{font-size:24px}.modal-head p{font-size:11px;color:var(--muted);margin-top:4px}.close{width:40px;height:40px;border:1px solid rgba(255,255,255,.10);border-radius:12px;background:rgba(255,255,255,.03);color:#fff;cursor:pointer}
-    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:22px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#9aa69f;font-weight:800}.field input,.field select,.field textarea{width:100%;border:1px solid rgba(255,255,255,.12);background:#060907;color:#fff;border-radius:12px;padding:12px 13px;outline:none}.field textarea{min-height:100px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--line-strong)}
-    .form-note{margin-top:13px;padding:11px 13px;background:rgba(255,202,107,.06);border:1px solid rgba(255,202,107,.16);border-radius:12px;font-size:10px;color:#dfcfb4}.form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:17px;flex-wrap:wrap}.form-result{display:none;margin-top:17px;padding:15px;border-radius:14px;border:1px solid var(--line);background:rgba(0,239,131,.06);font-size:12px;color:#c6d5cd}.form-result.show{display:block}
-
-    @media(max-width:900px){
-      .navlinks a:not(.nav-cta){display:none}
-      .hero-grid,.split{grid-template-columns:1fr}
-      .entry-grid,.service-grid{grid-template-columns:repeat(2,1fr)}
-      .plans{grid-template-columns:1fr}.rules{grid-template-columns:repeat(2,1fr)}
-      .hero-main{padding:34px}.hero{padding-top:40px}
-    }
-    @media(max-width:620px){
-      .shell{width:min(calc(100% - 22px),var(--max))}
-      .brand-copy span{display:none}.nav{min-height:66px}.nav-cta{padding:10px 12px;font-size:11px}
-      .hero-main{padding:25px}.hero-main>p{font-size:14px}.hero-actions .btn{width:100%}
-      .hero-aside{padding:20px}.entry-grid,.service-grid{grid-template-columns:1fr}.entry-card{min-height:155px}
-      section{padding:38px 0}.section-head{align-items:flex-start;flex-direction:column;gap:8px}.catalog-wrap{padding:13px}
-      .rules{grid-template-columns:1fr 1fr}.cta-panel{padding:24px;align-items:flex-start;flex-direction:column}.cta-panel .btn{width:100%}
-      .footer-grid{flex-direction:column}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.form-actions .btn{width:100%}
-      .whatsapp{left:12px;right:12px;text-align:center;bottom:12px}
-      footer{padding-bottom:100px}
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portal do Cliente | PD Soluções Digitais</title>
+<meta name="description" content="Portal do Cliente PD Soluções Digitais: serviços para desktop e notebook, consultorias e suporte para pequenos negócios em Contagem - MG.">
+<meta name="theme-color" content="#050705">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://diegobocsolucoes.github.io/Site-PD-Solucoes/">
+<style>
+:root{--g:#00e87f;--g2:#72ffb8;--bg:#050705;--card:rgba(8,13,10,.90);--card2:rgba(10,17,13,.82);--line:rgba(0,232,127,.22);--line2:rgba(0,232,127,.52);--txt:#f4f7f5;--muted:#a6b2ab;--warn:#ffd28a;--max:1180px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--txt);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:#050705 url('assets/pd-background.jpg') center top/cover fixed no-repeat;min-height:100vh}body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(2,5,3,.46),rgba(3,6,4,.76) 48%,rgba(3,5,4,.91)),radial-gradient(circle at 10% 8%,rgba(0,232,127,.08),transparent 30%)}body>*{position:relative;z-index:1}a{color:inherit}.wrap{width:min(calc(100% - 30px),var(--max));margin:auto}.top{position:sticky;top:0;z-index:50;border-bottom:1px solid var(--line);background:rgba(4,7,5,.82);backdrop-filter:blur(16px)}.nav{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:12px;text-decoration:none}.brand img{width:132px;height:48px;object-fit:cover;object-position:center;border-radius:9px;border:1px solid rgba(255,255,255,.06)}.brand-txt strong{font-size:13px;letter-spacing:.08em}.brand-txt span{display:block;color:var(--muted);font-size:9px;letter-spacing:.16em;text-transform:uppercase;margin-top:3px}.links{display:flex;align-items:center;gap:17px}.links a{text-decoration:none;font-size:12px;color:#c5cec9}.links a:hover{color:var(--g)}.btn{border:0;cursor:pointer;min-height:46px;padding:0 17px;border-radius:12px;font-weight:850;font-size:12px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;gap:8px}.primary{background:var(--g);color:#021009}.secondary{background:rgba(0,232,127,.04);border:1px solid var(--line2);color:var(--g2)}
+.hero{padding:48px 0 26px}.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.panel{border:1px solid var(--line);border-radius:24px;background:rgba(5,9,7,.76);backdrop-filter:blur(9px)}.hero-copy{padding:42px}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.17em;font-weight:900;color:var(--g2);display:flex;align-items:center;gap:8px}.eyebrow:before{content:"";width:7px;height:7px;border-radius:99px;background:var(--g);box-shadow:0 0 13px var(--g)}h1{font-size:clamp(37px,5vw,65px);line-height:1.02;letter-spacing:-.045em;margin:17px 0 0}h1 em{font-style:normal;color:var(--g)}.hero-copy p{max-width:690px;color:#c3ccc7;font-size:16px;line-height:1.65;margin:20px 0 0}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:27px}.micro{font-size:10px;color:#849088;margin-top:13px}.brand-visual{padding:22px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}.brand-visual img{display:block;width:100%;max-height:330px;object-fit:contain;border-radius:17px;box-shadow:0 14px 60px rgba(0,0,0,.3)}.brand-note{font-size:10px;color:#8f9b94;margin:11px 4px 0;text-align:center}
+section{padding:43px 0}.head{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:20px}.head h2{font-size:clamp(26px,3.8vw,39px);letter-spacing:-.035em;margin:5px 0 0}.head p{max-width:560px;color:var(--muted);font-size:12px}.entry{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.ecard{padding:21px;border:1px solid var(--line);border-radius:19px;background:var(--card);text-decoration:none;min-height:165px;display:flex;flex-direction:column;justify-content:space-between}.ecard:hover{border-color:var(--line2)}.ico{width:39px;height:39px;border:1px solid var(--line);border-radius:12px;background:rgba(0,232,127,.08);display:grid;place-items:center;color:var(--g);font-weight:900;font-size:11px}.ecard h3{margin:18px 0 4px;font-size:17px}.ecard p{margin:0;color:var(--muted);font-size:11px;line-height:1.55}.go{color:var(--g);font-size:10px;font-weight:900;margin-top:13px}
+.catalog{padding:18px;border:1px solid var(--line);border-radius:22px;background:rgba(4,8,6,.76)}.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}.filter{cursor:pointer;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.025);color:#b8c3bd;border-radius:999px;padding:8px 12px;font-size:10px;font-weight:800}.filter.active{border-color:var(--line2);background:rgba(0,232,127,.11);color:var(--g2)}.services{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.service{padding:15px;border:1px solid rgba(255,255,255,.075);border-radius:14px;background:rgba(0,0,0,.22);display:flex;justify-content:space-between;gap:12px;min-height:82px}.service h3{font-size:12px;line-height:1.35;margin:0}.service small{display:block;color:#819088;font-size:9px;margin-top:5px}.price{white-space:nowrap;color:var(--g);font-weight:900;font-size:13px}.quote{white-space:nowrap;color:var(--warn);font-size:9px;font-weight:900}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:13px}.feature{padding:25px;border:1px solid var(--line);border-radius:20px;background:var(--card)}.tag{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--g2);border:1px solid var(--line);border-radius:999px;padding:5px 8px;display:inline-block}.feature h3{font-size:22px;margin:16px 0 7px}.feature p{font-size:11px;color:var(--muted);line-height:1.6}.big{font-size:29px;font-weight:950;margin-top:16px}.big span{font-size:10px;color:var(--muted);font-weight:600}.checks{display:grid;gap:6px;margin-top:14px}.check{font-size:11px;color:#bdc7c1}.check:before{content:"✓";color:var(--g);font-weight:900;margin-right:8px}.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.plan{padding:21px;border:1px solid var(--line);border-radius:18px;background:var(--card)}.plan.focus{border-color:var(--line2);background:linear-gradient(180deg,rgba(0,232,127,.08),rgba(6,10,8,.91))}.plan b{font-size:18px}.plan strong{display:block;font-size:28px;margin-top:8px}.plan span{font-size:10px;color:var(--muted)}.plan ul{font-size:10px;color:#b7c1bb;line-height:1.7;padding-left:16px}.rules{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:13px}.rule{border:1px solid rgba(255,255,255,.075);background:rgba(0,0,0,.22);border-radius:13px;padding:13px}.rule b{font-size:11px}.rule span{display:block;color:var(--muted);font-size:9px;margin-top:4px}
+.cta{padding:28px;border-radius:22px;border:1px solid var(--line2);background:linear-gradient(135deg,rgba(0,232,127,.10),rgba(4,8,6,.90));display:flex;align-items:center;justify-content:space-between;gap:22px}.cta h2{margin:4px 0;font-size:28px}.cta p{margin:0;color:#b7c1bc;font-size:11px;max-width:680px}footer{padding:38px 0 86px;border-top:1px solid rgba(255,255,255,.07);font-size:10px;color:#849088}.foot{display:flex;justify-content:space-between;gap:25px}.wa{position:fixed;right:17px;bottom:17px;z-index:80;border-radius:999px;background:var(--g);color:#021009;padding:12px 16px;font-size:11px;font-weight:900;text-decoration:none;box-shadow:0 10px 34px rgba(0,232,127,.18)}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:100;overflow:auto;padding:20px 12px}.modal-bg.open{display:flex}.modal{width:min(780px,100%);margin:auto;background:#080d0a;border:1px solid var(--line2);border-radius:23px;padding:23px}.mhead{display:flex;justify-content:space-between;gap:15px}.mhead h2{margin:0;font-size:23px}.mhead p{font-size:10px;color:var(--muted);margin:4px 0 0}.close{width:39px;height:39px;border-radius:11px;border:1px solid rgba(255,255,255,.1);background:#0b100d;color:white;cursor:pointer}.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:19px 0}.stepbar{height:4px;border-radius:99px;background:#223028}.stepbar.on{background:var(--g)}.form-step{display:none}.form-step.active{display:block}.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{cursor:pointer;text-align:left;border:1px solid rgba(255,255,255,.09);background:#070b08;color:#fff;border-radius:14px;padding:15px;min-height:77px}.choice:hover,.choice.selected{border-color:var(--line2);background:rgba(0,232,127,.07)}.choice b{display:block;font-size:12px}.choice span{display:block;color:var(--muted);font-size:9px;margin-top:4px}.fg{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{display:grid;gap:5px}.full{grid-column:1/-1}.field label{font-size:9px;text-transform:uppercase;letter-spacing:.1em;font-weight:850;color:#9eaaa3}.field input,.field select,.field textarea{width:100%;border:1px solid rgba(255,255,255,.12);background:#050806;color:#fff;border-radius:11px;padding:11px 12px;outline:none;font-size:14px}.field textarea{min-height:92px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--line2)}.triage{margin-top:13px;padding:14px;border:1px solid var(--line);border-radius:13px;background:rgba(0,232,127,.04)}.triage h4{font-size:11px;margin:0 0 9px;color:var(--g2)}.triage label{display:block;font-size:10px;color:#bbc6c0;margin:7px 0}.triage input{margin-right:7px}.summary{display:grid;gap:7px}.sumrow{display:flex;justify-content:space-between;gap:20px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:11px}.sumrow span{color:var(--muted)}.warning{margin-top:12px;padding:12px;border-radius:12px;border:1px solid rgba(255,210,138,.18);background:rgba(255,210,138,.055);font-size:10px;color:#e2d2b5}.navform{display:flex;justify-content:space-between;gap:9px;margin-top:18px}.success{display:none;text-align:center;padding:20px 5px}.success.show{display:block}.success .protocol{font-size:25px;font-weight:950;color:var(--g);margin:14px 0}.success p{color:#b6c1bb;font-size:11px}.preview-badge{position:absolute;top:88px;right:16px;padding:6px 9px;border:1px solid rgba(255,210,138,.22);background:rgba(255,210,138,.06);color:#eed09a;border-radius:999px;font-size:8px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+@media(max-width:900px){.links a:not(.navcta){display:none}.hero-grid,.twocol{grid-template-columns:1fr}.entry,.services{grid-template-columns:repeat(2,1fr)}.plans{grid-template-columns:1fr}.rules{grid-template-columns:repeat(2,1fr)}.hero-copy{padding:32px}}
+@media(max-width:620px){body{background-attachment:scroll}.wrap{width:min(calc(100% - 20px),var(--max))}.brand img{width:102px;height:40px}.brand-txt{display:none}.nav{min-height:64px}.hero{padding-top:31px}.hero-copy{padding:23px}.hero-copy p{font-size:14px}.actions .btn{width:100%}.entry,.services{grid-template-columns:1fr}.head{flex-direction:column;align-items:flex-start;gap:7px}.catalog{padding:11px}.rules{grid-template-columns:1fr 1fr}.cta{flex-direction:column;align-items:flex-start}.cta .btn{width:100%}.foot{flex-direction:column}.fg,.choice-grid{grid-template-columns:1fr}.full{grid-column:auto}.navform{flex-direction:column-reverse}.navform .btn{width:100%}.wa{left:11px;right:11px;text-align:center;bottom:11px}.preview-badge{top:73px}}
+</style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="shell nav">
-      <a class="brand" href="#inicio" aria-label="PD Soluções Digitais - início">
-        <div class="brand-mark">PD</div>
-        <div class="brand-copy"><strong>PD SOLUÇÕES DIGITAIS</strong><span>Portal do Cliente</span></div>
-      </a>
-      <nav class="navlinks" aria-label="Navegação principal">
-        <a href="#servicos">Serviços</a>
-        <a href="#consultorias">Consultorias</a>
-        <a href="#empresas">Empresas</a>
-        <a href="#cobertura">Cobertura</a>
-        <a class="nav-cta open-form" href="#solicitar">Solicitar atendimento</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="inicio">
-    <div class="shell hero">
-      <div class="hero-grid">
-        <div class="hero-main">
-          <div class="eyebrow"><span class="dot"></span> Atendimento em Contagem</div>
-          <h1>Seu suporte de informática, <span>sem complicação.</span></h1>
-          <p>Serviços para desktops e notebooks, consultorias para pessoas e pequenos negócios e atendimento organizado diretamente pelo Portal do Cliente.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary open-form" href="#solicitar">Solicitar atendimento</a>
-            <a class="btn btn-secondary" href="#servicos">Ver serviços e preços</a>
-          </div>
-          <div class="micro">Sem login • Sem CPF • WhatsApp obrigatório • Pagamento após a conclusão do serviço</div>
-        </div>
-
-        <aside class="hero-aside" id="cobertura">
-          <div>
-            <div class="aside-label">Cobertura presencial</div>
-            <div class="coverage"><strong>Até 10 km</strong><span>a partir do CEP-base 32017-190, dentro de Contagem.</span></div>
-            <div class="stat-list">
-              <div class="stat"><span>Deslocamento</span><b>R$ 2,50/km • somente ida</b></div>
-              <div class="stat"><span>Fora da cobertura</span><b>Entrega agendada</b></div>
-              <div class="stat"><span>Confirmação</span><b>Via WhatsApp</b></div>
-            </div>
-          </div>
-          <div class="notice">O envio de uma solicitação não confirma automaticamente o atendimento. A PD entra em contato para confirmar disponibilidade, detalhes e horário.</div>
-        </aside>
-      </div>
-    </div>
-
-    <section>
-      <div class="shell">
-        <div class="section-head">
-          <div><div class="eyebrow">Acesso rápido</div><h2>O que você precisa hoje?</h2></div>
-          <p>Escolha o caminho mais próximo da sua necessidade. O portal será o ponto central para solicitações, orçamentos, consultorias, empresas, parceiros e loja rápida.</p>
-        </div>
-        <div class="entry-grid">
-          <a class="entry-card" href="#servicos"><div class="entry-icon">PC</div><div><h3>Cliente Particular</h3><p>Desktop, notebook, formatação, limpeza, Windows, hardware e suporte.</p><div class="arrow">VER SERVIÇOS →</div></div></a>
-          <a class="entry-card" href="#empresas"><div class="entry-icon">TI</div><div><h3>Empresas</h3><p>Chamados avulsos, pacotes anuais e suporte para pequenos negócios.</p><div class="arrow">CONHECER PLANOS →</div></div></a>
-          <a class="entry-card" href="#consultorias"><div class="entry-icon">C</div><div><h3>Consultoria de TI</h3><p>Análise da estrutura, prioridades, recomendações e plano de melhorias.</p><div class="arrow">R$ 400 →</div></div></a>
-          <a class="entry-card" href="#consultorias"><div class="entry-icon">SE</div><div><h3>Segurança Eletrônica</h3><p>Consultoria em câmeras, DVR/NVR, alarmes, cobertura e estrutura.</p><div class="arrow">R$ 300 →</div></div></a>
-          <a class="entry-card" href="#consultorias"><div class="entry-icon">ST</div><div><h3>Setup & Compra de PC</h3><p>Orientação para escolher computador ou montar um setup equilibrado.</p><div class="arrow">A PARTIR DE R$ 50 →</div></div></a>
-          <a class="entry-card" href="#mais"><div class="entry-icon">+</div><div><h3>Parcerias & Loja Rápida</h3><p>Encaminhamento de clientes, acessórios urgentes e pequenos periféricos.</p><div class="arrow">EXPLORAR →</div></div></a>
-        </div>
-      </div>
-    </section>
-
-    <section id="servicos">
-      <div class="shell">
-        <div class="section-head">
-          <div><div class="eyebrow">Cliente particular</div><h2>Serviços e preços</h2></div>
-          <p>Valores de mão de obra. Peças, componentes e licenças não estão incluídos, salvo quando informado.</p>
-        </div>
-        <div class="catalog-wrap">
-          <div class="filters" aria-label="Filtros de serviços">
-            <button class="filter active" type="button" data-filter="all">Todos</button>
-            <button class="filter" type="button" data-filter="sistema">Windows e sistema</button>
-            <button class="filter" type="button" data-filter="hardware">Hardware</button>
-            <button class="filter" type="button" data-filter="dados">Dados</button>
-            <button class="filter" type="button" data-filter="suporte">Suporte</button>
-          </div>
-          <div class="service-grid" id="serviceGrid">
-            <div class="service" data-cat="sistema"><div><h3>Formatação / reinstalação do Windows</h3><small>Inclui drivers e configuração essencial.</small></div><div class="price">R$ 70</div></div>
-            <div class="service" data-cat="hardware"><div><h3>Limpeza interna / preventiva</h3><small>Desktop ou notebook.</small></div><div class="price">R$ 70</div></div>
-            <div class="service" data-cat="suporte"><div><h3>Check-up completo</h3><small>Diagnóstico já faz parte do check-up.</small></div><div class="price">R$ 70</div></div>
-            <div class="service" data-cat="sistema"><div><h3>Otimização de desempenho</h3><small>Para computador ou notebook lento.</small></div><div class="price">R$ 80</div></div>
-            <div class="service" data-cat="suporte"><div><h3>Computador / notebook não liga</h3><small>Avaliação e atendimento técnico.</small></div><div class="price">R$ 70</div></div>
-            <div class="service" data-cat="sistema"><div><h3>Windows não inicia</h3><small>Falhas de inicialização do sistema.</small></div><div class="price">R$ 70</div></div>
-            <div class="service" data-cat="sistema"><div><h3>Travamentos / reinicializações</h3><small>Investigação e correção dentro do escopo.</small></div><div class="price">R$ 70</div></div>
-            <div class="service" data-cat="sistema"><div><h3>Tela azul / erros do sistema</h3><small>BSOD e falhas do Windows.</small></div><div class="price">R$ 70</div></div>
-            <div class="service" data-cat="sistema"><div><h3>Remoção de vírus / malware</h3><small>Limpeza lógica e verificação básica.</small></div><div class="price">R$ 80</div></div>
-            <div class="service" data-cat="sistema"><div><h3>Instalação de até 3 programas</h3><small>Configuração básica dos programas.</small></div><div class="price">R$ 60</div></div>
-            <div class="service" data-cat="sistema"><div><h3>Atualizações de Windows e programas</h3><small>Atualização e verificação do sistema.</small></div><div class="price">R$ 60</div></div>
-            <div class="service" data-cat="dados"><div><h3>Backup de até 100 GB</h3><small>Bloco adicional de até 100 GB: R$ 40.</small></div><div class="price">R$ 60</div></div>
-            <div class="service" data-cat="dados"><div><h3>Transferência de arquivos até 100 GB</h3><small>Bloco adicional de até 100 GB: R$ 40.</small></div><div class="price">R$ 60</div></div>
-            <div class="service" data-cat="dados"><div><h3>Recuperação lógica simples</h3><small>Dano físico ou laboratório: orçamento.</small></div><div class="price">R$ 50</div></div>
-            <div class="service" data-cat="hardware"><div><h3>Troca / instalação de hardware padrão</h3><small>RAM, SSD, HD, fonte e componentes compatíveis.</small></div><div class="price">R$ 50</div></div>
-            <div class="service" data-cat="hardware"><div><h3>Troca de teclado de notebook</h3><small>Mão de obra. Peça não incluída.</small></div><div class="price">R$ 150</div></div>
-            <div class="service" data-cat="hardware"><div><h3>Troca de tela de notebook</h3><small>Mão de obra. Tela não incluída.</small></div><div class="price">R$ 150</div></div>
-            <div class="service" data-cat="hardware"><div><h3>Montagem completa de PC</h3><small>Formatação pode ser contratada separadamente.</small></div><div class="price">R$ 100</div></div>
-            <div class="service" data-cat="suporte"><div><h3>Problema de Wi-Fi, áudio ou USB</h3><small>Atendimento por ocorrência.</small></div><div class="price">R$ 70</div></div>
-            <div class="service" data-cat="hardware"><div><h3>Superaquecimento / avaliação térmica</h3><small>Verificação e orientação técnica.</small></div><div class="price">R$ 70</div></div>
-            <div class="service" data-cat="suporte"><div><h3>Preparação de computador novo</h3><small>Configuração inicial e ajustes essenciais.</small></div><div class="price">R$ 100</div></div>
-            <div class="service" data-cat="suporte"><div><h3>Suporte remoto — até 1 hora</h3><small>Quando o problema puder ser atendido remotamente.</small></div><div class="price">R$ 60</div></div>
-            <div class="service" data-cat="suporte"><div><h3>Não sei identificar / outro problema</h3><small>Explique o que está acontecendo.</small></div><div class="quote">SOLICITAR ORÇAMENTO</div></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="consultorias">
-      <div class="shell">
-        <div class="section-head"><div><div class="eyebrow">Orientação profissional</div><h2>Consultorias PD</h2></div><p>Planejamento antes de gastar. A execução, compra ou instalação é contratada separadamente quando necessária.</p></div>
-        <div class="split">
-          <article class="feature"><span class="tag">Pessoa física</span><h3>Consultoria de Computador Doméstico</h3><p>Para quem quer comprar ou trocar de computador e precisa entender o que realmente vale a pena para o seu uso.</p><div class="feature-price">R$ 50 <span>por consultoria</span></div><div class="checklist"><div class="check">Perfil de uso e orçamento</div><div class="check">Desktop ou notebook recomendado</div><div class="check">Especificação mínima e recomendada</div><div class="check">Análise de modelo que o cliente já encontrou</div></div></article>
-          <article class="feature"><span class="tag">Pessoa física</span><h3>Consultoria de Setup</h3><p>Projeto para setup gamer, trabalho, streaming, criação ou uso híbrido, considerando PC e periféricos.</p><div class="feature-price">R$ 100 <span>por consultoria</span></div><div class="checklist"><div class="check">Setup Essencial</div><div class="check">Setup Recomendado</div><div class="check">Setup Performance</div><div class="check">Periféricos e prioridades de compra</div></div></article>
-          <article class="feature"><span class="tag">Pequenos negócios</span><h3>Consultoria de TI Empresarial</h3><p>Análise da estrutura de TI, equipamentos, problemas recorrentes, prioridades e plano de melhorias para pequenos negócios.</p><div class="feature-price">R$ 400 <span>até aproximadamente 10 computadores</span></div><div class="checklist"><div class="check">Levantamento da estrutura</div><div class="check">Fragilidades e gargalos aparentes</div><div class="check">Prioridades de investimento</div><div class="check">Plano de melhorias PD</div></div></article>
-          <article class="feature"><span class="tag">Projeto consultivo</span><h3>Segurança Eletrônica</h3><p>Análise consultiva de câmeras, DVR/NVR, pontos cegos aparentes, alarmes, sensores, armazenamento e infraestrutura.</p><div class="feature-price">R$ 300 <span>estrutura padrão de pequeno negócio</span></div><div class="checklist"><div class="check">Projeto Essencial</div><div class="check">Projeto Recomendado</div><div class="check">Projeto Completo</div><div class="check">Execução não incluída automaticamente</div></div></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="empresas">
-      <div class="shell">
-        <div class="section-head"><div><div class="eyebrow">Empresas</div><h2>Suporte sem técnico fixo</h2></div><p>Atendimento por problema, remoto ou presencial, com histórico e controle de chamados. Pensado para pequenos negócios de Contagem.</p></div>
-        <div class="plans">
-          <article class="plan"><div class="plan-badge">Pacote anual</div><h3>15 chamados</h3><div class="big">R$ 1.050</div><div class="per">R$ 70 por chamado • validade de 12 meses</div><ul><li>Atendimento remoto ou presencial</li><li>Deslocamento presencial calculado à parte</li><li>Mesmo problema remoto + presencial = 1 chamado</li></ul></article>
-          <article class="plan recommended"><div class="plan-badge">Pacote anual</div><h3>20 chamados</h3><div class="big">R$ 1.400</div><div class="per">R$ 70 por chamado • validade de 12 meses</div><ul><li>Controle de saldo e histórico</li><li>1 problema = 1 chamado</li><li>Reabertura legítima em até 7 dias</li></ul></article>
-          <article class="plan"><div class="plan-badge">Pacote anual</div><h3>30 chamados</h3><div class="big">R$ 2.100</div><div class="per">R$ 70 por chamado • validade de 12 meses</div><ul><li>Para empresas com maior recorrência</li><li>Projetos e consultorias são separados</li><li>Peças e componentes não incluídos</li></ul></article>
-        </div>
-        <div class="rules">
-          <div class="rule"><b>Chamado avulso</b><span>R$ 70. Presencial soma deslocamento.</span></div>
-          <div class="rule"><b>Hardware padrão</b><span>No pacote, a mão de obra padrão pode consumir 1 chamado.</span></div>
-          <div class="rule"><b>Tela / teclado</b><span>Notebook: R$ 150 de mão de obra, fora do chamado padrão.</span></div>
-          <div class="rule"><b>Validade</b><span>12 meses. Saldo não utilizado não vira dinheiro.</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="mais">
-      <div class="shell">
-        <div class="split">
-          <article class="feature"><span class="tag">Parcerias</span><h3>Quero ser parceiro da PD</h3><p>Para lojas de celular, eletrônicos, assistências e negócios locais que recebem demanda de informática e querem encaminhar atendimentos.</p><div class="checklist"><div class="check">Cadastro gratuito</div><div class="check">Origem do atendimento registrada</div><div class="check">Condições comerciais podem ser definidas individualmente</div></div></article>
-          <article class="feature"><span class="tag">Loja rápida</span><h3>Acessórios para necessidade urgente</h3><p>Catálogo simples para consulta e reserva de cabos, mouse, teclado, adaptadores, pendrive, filtro de linha e itens semelhantes.</p><div class="checklist"><div class="check">Disponível / poucas unidades / indisponível</div><div class="check">Preço e estoque administrados pelo Painel PD</div><div class="check">Retirada ou entrega somente mediante confirmação</div></div></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="solicitar">
-      <div class="shell">
-        <div class="cta-panel">
-          <div><div class="eyebrow">Portal do Cliente</div><h2>Conte para a PD o que você precisa.</h2><p>No portal final, sua solicitação ficará registrada com protocolo e a PD fará o contato pelo WhatsApp informado para confirmar detalhes e disponibilidade.</p></div>
-          <button class="btn btn-primary open-form" type="button">Abrir solicitação</button>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="shell footer-grid">
-      <div class="footer-copy"><strong>PD Soluções Digitais</strong>Técnico em informática autônomo • Contagem - MG<br />Atendimento presencial dentro da área de cobertura e entrega de equipamentos somente mediante agendamento.</div>
-      <div class="footer-links"><a href="#servicos">Serviços</a><a href="#consultorias">Consultorias</a><a href="#empresas">Empresas</a><a href="mailto:pablosouza624@gmail.com">E-mail</a></div>
-    </div>
-  </footer>
-
-  <a class="whatsapp" href="https://wa.me/5531995483280?text=Olá,%20vim%20pelo%20Portal%20do%20Cliente%20da%20PD%20Soluções%20Digitais." target="_blank" rel="noopener">WhatsApp PD</a>
-
-  <div class="modal-backdrop" id="requestModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal">
-      <div class="modal-head"><div><h2 id="modalTitle">Solicitar atendimento</h2><p>Prévia visual do formulário que será conectado ao banco de dados do Portal.</p></div><button class="close" id="closeModal" type="button" aria-label="Fechar">✕</button></div>
-      <form id="previewForm">
-        <div class="form-grid">
-          <div class="field"><label for="nome">Nome</label><input id="nome" name="nome" required autocomplete="name" /></div>
-          <div class="field"><label for="whatsapp">WhatsApp</label><input id="whatsapp" name="whatsapp" required inputmode="tel" placeholder="(31) 99999-9999" /></div>
-          <div class="field"><label for="equipamento">Equipamento</label><select id="equipamento" name="equipamento" required><option value="">Selecione</option><option>Desktop</option><option>Notebook</option></select></div>
-          <div class="field"><label for="servico">Serviço / problema</label><select id="servico" name="servico" required><option value="">Selecione</option><option>Formatação / Windows</option><option>Limpeza preventiva</option><option>Computador lento</option><option>Não liga</option><option>Windows não inicia</option><option>Travamentos / tela azul</option><option>Vírus / malware</option><option>Troca de hardware</option><option>Backup / transferência</option><option>Não sei identificar o problema</option><option>Outro problema</option></select></div>
-          <div class="field"><label for="cep">CEP</label><input id="cep" name="cep" inputmode="numeric" placeholder="00000-000" /></div>
-          <div class="field"><label for="prioridade">Impacto</label><select id="prioridade" name="prioridade"><option>Consigo continuar usando</option><option>Está prejudicando meu trabalho</option><option>Não consigo trabalhar</option><option>Manutenção programada</option></select></div>
-          <div class="field full"><label for="detalhes">O que está acontecendo?</label><textarea id="detalhes" name="detalhes" placeholder="Descreva com suas palavras. Você não precisa saber explicar tecnicamente."></textarea></div>
-        </div>
-        <div class="form-note">Esta é a prévia visual do novo portal. Nesta etapa, o formulário ainda não grava no banco de dados. Para um atendimento real agora, utilize o botão de WhatsApp.</div>
-        <div class="form-result" id="formResult"></div>
-        <div class="form-actions"><a class="btn btn-secondary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20atendimento%20da%20PD%20Soluções%20Digitais." target="_blank" rel="noopener">Atendimento real via WhatsApp</a><button class="btn btn-primary" type="submit">Visualizar confirmação</button></div>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    (function(){
-      const filters=[...document.querySelectorAll('.filter')];
-      const services=[...document.querySelectorAll('.service')];
-      filters.forEach(btn=>btn.addEventListener('click',()=>{
-        filters.forEach(x=>x.classList.remove('active'));
-        btn.classList.add('active');
-        const cat=btn.dataset.filter;
-        services.forEach(card=>card.style.display=(cat==='all'||card.dataset.cat===cat)?'flex':'none');
-      }));
-
-      const modal=document.getElementById('requestModal');
-      const close=document.getElementById('closeModal');
-      const openers=[...document.querySelectorAll('.open-form')];
-      const form=document.getElementById('previewForm');
-      const result=document.getElementById('formResult');
-      function openModal(e){if(e)e.preventDefault();modal.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('nome').focus(),50)}
-      function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
-      openers.forEach(btn=>btn.addEventListener('click',openModal));
-      close.addEventListener('click',closeModal);
-      modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
-      document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))closeModal()});
-      form.addEventListener('submit',e=>{
-        e.preventDefault();
-        if(!form.reportValidity())return;
-        const nome=document.getElementById('nome').value.trim();
-        const equipamento=document.getElementById('equipamento').value;
-        const servico=document.getElementById('servico').value;
-        result.innerHTML='<strong>Prévia da confirmação</strong><br>Solicitação preparada para '+(nome||'cliente')+' • '+equipamento+' • '+servico+'.<br><br>No sistema final, aqui aparecerão o protocolo PD, o resumo e o aviso de que a equipe entrará em contato pelo WhatsApp.';
-        result.classList.add('show');
-      });
-    })();
-  </script>
-</body>
-</html>
+<div class="preview-badge">Prévia em desenvolvimento</div>
+<header class="top"><div class="wrap nav"><a class="brand" href="#inicio"><img src="logo.png" alt="PD Soluções Digitais"><div class="brand-txt"><strong>PD SOLUÇÕES DIGITAIS</strong><span>Portal do Cliente</span></div></a><nav class="links"><a href="#servicos">Serviços</a><a href="#consultorias">Consultorias</a><a href="#empresas">Empresas</a><a href="#cobertura">Cobertura</a><a class="btn primary navcta open-flow" href="#solicitar">Solicitar atendimento</a></nav></div></header>
+<main id="inicio">
+<div class="wrap hero"><div class="hero-grid"><div class="panel hero-copy"><div class="eyebrow">Técnico em informática • Contagem</div><h1>Seu suporte de informática, <em>organizado do início ao fim.</em></h1><p>Escolha o equipamento, informe o problema com suas próprias palavras e acompanhe um fluxo simples para solicitar serviço ou orçamento. Sem login e sem CPF.</p><div class="actions"><a class="btn primary open-flow" href="#solicitar">Solicitar atendimento</a><a class="btn secondary" href="#servicos">Ver serviços e preços</a></div><div class="micro">Pagamento após o serviço • confirmação pelo WhatsApp • atendimento presencial sujeito à cobertura</div></div><div class="panel brand-visual"><img src="logo.png" alt="Logo oficial PD Soluções Digitais"><div class="brand-note">Identidade PD aplicada à prévia do portal.</div></div></div></div>
+<section><div class="wrap"><div class="head"><div><div class="eyebrow">Acesso rápido</div><h2>Por onde você quer começar?</h2></div><p>Todos os caminhos principais aparecem logo no início. O usuário entra no portal e escolhe o tipo de necessidade sem precisar entender termos técnicos.</p></div><div class="entry"><a class="ecard" href="#servicos"><div class="ico">PC</div><div><h3>Cliente Particular</h3><p>Desktop, notebook, Windows, limpeza, hardware, backup e suporte.</p><div class="go">VER SERVIÇOS →</div></div></a><a class="ecard" href="#empresas"><div class="ico">TI</div><div><h3>Empresas</h3><p>Chamados avulsos, pacotes anuais e suporte para pequenos negócios.</p><div class="go">VER PLANOS →</div></div></a><a class="ecard" href="#consultorias"><div class="ico">C</div><div><h3>Consultoria de TI</h3><p>Análise, prioridades, recomendações e plano de melhorias.</p><div class="go">R$ 400 →</div></div></a><a class="ecard" href="#consultorias"><div class="ico">SE</div><div><h3>Segurança Eletrônica</h3><p>Projeto consultivo para câmeras, DVR/NVR, alarmes e estrutura.</p><div class="go">R$ 300 →</div></div></a><a class="ecard" href="#consultorias"><div class="ico">ST</div><div><h3>Setup & Compra de PC</h3><p>Orientação para computador doméstico ou projeto de setup.</p><div class="go">A PARTIR DE R$ 50 →</div></div></a><a class="ecard" href="#mais"><div class="ico">+</div><div><h3>Parcerias & Loja</h3><p>Encaminhamento de clientes e pequenos acessórios de necessidade rápida.</p><div class="go">EXPLORAR →</div></div></a></div></div></section>
+<section id="servicos"><div class="wrap"><div class="head"><div><div class="eyebrow">Cliente particular</div><h2>Serviços e preços</h2></div><p>Os valores são de mão de obra. Peças, componentes e licenças são cobrados separadamente quando necessários.</p></div><div class="catalog"><div class="filters"><button class="filter active" data-f="all">Todos</button><button class="filter" data-f="sistema">Windows e sistema</button><button class="filter" data-f="hardware">Hardware</button><button class="filter" data-f="dados">Dados</button><button class="filter" data-f="suporte">Suporte</button></div><div class="services" id="services">
+<div class="service" data-c="sistema"><div><h3>Formatação / reinstalação do Windows</h3><small>Windows, drivers e configuração essencial.</small></div><div class="price">R$ 70</div></div><div class="service" data-c="hardware"><div><h3>Limpeza interna / preventiva</h3><small>Desktop ou notebook.</small></div><div class="price">R$ 70</div></div><div class="service" data-c="suporte"><div><h3>Check-up completo</h3><small>O diagnóstico já faz parte do check-up.</small></div><div class="price">R$ 70</div></div><div class="service" data-c="sistema"><div><h3>Computador / notebook lento</h3><small>Otimização de desempenho.</small></div><div class="price">R$ 80</div></div><div class="service" data-c="suporte"><div><h3>Não liga</h3><small>Análise do sintoma e atendimento.</small></div><div class="price">R$ 70</div></div><div class="service" data-c="sistema"><div><h3>Windows não inicia</h3><small>Falha de inicialização.</small></div><div class="price">R$ 70</div></div><div class="service" data-c="sistema"><div><h3>Travamentos / reinicializações</h3><small>Ocorrências do sistema dentro do escopo.</small></div><div class="price">R$ 70</div></div><div class="service" data-c="sistema"><div><h3>Tela azul / erros do sistema</h3><small>BSOD e falhas relacionadas.</small></div><div class="price">R$ 70</div></div><div class="service" data-c="sistema"><div><h3>Vírus / malware</h3><small>Remoção e verificação lógica.</small></div><div class="price">R$ 80</div></div><div class="service" data-c="sistema"><div><h3>Até 3 programas</h3><small>Instalação e configuração básica.</small></div><div class="price">R$ 60</div></div><div class="service" data-c="sistema"><div><h3>Atualizações</h3><small>Windows e programas.</small></div><div class="price">R$ 60</div></div><div class="service" data-c="dados"><div><h3>Backup até 100 GB</h3><small>+ R$ 40 por bloco adicional de até 100 GB.</small></div><div class="price">R$ 60</div></div><div class="service" data-c="dados"><div><h3>Transferência até 100 GB</h3><small>+ R$ 40 por bloco adicional de até 100 GB.</small></div><div class="price">R$ 60</div></div><div class="service" data-c="dados"><div><h3>Recuperação lógica simples</h3><small>Dano físico ou laboratório: orçamento.</small></div><div class="price">R$ 50</div></div><div class="service" data-c="hardware"><div><h3>Troca / instalação de hardware padrão</h3><small>RAM, SSD, HD, fonte e componentes compatíveis.</small></div><div class="price">R$ 50</div></div><div class="service" data-c="hardware"><div><h3>Teclado de notebook</h3><small>Mão de obra; peça separada.</small></div><div class="price">R$ 150</div></div><div class="service" data-c="hardware"><div><h3>Tela de notebook</h3><small>Mão de obra; tela separada.</small></div><div class="price">R$ 150</div></div><div class="service" data-c="hardware"><div><h3>Montagem completa de PC</h3><small>Formatação é serviço separado.</small></div><div class="price">R$ 100</div></div><div class="service" data-c="suporte"><div><h3>Wi-Fi / áudio / USB</h3><small>Atendimento por ocorrência.</small></div><div class="price">R$ 70</div></div><div class="service" data-c="hardware"><div><h3>Superaquecimento</h3><small>Avaliação térmica.</small></div><div class="price">R$ 70</div></div><div class="service" data-c="suporte"><div><h3>Preparação de computador novo</h3><small>Configuração inicial.</small></div><div class="price">R$ 100</div></div><div class="service" data-c="suporte"><div><h3>Suporte remoto até 1 hora</h3><small>Quando o problema puder ser atendido remotamente.</small></div><div class="price">R$ 60</div></div><div class="service" data-c="suporte"><div><h3>Não sei identificar / outro problema</h3><small>Descreva com suas palavras.</small></div><div class="quote">ORÇAMENTO</div></div>
+</div></div></div></section>
+<section id="consultorias"><div class="wrap"><div class="head"><div><div class="eyebrow">Consultorias</div><h2>Planejamento antes de gastar</h2></div><p>Consultoria é análise e recomendação. Compra, montagem, instalação e execução são contratadas separadamente quando necessárias.</p></div><div class="twocol"><article class="feature"><span class="tag">Pessoa física</span><h3>Computador Doméstico</h3><p>Para escolher ou avaliar um computador conforme uso e orçamento.</p><div class="big">R$ 50 <span>por consultoria</span></div><div class="checks"><div class="check">Perfil de uso</div><div class="check">Desktop ou notebook</div><div class="check">Especificações mínimas e recomendadas</div><div class="check">Análise de modelo encontrado pelo cliente</div></div></article><article class="feature"><span class="tag">Pessoa física</span><h3>Consultoria de Setup</h3><p>Gamer, trabalho, streaming, criação ou perfil híbrido.</p><div class="big">R$ 100 <span>por consultoria</span></div><div class="checks"><div class="check">Essencial</div><div class="check">Recomendado</div><div class="check">Performance</div><div class="check">PC e periféricos</div></div></article><article class="feature"><span class="tag">Pequenos negócios</span><h3>Consultoria de TI Empresarial</h3><p>Análise da estrutura, equipamentos, problemas recorrentes, prioridades e plano de melhorias.</p><div class="big">R$ 400 <span>até aproximadamente 10 computadores</span></div></article><article class="feature"><span class="tag">Projeto consultivo</span><h3>Segurança Eletrônica</h3><p>Câmeras, DVR/NVR, alarmes, sensores, pontos cegos aparentes e infraestrutura.</p><div class="big">R$ 300 <span>estrutura padrão de pequeno negócio</span></div></article></div></div></section>
+<section id="empresas"><div class="wrap"><div class="head"><div><div class="eyebrow">Empresas</div><h2>Suporte sem técnico fixo</h2></div><p>1 problema = 1 chamado. O mesmo problema iniciado remotamente e concluído presencialmente continua sendo um chamado.</p></div><div class="plans"><div class="plan"><b>15 chamados</b><strong>R$ 1.050</strong><span>R$ 70/chamado • 12 meses</span><ul><li>Remoto ou presencial</li><li>Deslocamento separado</li><li>Histórico por equipamento</li></ul></div><div class="plan focus"><b>20 chamados</b><strong>R$ 1.400</strong><span>R$ 70/chamado • 12 meses</span><ul><li>Controle de saldo</li><li>Reabertura legítima em até 7 dias</li><li>Mesmo problema = mesmo chamado</li></ul></div><div class="plan"><b>30 chamados</b><strong>R$ 2.100</strong><span>R$ 70/chamado • 12 meses</span><ul><li>Maior recorrência</li><li>Consultorias separadas</li><li>Peças não incluídas</li></ul></div></div><div class="rules"><div class="rule"><b>Avulso</b><span>R$ 70 por chamado.</span></div><div class="rule"><b>Hardware padrão</b><span>No pacote, pode consumir 1 chamado de mão de obra.</span></div><div class="rule"><b>Tela / teclado</b><span>Notebook: R$ 150 de mão de obra.</span></div><div class="rule"><b>Validade</b><span>12 meses; saldo não vira dinheiro.</span></div></div></div></section>
+<section id="cobertura"><div class="wrap"><div class="twocol"><article class="feature"><span class="tag">Cobertura presencial</span><h3>Contagem • até 10 km</h3><p>A referência é o CEP-base 32017-190. O cálculo final será feito pela rota de carro.</p><div class="big">R$ 2,50 <span>por km • somente ida</span></div></article><article class="feature"><span class="tag">Fora da cobertura</span><h3>Entrega agendada</h3><p>Fora de Contagem ou além do limite presencial, o portal oferece o fluxo de entrega de desktop ou notebook. O endereço exato é confirmado após o contato.</p><div class="checks"><div class="check">Sem loja física aberta ao público</div><div class="check">Entrega somente mediante agendamento</div><div class="check">Imprevistos: avisar com pelo menos 2 horas</div></div></article></div></div></section>
+<section id="mais"><div class="wrap"><div class="twocol"><article class="feature"><span class="tag">Parcerias</span><h3>Quero ser parceiro</h3><p>Cadastro comercial gratuito para negócios locais que desejam encaminhar demandas de informática.</p></article><article class="feature"><span class="tag">Loja rápida</span><h3>Acessórios de necessidade rápida</h3><p>Cabos, mouse, teclado, adaptadores, pendrive, filtro de linha e itens similares com estoque administrável.</p></article></div></div></section>
+<section id="solicitar"><div class="wrap"><div class="cta"><div><div class="eyebrow">Portal do Cliente</div><h2>Você não precisa saber explicar tecnicamente.</h2><p>Escolha o equipamento e responda perguntas simples. O técnico recebe as informações organizadas e entra em contato pelo WhatsApp.</p></div><button class="btn primary open-flow" type="button">Iniciar solicitação</button></div></div></section>
+</main>
+<footer><div class="wrap foot"><div><b style="color:#fff">PD Soluções Digitais</b><br>Técnico em informática autônomo • Contagem - MG</div><div>Prévia funcional do Portal do Cliente • formulário ainda sem banco de dados</div></div></footer>
+<a class="wa" target="_blank" rel="noopener" href="https://wa.me/5531995483280?text=Olá,%20vim%20pelo%20Portal%20do%20Cliente%20da%20PD%20Soluções%20Digitais.">WhatsApp PD</a>
+<div class="modal-bg" id="flow"><div class="modal"><div class="mhead"><div><h2 id="flowTitle">Solicitar atendimento</h2><p>Fluxo de triagem — prévia funcional.</p></div><button class="close" id="close" type="button" aria-label="Fechar">✕</button></div><div class="steps"><div class="stepbar on"></div><div class="stepbar"></div><div class="stepbar"></div><div class="stepbar"></div><div class="stepbar"></div></div><form id="triageForm">
+<div class="form-step active" data-step="0"><div class="field"><label>O que você deseja?</label></div><div class="choice-grid"><button class="choice" type="button" data-field="tipo" data-value="Serviço"><b>Solicitar serviço</b><span>Quero contratar um atendimento.</span></button><button class="choice" type="button" data-field="tipo" data-value="Orçamento"><b>Solicitar orçamento</b><span>Quero explicar o problema antes de confirmar.</span></button></div></div>
+<div class="form-step" data-step="1"><div class="field"><label>Qual é o equipamento?</label></div><div class="choice-grid"><button class="choice" type="button" data-field="equipamento" data-value="Desktop"><b>Desktop</b><span>Computador de mesa.</span></button><button class="choice" type="button" data-field="equipamento" data-value="Notebook"><b>Notebook</b><span>Notebook / laptop.</span></button></div></div>
+<div class="form-step" data-step="2"><div class="fg"><div class="field full"><label for="problema">Serviço ou problema</label><select id="problema" required><option value="">Selecione</option><option>Formatação / reinstalação do Windows</option><option>Limpeza preventiva</option><option>Computador lento</option><option>Não liga</option><option>Windows não inicia</option><option>Travamentos / reinicializações</option><option>Tela azul / erros</option><option>Vírus / malware</option><option>Instalação / troca de hardware</option><option>Backup / transferência de arquivos</option><option>Superaquecimento</option><option>Wi-Fi / áudio / USB</option><option>Não sei identificar o problema</option><option>Outro problema</option></select></div><div class="field full"><label for="descricao">Explique com suas palavras</label><textarea id="descricao" placeholder="Ex.: aperto o botão, a luz acende, mas não aparece imagem."></textarea></div></div><div class="triage" id="triageBox"><h4>Perguntas rápidas</h4><div id="triageQuestions">Selecione um problema para mostrar a triagem.</div></div></div>
+<div class="form-step" data-step="3"><div class="fg"><div class="field"><label for="nome">Nome</label><input id="nome" required autocomplete="name"></div><div class="field"><label for="whatsapp">WhatsApp</label><input id="whatsapp" required inputmode="tel" placeholder="(31) 99999-9999"></div><div class="field"><label for="cep">CEP</label><input id="cep" inputmode="numeric" placeholder="00000-000"></div><div class="field"><label for="impacto">Impacto</label><select id="impacto"><option>Consigo continuar usando</option><option>Está prejudicando meu trabalho</option><option>Não consigo trabalhar</option><option>Manutenção programada</option></select></div><div class="field"><label for="dia">Dia preferido</label><input id="dia" type="date"></div><div class="field"><label for="periodo">Período</label><select id="periodo"><option>Manhã</option><option>Tarde</option><option>Noite</option><option>Sem preferência</option></select></div><div class="field full"><label for="clienteAntigo">Já foi atendido pela PD?</label><select id="clienteAntigo"><option>Não</option><option>Sim</option></select></div></div></div>
+<div class="form-step" data-step="4"><div class="summary" id="summary"></div><div class="warning">O envio não confirma automaticamente o atendimento. A PD entrará em contato pelo WhatsApp informado para confirmar detalhes, disponibilidade e agendamento.</div></div>
+<div class="success" id="success"><div class="eyebrow" style="justify-content:center">Solicitação preparada</div><div class="protocol" id="protocol"></div><p>Esta prévia ainda não grava no banco. Quando conectarmos o Supabase, o protocolo será salvo e a PD receberá a solicitação no Painel, por e-mail e nas notificações configuradas.</p><a class="btn secondary" target="_blank" rel="noopener" href="https://wa.me/5531995483280?text=Olá,%20estou%20testando%20o%20novo%20Portal%20do%20Cliente.">Falar no WhatsApp</a></div>
+<div class="navform" id="formNav"><button class="btn secondary" id="back" type="button">Voltar</button><button class="btn primary" id="next" type="button">Continuar</button></div></form></div></div>
+<script>
+(()=>{
+const qs=(s,p=document)=>p.querySelector(s),qsa=(s,p=document)=>[...p.querySelectorAll(s)];
+qsa('.filter').forEach(b=>b.addEventListener('click',()=>{qsa('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');const f=b.dataset.f;qsa('.service').forEach(c=>c.style.display=f==='all'||c.dataset.c===f?'flex':'none')}));
+const flow=qs('#flow'),steps=qsa('.form-step'),bars=qsa('.stepbar'),state={tipo:'',equipamento:'',checks:[]};let step=0;
+function render(){steps.forEach((x,i)=>x.classList.toggle('active',i===step));bars.forEach((x,i)=>x.classList.toggle('on',i<=step));qs('#back').style.visibility=step===0?'hidden':'visible';qs('#next').textContent=step===4?'Enviar prévia':'Continuar';if(step===4)buildSummary()}
+function open(e){if(e)e.preventDefault();flow.classList.add('open');document.body.style.overflow='hidden';step=0;qs('#success').classList.remove('show');qs('#triageForm').style.display='block';qs('#formNav').style.display='flex';render()}
+function close(){flow.classList.remove('open');document.body.style.overflow=''}
+qsa('.open-flow').forEach(x=>x.addEventListener('click',open));qs('#close').addEventListener('click',close);flow.addEventListener('click',e=>{if(e.target===flow)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&flow.classList.contains('open'))close()});
+qsa('.choice').forEach(b=>b.addEventListener('click',()=>{const f=b.dataset.field;qsa(`.choice[data-field="${f}"]`).forEach(x=>x.classList.remove('selected'));b.classList.add('selected');state[f]=b.dataset.value}));
+const problem=qs('#problema'),questions=qs('#triageQuestions');const triage={
+'Não liga':['Alguma luz acende?','O carregador/fonte dá sinal?','Aparece alguma imagem?','Houve queda, oscilação ou atualização recente?'],
+'Computador lento':['Está lento desde que liga?','Trava durante o uso?','Precisa preservar todos os arquivos?'],
+'Windows não inicia':['Aparece alguma mensagem de erro?','Chega até o logo do Windows?','Isso começou após atualização ou queda de energia?'],
+'Travamentos / reinicializações':['Reinicia sozinho?','Acontece ao abrir algum programa específico?','O equipamento esquenta muito?'],
+'Tela azul / erros':['Consegue fotografar o erro?','A tela azul acontece ao iniciar ou durante o uso?'],
+'Superaquecimento':['A ventoinha fica muito alta?','O equipamento desliga sozinho?','Quando foi feita a última limpeza?']};
+problem.addEventListener('change',()=>{const arr=triage[problem.value]||['O problema acontece sempre ou às vezes?','Quando você percebeu isso pela primeira vez?'];questions.innerHTML=arr.map((q,i)=>`<label><input type="checkbox" data-q="${i}"> ${q}</label>`).join('')});
+function valid(){if(step===0&&!state.tipo){alert('Escolha serviço ou orçamento.');return false}if(step===1&&!state.equipamento){alert('Escolha Desktop ou Notebook.');return false}if(step===2&&!problem.value){alert('Selecione o serviço ou problema.');return false}if(step===3){if(!qs('#nome').value.trim()||!qs('#whatsapp').value.trim()){alert('Informe nome e WhatsApp.');return false}}return true}
+qs('#next').addEventListener('click',()=>{if(!valid())return;if(step<4){step++;render()}else submitPreview()});qs('#back').addEventListener('click',()=>{if(step>0){step--;render()}});
+function buildSummary(){const rows=[['Tipo',state.tipo],['Equipamento',state.equipamento],['Serviço / problema',problem.value],['Nome',qs('#nome').value],['WhatsApp',qs('#whatsapp').value],['CEP',qs('#cep').value||'Não informado'],['Impacto',qs('#impacto').value],['Preferência',`${qs('#dia').value||'Dia a confirmar'} • ${qs('#periodo').value}`],['Cliente anterior',qs('#clienteAntigo').value]];qs('#summary').innerHTML=rows.map(r=>`<div class="sumrow"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')}
+function submitPreview(){const now=new Date();const n=String(Math.floor(Math.random()*9000)+1000);qs('#protocol').textContent=`PD-${state.tipo==='Orçamento'?'OR':'SV'}-${now.getFullYear()}-${n}`;steps.forEach(x=>x.classList.remove('active'));bars.forEach(x=>x.classList.add('on'));qs('#formNav').style.display='none';qs('#success').classList.add('show')}
+render();
+})();
+</script>
+</body></html>

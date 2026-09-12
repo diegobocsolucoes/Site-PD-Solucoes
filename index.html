@@ -2,270 +2,414 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PD Soluções Digitais | Técnico em Informática em Contagem - MG</title>
-  <meta name="description" content="Suporte técnico em informática em Contagem e Belo Horizonte. Manutenção de computadores e notebooks, redes, câmeras, consultoria de TI e serviços digitais com atendimento via WhatsApp.">
-  <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#050505">
-  <link rel="canonical" href="https://diegobocsolucoes.github.io/Site-PD-Solucoes/">
-  <meta property="og:title" content="PD Soluções Digitais | Técnico em Informática em Contagem - MG">
-  <meta property="og:description" content="Suporte técnico, consultoria de TI, segurança eletrônica, redes e serviços digitais para empresas, comércios e residências.">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="pt_BR">
-  <meta property="og:url" content="https://diegobocsolucoes.github.io/Site-PD-Solucoes/">
-  <meta property="og:image" content="https://diegobocsolucoes.github.io/Site-PD-Solucoes/assets/pd-background.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="PD Soluções Digitais | Técnico em Informática em Contagem - MG">
-  <meta name="twitter:description" content="Suporte técnico, consultoria de TI, segurança eletrônica, redes e serviços digitais para empresas, comércios e residências.">
-  <meta name="twitter:image" content="https://diegobocsolucoes.github.io/Site-PD-Solucoes/assets/pd-background.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal do Cliente | PD Soluções Digitais</title>
+  <meta name="description" content="Portal do Cliente da PD Soluções Digitais. Suporte técnico para desktops e notebooks, consultorias, atendimento empresarial e soluções em Contagem - MG." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#050706" />
+  <link rel="canonical" href="https://diegobocsolucoes.github.io/Site-PD-Solucoes/" />
+  <meta property="og:title" content="Portal do Cliente | PD Soluções Digitais" />
+  <meta property="og:description" content="Solicite serviços, orçamentos e consultorias da PD Soluções Digitais." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:url" content="https://diegobocsolucoes.github.io/Site-PD-Solucoes/" />
+  <meta property="og:image" content="https://diegobocsolucoes.github.io/Site-PD-Solucoes/assets/pd-background.jpg" />
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": "https://diegobocsolucoes.github.io/Site-PD-Solucoes/#pd-solucoes-digitais",
     "name": "PD Soluções Digitais",
     "url": "https://diegobocsolucoes.github.io/Site-PD-Solucoes/",
     "image": "https://diegobocsolucoes.github.io/Site-PD-Solucoes/assets/pd-background.jpg",
-    "description": "Técnico em informática em Contagem - MG, com suporte técnico, manutenção de computadores, consultoria em TI, redes, segurança eletrônica e serviços digitais.",
+    "description": "Técnico em informática autônomo em Contagem - MG, com atendimento para desktops, notebooks e pequenos negócios.",
     "telephone": "+55 31 99548-3280",
     "email": "pablosouza624@gmail.com",
-    "areaServed": [
-      "Contagem - MG",
-      "Belo Horizonte - MG",
-      "Região Metropolitana de Belo Horizonte"
-    ],
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Contagem",
-      "addressRegion": "MG",
-      "addressCountry": "BR"
-    },
-    "priceRange": "$$",
-    "makesOffer": [
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Suporte técnico em informática"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Manutenção de computadores e notebooks"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Consultoria de TI para empresas"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Instalação e suporte em câmeras e redes"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Serviços digitais e suporte remoto"}}
-    ]
+    "areaServed": "Contagem - MG",
+    "address": {"@type":"PostalAddress","addressLocality":"Contagem","addressRegion":"MG","addressCountry":"BR"},
+    "priceRange": "$"
   }
   </script>
 
   <style>
-    :root{--pd-bg:url("assets/pd-background.jpg");--pd-green:#00ff88;--pd-dark:#050505;--pd-muted:#cfcfcf;}
-    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;}
-    html{scroll-behavior:smooth;}
-    body{background:#050505 var(--pd-bg) center top/cover fixed no-repeat;color:#fff;overflow-x:hidden;min-height:100vh;position:relative;isolation:isolate;}
-    body::before{
-      content:"";position:fixed;inset:0;
+    :root{
+      --bg:#050706;
+      --panel:rgba(9,13,11,.88);
+      --panel2:rgba(12,18,15,.84);
+      --green:#00ef83;
+      --green-soft:#73ffba;
+      --line:rgba(0,239,131,.18);
+      --line-strong:rgba(0,239,131,.48);
+      --text:#f4f7f5;
+      --muted:#a7b2ac;
+      --danger:#ffca6b;
+      --radius:18px;
+      --max:1180px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      min-height:100vh;
+      background:#050706 url("assets/pd-background.jpg") center top/cover fixed no-repeat;
+      color:var(--text);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      line-height:1.5;
+      overflow-x:hidden;
+    }
+    body:before{
+      content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
       background:
-        linear-gradient(180deg, rgba(0,0,0,0.44) 0%, rgba(0,0,0,0.72) 58%, rgba(0,0,0,0.92) 100%),
-        radial-gradient(circle at 20% 20%, rgba(0,255,136,0.12), transparent 28%),
-        radial-gradient(circle at 80% 80%, rgba(0,255,136,0.10), transparent 30%);
-      z-index:0;pointer-events:none;
+        linear-gradient(180deg,rgba(2,4,3,.70),rgba(3,6,4,.94) 48%,rgba(3,5,4,.98)),
+        radial-gradient(circle at 15% 8%,rgba(0,239,131,.14),transparent 30%),
+        radial-gradient(circle at 88% 18%,rgba(0,239,131,.08),transparent 24%);
     }
-    body > *{position:relative;z-index:1;}
-    header{text-align:center;padding:60px 20px 30px;}
-    .brand-seal{
-      width:78px;height:78px;margin:0 auto 22px;border:1px solid rgba(0,255,136,0.35);
-      border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--pd-green);
-      font-size:26px;font-weight:700;letter-spacing:2px;box-shadow:0 0 35px rgba(0,255,136,0.10);
-      background:rgba(0,0,0,0.45);
+    body>*{position:relative;z-index:1}
+    a{color:inherit}
+    button,input,select,textarea{font:inherit}
+    .shell{width:min(calc(100% - 32px),var(--max));margin:auto}
+
+    .topbar{
+      position:sticky;top:0;z-index:50;
+      background:rgba(4,7,5,.84);backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--line);
     }
-    h1{color:#fff;font-size:24px;letter-spacing:2px;margin-bottom:10px;font-weight:700;}
-    .pd-green{color:var(--pd-green);}
-    .subtitle{font-size:12px;color:#cfcfcf;letter-spacing:3px;}
-    .hero{max-width:1000px;margin:auto;padding:80px 20px;text-align:center;}
-    .hero h2{font-size:34px;line-height:48px;margin-bottom:25px;font-weight:600;}
-    .hero p{max-width:760px;margin:auto;color:#d4d4d4;font-size:12px;line-height:26px;letter-spacing:1px;}
-    .buttons{margin-top:40px;}
-    .btn{
-      display:inline-block;text-decoration:none;border-radius:8px;padding:13px 22px;margin:8px;
-      font-size:10px;letter-spacing:1.5px;font-weight:bold;transition:0.3s;text-align:center;
+    .nav{min-height:74px;display:flex;align-items:center;gap:24px;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;min-width:0}
+    .brand-mark{
+      width:42px;height:42px;border:1px solid var(--line-strong);border-radius:12px;
+      display:grid;place-items:center;color:var(--green);font-weight:900;letter-spacing:-1px;
+      background:linear-gradient(145deg,rgba(0,239,131,.13),rgba(0,0,0,.25));
+      box-shadow:inset 0 0 24px rgba(0,239,131,.06);
     }
-    .btn-primary{background:var(--pd-green);color:#000;}
-    .btn-primary:hover{opacity:0.85;transform:translateY(-3px);}
-    .btn-secondary{border:1px solid var(--pd-green);color:var(--pd-green);background:rgba(0,0,0,0.25);}
-    .btn-secondary:hover{background:var(--pd-green);color:#000;}
-    .section{max-width:1200px;margin:auto;padding:80px 20px;}
-    .section-title{text-align:center;color:var(--pd-green);font-size:18px;letter-spacing:3px;margin-bottom:55px;}
-    .cards,.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:25px;}
-    .card,.info-card{
-      background:rgba(8,8,8,0.88);border:1px solid rgba(0,255,136,0.12);border-radius:8px;padding:30px;
-      text-align:center;transition:0.3s;backdrop-filter:blur(6px);
+    .brand-copy strong{display:block;font-size:14px;letter-spacing:.08em}
+    .brand-copy span{display:block;color:var(--muted);font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-top:2px}
+    .navlinks{display:flex;align-items:center;gap:18px}
+    .navlinks a{text-decoration:none;color:#c7d0cb;font-size:13px}
+    .navlinks a:hover{color:var(--green)}
+    .nav-cta{padding:11px 16px;border-radius:12px;background:var(--green);color:#03110a!important;font-weight:800}
+
+    .hero{padding:68px 0 38px}
+    .hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:28px;align-items:stretch}
+    .hero-main,.hero-aside{
+      border:1px solid var(--line);border-radius:28px;background:rgba(5,8,6,.72);backdrop-filter:blur(10px);
     }
-    .card:hover,.info-card:hover{border-color:var(--pd-green);transform:translateY(-5px);box-shadow:0 0 30px rgba(0,255,136,0.08);}
-    .card h3,.info-card h3{color:var(--pd-green);font-size:13px;letter-spacing:2px;margin-bottom:18px;}
-    .card p,.info-card p{color:#cfcfcf;font-size:11px;line-height:23px;letter-spacing:1px;margin-bottom:25px;}
-    .card .btn{display:block;width:100%;margin:8px 0;}
-    .trust-list{max-width:840px;margin:0 auto;color:#d4d4d4;font-size:12px;line-height:28px;letter-spacing:1px;text-align:center;}
-    .trust-list strong{color:var(--pd-green);}
-    .highlight{color:var(--pd-green);}
-    .whatsapp-fixed{
-      position:fixed;right:18px;bottom:18px;z-index:20;background:var(--pd-green);color:#000;
-      text-decoration:none;border-radius:999px;padding:14px 18px;font-size:11px;font-weight:800;letter-spacing:1px;
-      box-shadow:0 12px 35px rgba(0,255,136,0.20);border:1px solid rgba(255,255,255,0.12);
+    .hero-main{padding:46px;overflow:hidden;position:relative}
+    .hero-main:after{content:"PD";position:absolute;right:-12px;bottom:-56px;font-weight:900;font-size:190px;color:rgba(0,239,131,.028);line-height:1}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--green-soft);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.16em;margin-bottom:18px}
+    .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px rgba(0,239,131,.7)}
+    h1{font-size:clamp(36px,5.5vw,68px);line-height:1.02;letter-spacing:-.045em;max-width:850px}
+    h1 span{color:var(--green)}
+    .hero-main>p{max-width:720px;color:#c3ccc7;font-size:17px;margin-top:22px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+    .btn{border:0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 19px;border-radius:13px;font-weight:850;font-size:13px;transition:.2s}
+    .btn-primary{background:var(--green);color:#031109}
+    .btn-primary:hover{filter:brightness(1.07);transform:translateY(-1px)}
+    .btn-secondary{border:1px solid var(--line-strong);background:rgba(0,239,131,.03);color:var(--green-soft)}
+    .btn-secondary:hover{background:rgba(0,239,131,.10)}
+    .micro{font-size:11px;color:#829087;margin-top:14px}
+
+    .hero-aside{padding:26px;display:flex;flex-direction:column;justify-content:space-between}
+    .aside-label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.15em}
+    .coverage{margin-top:14px;padding:18px;border:1px solid var(--line);border-radius:17px;background:rgba(0,0,0,.20)}
+    .coverage strong{font-size:21px;display:block}
+    .coverage span{color:var(--muted);font-size:12px}
+    .stat-list{display:grid;gap:10px;margin-top:18px}
+    .stat{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.07);gap:10px}
+    .stat:last-child{border-bottom:0}
+    .stat span{font-size:12px;color:#adb8b2}.stat b{font-size:13px;color:#fff;text-align:right}
+    .notice{margin-top:18px;padding:14px 15px;border-radius:14px;background:rgba(255,202,107,.07);border:1px solid rgba(255,202,107,.18);color:#e6d7bc;font-size:11px}
+
+    section{padding:48px 0}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:24px}
+    .section-head h2{font-size:clamp(26px,4vw,40px);letter-spacing:-.035em}
+    .section-head p{max-width:540px;color:var(--muted);font-size:13px}
+
+    .entry-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .entry-card{
+      min-height:185px;padding:23px;border:1px solid var(--line);border-radius:20px;background:var(--panel);
+      text-decoration:none;display:flex;flex-direction:column;justify-content:space-between;transition:.2s;
     }
-    .whatsapp-fixed:hover{transform:translateY(-3px);}
-    footer{text-align:center;padding:45px 20px 85px;border-top:1px solid rgba(0,255,136,0.10);margin-top:60px;}
-    footer p{color:#9b9b9b;font-size:11px;letter-spacing:2px;line-height:24px;}
-    @media(max-width:768px){
-      body{background-attachment:scroll;background-position:center top;}
-      header{padding:58px 18px 22px;}
-      .hero{padding:65px 18px;}
-      .hero h2{font-size:24px;line-height:36px;}
-      .hero p{font-size:11px;}
-      .btn{width:90%;}
-      .section{padding:60px 18px;}
-      .whatsapp-fixed{left:18px;right:18px;text-align:center;}
+    .entry-card:hover{border-color:var(--line-strong);transform:translateY(-2px);background:rgba(9,15,12,.94)}
+    .entry-icon{width:42px;height:42px;border-radius:13px;background:rgba(0,239,131,.09);border:1px solid var(--line);display:grid;place-items:center;color:var(--green);font-weight:900}
+    .entry-card h3{font-size:18px;margin-top:22px}.entry-card p{color:var(--muted);font-size:12px;margin-top:6px}.entry-card .arrow{color:var(--green);font-size:12px;font-weight:800;margin-top:14px}
+
+    .catalog-wrap{border:1px solid var(--line);border-radius:24px;background:rgba(5,9,7,.76);padding:22px}
+    .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+    .filter{border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.025);color:#bbc5bf;border-radius:999px;padding:9px 13px;font-size:11px;font-weight:750;cursor:pointer}
+    .filter.active{background:rgba(0,239,131,.12);border-color:var(--line-strong);color:var(--green-soft)}
+    .service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .service{
+      border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.20);border-radius:16px;padding:17px;
+      display:flex;align-items:flex-start;justify-content:space-between;gap:14px;min-height:94px;
+    }
+    .service h3{font-size:13px;line-height:1.35}.service small{color:#829087;font-size:10px;display:block;margin-top:5px}.price{color:var(--green);font-weight:900;font-size:14px;white-space:nowrap}.quote{color:#ffd89a;font-size:11px;white-space:nowrap;font-weight:800}
+
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .feature{border:1px solid var(--line);border-radius:22px;background:var(--panel);padding:27px}
+    .feature .tag{display:inline-block;padding:6px 9px;border-radius:999px;border:1px solid var(--line);color:var(--green-soft);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+    .feature h3{font-size:25px;line-height:1.15;margin-top:18px}.feature>p{color:var(--muted);font-size:13px;margin-top:10px;max-width:540px}
+    .feature-price{font-size:34px;font-weight:900;color:#fff;margin-top:22px}.feature-price span{font-size:12px;color:var(--muted);font-weight:600}
+    .checklist{display:grid;gap:8px;margin-top:18px}.check{font-size:12px;color:#bdc7c1;display:flex;gap:9px}.check:before{content:"✓";color:var(--green);font-weight:900}
+
+    .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+    .plan{padding:23px;border-radius:19px;border:1px solid var(--line);background:rgba(5,9,7,.80);position:relative;overflow:hidden}
+    .plan.recommended{border-color:rgba(0,239,131,.46);background:linear-gradient(180deg,rgba(0,239,131,.08),rgba(5,9,7,.90))}
+    .plan-badge{font-size:9px;color:var(--green);text-transform:uppercase;letter-spacing:.14em;font-weight:900}.plan h3{font-size:20px;margin-top:9px}.plan .big{font-size:31px;font-weight:900;margin-top:12px}.plan .per{font-size:11px;color:var(--muted)}.plan ul{margin:16px 0 0 17px;color:#b8c2bc;font-size:11px;display:grid;gap:7px}
+
+    .rules{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
+    .rule{padding:16px;border-radius:15px;border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.20)}
+    .rule b{display:block;color:#fff;font-size:12px}.rule span{display:block;color:var(--muted);font-size:10px;margin-top:5px}
+
+    .cta-panel{padding:34px;border-radius:24px;border:1px solid var(--line-strong);background:linear-gradient(135deg,rgba(0,239,131,.10),rgba(4,8,6,.88) 52%,rgba(0,0,0,.86));display:flex;align-items:center;justify-content:space-between;gap:25px}
+    .cta-panel h2{font-size:30px;letter-spacing:-.03em}.cta-panel p{color:#b8c2bd;font-size:13px;margin-top:7px;max-width:660px}
+
+    footer{padding:42px 0 90px;border-top:1px solid rgba(255,255,255,.07);margin-top:35px}
+    .footer-grid{display:flex;justify-content:space-between;gap:30px;align-items:flex-start}.footer-copy{font-size:11px;color:#849088;max-width:650px}.footer-copy strong{color:#fff;display:block;font-size:13px;margin-bottom:6px}.footer-links{display:flex;gap:14px;flex-wrap:wrap}.footer-links a{font-size:11px;color:#aab4ae;text-decoration:none}.footer-links a:hover{color:var(--green)}
+
+    .whatsapp{position:fixed;right:20px;bottom:20px;z-index:60;text-decoration:none;background:var(--green);color:#031109;font-weight:900;border-radius:999px;padding:13px 17px;font-size:12px;box-shadow:0 10px 38px rgba(0,239,131,.20)}
+
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:26px 14px;overflow:auto}
+    .modal-backdrop.open{display:flex}
+    .modal{width:min(720px,100%);background:#080d0a;border:1px solid var(--line-strong);border-radius:24px;padding:25px;margin:auto}
+    .modal-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.modal-head h2{font-size:24px}.modal-head p{font-size:11px;color:var(--muted);margin-top:4px}.close{width:40px;height:40px;border:1px solid rgba(255,255,255,.10);border-radius:12px;background:rgba(255,255,255,.03);color:#fff;cursor:pointer}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:22px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#9aa69f;font-weight:800}.field input,.field select,.field textarea{width:100%;border:1px solid rgba(255,255,255,.12);background:#060907;color:#fff;border-radius:12px;padding:12px 13px;outline:none}.field textarea{min-height:100px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--line-strong)}
+    .form-note{margin-top:13px;padding:11px 13px;background:rgba(255,202,107,.06);border:1px solid rgba(255,202,107,.16);border-radius:12px;font-size:10px;color:#dfcfb4}.form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:17px;flex-wrap:wrap}.form-result{display:none;margin-top:17px;padding:15px;border-radius:14px;border:1px solid var(--line);background:rgba(0,239,131,.06);font-size:12px;color:#c6d5cd}.form-result.show{display:block}
+
+    @media(max-width:900px){
+      .navlinks a:not(.nav-cta){display:none}
+      .hero-grid,.split{grid-template-columns:1fr}
+      .entry-grid,.service-grid{grid-template-columns:repeat(2,1fr)}
+      .plans{grid-template-columns:1fr}.rules{grid-template-columns:repeat(2,1fr)}
+      .hero-main{padding:34px}.hero{padding-top:40px}
+    }
+    @media(max-width:620px){
+      .shell{width:min(calc(100% - 22px),var(--max))}
+      .brand-copy span{display:none}.nav{min-height:66px}.nav-cta{padding:10px 12px;font-size:11px}
+      .hero-main{padding:25px}.hero-main>p{font-size:14px}.hero-actions .btn{width:100%}
+      .hero-aside{padding:20px}.entry-grid,.service-grid{grid-template-columns:1fr}.entry-card{min-height:155px}
+      section{padding:38px 0}.section-head{align-items:flex-start;flex-direction:column;gap:8px}.catalog-wrap{padding:13px}
+      .rules{grid-template-columns:1fr 1fr}.cta-panel{padding:24px;align-items:flex-start;flex-direction:column}.cta-panel .btn{width:100%}
+      .footer-grid{flex-direction:column}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.form-actions .btn{width:100%}
+      .whatsapp{left:12px;right:12px;text-align:center;bottom:12px}
+      footer{padding-bottom:100px}
     }
   </style>
 </head>
-
 <body>
-
-  <header>
-    <div class="brand-seal">PD</div>
-    <h1><span class="pd-green">PD</span> SOLUÇÕES DIGITAIS</h1>
-    <div class="subtitle">TÉCNICO EM INFORMÁTICA | CONTAGEM - MG</div>
+  <header class="topbar">
+    <div class="shell nav">
+      <a class="brand" href="#inicio" aria-label="PD Soluções Digitais - início">
+        <div class="brand-mark">PD</div>
+        <div class="brand-copy"><strong>PD SOLUÇÕES DIGITAIS</strong><span>Portal do Cliente</span></div>
+      </a>
+      <nav class="navlinks" aria-label="Navegação principal">
+        <a href="#servicos">Serviços</a>
+        <a href="#consultorias">Consultorias</a>
+        <a href="#empresas">Empresas</a>
+        <a href="#cobertura">Cobertura</a>
+        <a class="nav-cta open-form" href="#solicitar">Solicitar atendimento</a>
+      </nav>
+    </div>
   </header>
 
-  <section class="hero">
-    <h2>Técnico em informática em<br>Contagem e região.</h2>
+  <main id="inicio">
+    <div class="shell hero">
+      <div class="hero-grid">
+        <div class="hero-main">
+          <div class="eyebrow"><span class="dot"></span> Atendimento em Contagem</div>
+          <h1>Seu suporte de informática, <span>sem complicação.</span></h1>
+          <p>Serviços para desktops e notebooks, consultorias para pessoas e pequenos negócios e atendimento organizado diretamente pelo Portal do Cliente.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary open-form" href="#solicitar">Solicitar atendimento</a>
+            <a class="btn btn-secondary" href="#servicos">Ver serviços e preços</a>
+          </div>
+          <div class="micro">Sem login • Sem CPF • WhatsApp obrigatório • Pagamento após a conclusão do serviço</div>
+        </div>
 
-    <p>
-      Suporte técnico, manutenção de computadores e notebooks, consultoria empresarial,
-      redes, segurança eletrônica e serviços digitais para empresas, comércios e residências.
-    </p>
-
-    <div class="buttons">
-      <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20tenho%20interesse%20nos%20serviços%20da%20PD%20Soluções%20Digitais.">
-        FALAR NO WHATSAPP
-      </a>
-
-      <a class="btn btn-secondary" target="_blank" rel="noopener" href="https://mail.google.com/mail/?view=cm&fs=1&to=pablosouza624%40gmail.com&su=Solicita%C3%A7%C3%A3o%20de%20or%C3%A7amento%20-%20PD%20Solu%C3%A7%C3%B5es%20Digitais&body=Ol%C3%A1%2C%20PD%20Solu%C3%A7%C3%B5es%20Digitais.%0A%0AGostaria%20de%20solicitar%20um%20or%C3%A7amento.%0A%0ANome%3A%0AEmpresa%3A%0ATelefone%3A%0ACidade%2FBairro%3A%0AServi%C3%A7o%20desejado%3A%0ADescri%C3%A7%C3%A3o%20da%20necessidade%3A%0A%0AAguardo%20retorno.">
-        SOLICITAR POR E-MAIL
-      </a>
-
-      <a class="btn btn-secondary" href="#servicos">
-        VER SERVIÇOS
-      </a>
-    </div>
-  </section>
-
-  <section class="section" id="servicos">
-    <div class="section-title">SERVIÇOS</div>
-
-    <div class="cards">
-      <div class="card">
-        <h3>SUPORTE TÉCNICO</h3>
-        <p>Manutenção, formatação, upgrades, SSD, notebooks, computadores e suporte remoto.</p>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20solicitar%20formatação%20de%20computador.">FORMATAÇÃO</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20instalar%20SSD%20ou%20fazer%20upgrade%20no%20meu%20computador.">SSD / UPGRADE</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20manutenção%20em%20notebook%20ou%20computador.">MANUTENÇÃO</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20backup%20ou%20recuperação%20de%20arquivos.">BACKUP</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20suporte%20remoto.">SUPORTE REMOTO</a>
-      </div>
-
-      <div class="card">
-        <h3>CONSULTORIA EMPRESARIAL</h3>
-        <p>Planos mensais, suporte por chamados, infraestrutura e orientação técnica para empresas.</p>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20conhecer%20os%20planos%20mensais%20de%20chamados.">PLANOS DE CHAMADOS</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20suporte%20de%20TI%20para%20minha%20empresa.">SUPORTE EMPRESARIAL</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20consultoria%20em%20TI%20para%20minha%20empresa.">CONSULTORIA EM TI</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20reduzir%20custos%20com%20TI%20na%20minha%20empresa.">REDUZIR CUSTOS</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20tenho%20interesse%20em%20atendimento%20preventivo%20de%20TI.">ATENDIMENTO PREVENTIVO</a>
-      </div>
-
-      <div class="card">
-        <h3>SEGURANÇA ELETRÔNICA</h3>
-        <p>Câmeras, DVRs, alarmes, monitoramento, redes e controle de acesso.</p>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20orçamento%20para%20instalação%20de%20câmeras.">CÂMERAS</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20configuração%20ou%20suporte%20em%20DVR.">DVR</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20tenho%20interesse%20em%20alarme%20ou%20suporte%20para%20alarme.">ALARMES</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20controle%20de%20acesso.">CONTROLE DE ACESSO</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20tenho%20interesse%20em%20monitoramento%20ou%20segurança%20eletrônica.">MONITORAMENTO</a>
-      </div>
-
-      <div class="card">
-        <h3>SERVIÇOS DIGITAIS</h3>
-        <p>Auxílio para resolver solicitações digitais com segurança, orientação e atendimento humanizado.</p>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20ajuda%20com%20Gov.br.">GOV.BR</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20emitir%20ou%20solicitar%20uma%20certidão.">CERTIDÕES</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20fazer%20um%20agendamento%20online.">AGENDAMENTOS</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20ajuda%20com%20documentos%20digitais.">DOCUMENTOS DIGITAIS</a>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20ajuda%20com%20MEI,%20DAS%20ou%20Receita%20Federal.">MEI / DAS</a>
+        <aside class="hero-aside" id="cobertura">
+          <div>
+            <div class="aside-label">Cobertura presencial</div>
+            <div class="coverage"><strong>Até 10 km</strong><span>a partir do CEP-base 32017-190, dentro de Contagem.</span></div>
+            <div class="stat-list">
+              <div class="stat"><span>Deslocamento</span><b>R$ 2,50/km • somente ida</b></div>
+              <div class="stat"><span>Fora da cobertura</span><b>Entrega agendada</b></div>
+              <div class="stat"><span>Confirmação</span><b>Via WhatsApp</b></div>
+            </div>
+          </div>
+          <div class="notice">O envio de uma solicitação não confirma automaticamente o atendimento. A PD entra em contato para confirmar disponibilidade, detalhes e horário.</div>
+        </aside>
       </div>
     </div>
-  </section>
 
-  <section class="section" id="atendimento">
-    <div class="section-title">ATENDIMENTO LOCAL</div>
-    <div class="info-grid">
-      <div class="info-card">
-        <h3>REGIÃO ATENDIDA</h3>
-        <p>Atendimento em Contagem, Belo Horizonte e região metropolitana, com suporte presencial e remoto conforme a necessidade.</p>
+    <section>
+      <div class="shell">
+        <div class="section-head">
+          <div><div class="eyebrow">Acesso rápido</div><h2>O que você precisa hoje?</h2></div>
+          <p>Escolha o caminho mais próximo da sua necessidade. O portal será o ponto central para solicitações, orçamentos, consultorias, empresas, parceiros e loja rápida.</p>
+        </div>
+        <div class="entry-grid">
+          <a class="entry-card" href="#servicos"><div class="entry-icon">PC</div><div><h3>Cliente Particular</h3><p>Desktop, notebook, formatação, limpeza, Windows, hardware e suporte.</p><div class="arrow">VER SERVIÇOS →</div></div></a>
+          <a class="entry-card" href="#empresas"><div class="entry-icon">TI</div><div><h3>Empresas</h3><p>Chamados avulsos, pacotes anuais e suporte para pequenos negócios.</p><div class="arrow">CONHECER PLANOS →</div></div></a>
+          <a class="entry-card" href="#consultorias"><div class="entry-icon">C</div><div><h3>Consultoria de TI</h3><p>Análise da estrutura, prioridades, recomendações e plano de melhorias.</p><div class="arrow">R$ 400 →</div></div></a>
+          <a class="entry-card" href="#consultorias"><div class="entry-icon">SE</div><div><h3>Segurança Eletrônica</h3><p>Consultoria em câmeras, DVR/NVR, alarmes, cobertura e estrutura.</p><div class="arrow">R$ 300 →</div></div></a>
+          <a class="entry-card" href="#consultorias"><div class="entry-icon">ST</div><div><h3>Setup & Compra de PC</h3><p>Orientação para escolher computador ou montar um setup equilibrado.</p><div class="arrow">A PARTIR DE R$ 50 →</div></div></a>
+          <a class="entry-card" href="#mais"><div class="entry-icon">+</div><div><h3>Parcerias & Loja Rápida</h3><p>Encaminhamento de clientes, acessórios urgentes e pequenos periféricos.</p><div class="arrow">EXPLORAR →</div></div></a>
+        </div>
       </div>
-      <div class="info-card">
-        <h3>EMPRESAS E RESIDÊNCIAS</h3>
-        <p>Suporte para computadores, notebooks, redes, câmeras, sistemas, rotina de escritório e organização da infraestrutura de TI.</p>
+    </section>
+
+    <section id="servicos">
+      <div class="shell">
+        <div class="section-head">
+          <div><div class="eyebrow">Cliente particular</div><h2>Serviços e preços</h2></div>
+          <p>Valores de mão de obra. Peças, componentes e licenças não estão incluídos, salvo quando informado.</p>
+        </div>
+        <div class="catalog-wrap">
+          <div class="filters" aria-label="Filtros de serviços">
+            <button class="filter active" type="button" data-filter="all">Todos</button>
+            <button class="filter" type="button" data-filter="sistema">Windows e sistema</button>
+            <button class="filter" type="button" data-filter="hardware">Hardware</button>
+            <button class="filter" type="button" data-filter="dados">Dados</button>
+            <button class="filter" type="button" data-filter="suporte">Suporte</button>
+          </div>
+          <div class="service-grid" id="serviceGrid">
+            <div class="service" data-cat="sistema"><div><h3>Formatação / reinstalação do Windows</h3><small>Inclui drivers e configuração essencial.</small></div><div class="price">R$ 70</div></div>
+            <div class="service" data-cat="hardware"><div><h3>Limpeza interna / preventiva</h3><small>Desktop ou notebook.</small></div><div class="price">R$ 70</div></div>
+            <div class="service" data-cat="suporte"><div><h3>Check-up completo</h3><small>Diagnóstico já faz parte do check-up.</small></div><div class="price">R$ 70</div></div>
+            <div class="service" data-cat="sistema"><div><h3>Otimização de desempenho</h3><small>Para computador ou notebook lento.</small></div><div class="price">R$ 80</div></div>
+            <div class="service" data-cat="suporte"><div><h3>Computador / notebook não liga</h3><small>Avaliação e atendimento técnico.</small></div><div class="price">R$ 70</div></div>
+            <div class="service" data-cat="sistema"><div><h3>Windows não inicia</h3><small>Falhas de inicialização do sistema.</small></div><div class="price">R$ 70</div></div>
+            <div class="service" data-cat="sistema"><div><h3>Travamentos / reinicializações</h3><small>Investigação e correção dentro do escopo.</small></div><div class="price">R$ 70</div></div>
+            <div class="service" data-cat="sistema"><div><h3>Tela azul / erros do sistema</h3><small>BSOD e falhas do Windows.</small></div><div class="price">R$ 70</div></div>
+            <div class="service" data-cat="sistema"><div><h3>Remoção de vírus / malware</h3><small>Limpeza lógica e verificação básica.</small></div><div class="price">R$ 80</div></div>
+            <div class="service" data-cat="sistema"><div><h3>Instalação de até 3 programas</h3><small>Configuração básica dos programas.</small></div><div class="price">R$ 60</div></div>
+            <div class="service" data-cat="sistema"><div><h3>Atualizações de Windows e programas</h3><small>Atualização e verificação do sistema.</small></div><div class="price">R$ 60</div></div>
+            <div class="service" data-cat="dados"><div><h3>Backup de até 100 GB</h3><small>Bloco adicional de até 100 GB: R$ 40.</small></div><div class="price">R$ 60</div></div>
+            <div class="service" data-cat="dados"><div><h3>Transferência de arquivos até 100 GB</h3><small>Bloco adicional de até 100 GB: R$ 40.</small></div><div class="price">R$ 60</div></div>
+            <div class="service" data-cat="dados"><div><h3>Recuperação lógica simples</h3><small>Dano físico ou laboratório: orçamento.</small></div><div class="price">R$ 50</div></div>
+            <div class="service" data-cat="hardware"><div><h3>Troca / instalação de hardware padrão</h3><small>RAM, SSD, HD, fonte e componentes compatíveis.</small></div><div class="price">R$ 50</div></div>
+            <div class="service" data-cat="hardware"><div><h3>Troca de teclado de notebook</h3><small>Mão de obra. Peça não incluída.</small></div><div class="price">R$ 150</div></div>
+            <div class="service" data-cat="hardware"><div><h3>Troca de tela de notebook</h3><small>Mão de obra. Tela não incluída.</small></div><div class="price">R$ 150</div></div>
+            <div class="service" data-cat="hardware"><div><h3>Montagem completa de PC</h3><small>Formatação pode ser contratada separadamente.</small></div><div class="price">R$ 100</div></div>
+            <div class="service" data-cat="suporte"><div><h3>Problema de Wi-Fi, áudio ou USB</h3><small>Atendimento por ocorrência.</small></div><div class="price">R$ 70</div></div>
+            <div class="service" data-cat="hardware"><div><h3>Superaquecimento / avaliação térmica</h3><small>Verificação e orientação técnica.</small></div><div class="price">R$ 70</div></div>
+            <div class="service" data-cat="suporte"><div><h3>Preparação de computador novo</h3><small>Configuração inicial e ajustes essenciais.</small></div><div class="price">R$ 100</div></div>
+            <div class="service" data-cat="suporte"><div><h3>Suporte remoto — até 1 hora</h3><small>Quando o problema puder ser atendido remotamente.</small></div><div class="price">R$ 60</div></div>
+            <div class="service" data-cat="suporte"><div><h3>Não sei identificar / outro problema</h3><small>Explique o que está acontecendo.</small></div><div class="quote">SOLICITAR ORÇAMENTO</div></div>
+          </div>
+        </div>
       </div>
-      <div class="info-card">
-        <h3>ORÇAMENTO DIRETO</h3>
-        <p>Chame no WhatsApp, explique o problema e receba orientação inicial para escolher o atendimento ideal.</p>
+    </section>
+
+    <section id="consultorias">
+      <div class="shell">
+        <div class="section-head"><div><div class="eyebrow">Orientação profissional</div><h2>Consultorias PD</h2></div><p>Planejamento antes de gastar. A execução, compra ou instalação é contratada separadamente quando necessária.</p></div>
+        <div class="split">
+          <article class="feature"><span class="tag">Pessoa física</span><h3>Consultoria de Computador Doméstico</h3><p>Para quem quer comprar ou trocar de computador e precisa entender o que realmente vale a pena para o seu uso.</p><div class="feature-price">R$ 50 <span>por consultoria</span></div><div class="checklist"><div class="check">Perfil de uso e orçamento</div><div class="check">Desktop ou notebook recomendado</div><div class="check">Especificação mínima e recomendada</div><div class="check">Análise de modelo que o cliente já encontrou</div></div></article>
+          <article class="feature"><span class="tag">Pessoa física</span><h3>Consultoria de Setup</h3><p>Projeto para setup gamer, trabalho, streaming, criação ou uso híbrido, considerando PC e periféricos.</p><div class="feature-price">R$ 100 <span>por consultoria</span></div><div class="checklist"><div class="check">Setup Essencial</div><div class="check">Setup Recomendado</div><div class="check">Setup Performance</div><div class="check">Periféricos e prioridades de compra</div></div></article>
+          <article class="feature"><span class="tag">Pequenos negócios</span><h3>Consultoria de TI Empresarial</h3><p>Análise da estrutura de TI, equipamentos, problemas recorrentes, prioridades e plano de melhorias para pequenos negócios.</p><div class="feature-price">R$ 400 <span>até aproximadamente 10 computadores</span></div><div class="checklist"><div class="check">Levantamento da estrutura</div><div class="check">Fragilidades e gargalos aparentes</div><div class="check">Prioridades de investimento</div><div class="check">Plano de melhorias PD</div></div></article>
+          <article class="feature"><span class="tag">Projeto consultivo</span><h3>Segurança Eletrônica</h3><p>Análise consultiva de câmeras, DVR/NVR, pontos cegos aparentes, alarmes, sensores, armazenamento e infraestrutura.</p><div class="feature-price">R$ 300 <span>estrutura padrão de pequeno negócio</span></div><div class="checklist"><div class="check">Projeto Essencial</div><div class="check">Projeto Recomendado</div><div class="check">Projeto Completo</div><div class="check">Execução não incluída automaticamente</div></div></article>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="section-title">CONFIANÇA</div>
-    <p class="trust-list">
-      <strong>PD Soluções Digitais</strong> oferece atendimento técnico com comunicação clara, orçamento direto,
-      suporte humanizado e foco em resolver o problema com segurança. Atendemos chamados avulsos,
-      demandas residenciais e planos para pequenos negócios.
-    </p>
-  </section>
-
-  <section class="section">
-    <div class="section-title">PLANOS EMPRESARIAIS</div>
-
-    <div class="cards">
-      <div class="card">
-        <h3>PLANO ESSENCIAL</h3>
-        <p>Para pequenos negócios que precisam de suporte rápido, organizado e profissional.</p>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20conhecer%20o%20Plano%20Essencial%20da%20PD%20Soluções%20Digitais.">CONHECER PLANO</a>
+    <section id="empresas">
+      <div class="shell">
+        <div class="section-head"><div><div class="eyebrow">Empresas</div><h2>Suporte sem técnico fixo</h2></div><p>Atendimento por problema, remoto ou presencial, com histórico e controle de chamados. Pensado para pequenos negócios de Contagem.</p></div>
+        <div class="plans">
+          <article class="plan"><div class="plan-badge">Pacote anual</div><h3>15 chamados</h3><div class="big">R$ 1.050</div><div class="per">R$ 70 por chamado • validade de 12 meses</div><ul><li>Atendimento remoto ou presencial</li><li>Deslocamento presencial calculado à parte</li><li>Mesmo problema remoto + presencial = 1 chamado</li></ul></article>
+          <article class="plan recommended"><div class="plan-badge">Pacote anual</div><h3>20 chamados</h3><div class="big">R$ 1.400</div><div class="per">R$ 70 por chamado • validade de 12 meses</div><ul><li>Controle de saldo e histórico</li><li>1 problema = 1 chamado</li><li>Reabertura legítima em até 7 dias</li></ul></article>
+          <article class="plan"><div class="plan-badge">Pacote anual</div><h3>30 chamados</h3><div class="big">R$ 2.100</div><div class="per">R$ 70 por chamado • validade de 12 meses</div><ul><li>Para empresas com maior recorrência</li><li>Projetos e consultorias são separados</li><li>Peças e componentes não incluídos</li></ul></article>
+        </div>
+        <div class="rules">
+          <div class="rule"><b>Chamado avulso</b><span>R$ 70. Presencial soma deslocamento.</span></div>
+          <div class="rule"><b>Hardware padrão</b><span>No pacote, a mão de obra padrão pode consumir 1 chamado.</span></div>
+          <div class="rule"><b>Tela / teclado</b><span>Notebook: R$ 150 de mão de obra, fora do chamado padrão.</span></div>
+          <div class="rule"><b>Validade</b><span>12 meses. Saldo não utilizado não vira dinheiro.</span></div>
+        </div>
       </div>
+    </section>
 
-      <div class="card">
-        <h3>PLANO PROFISSIONAL</h3>
-        <p>Para empresas que precisam de prioridade, acompanhamento e suporte técnico recorrente.</p>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20conhecer%20o%20Plano%20Profissional%20da%20PD%20Soluções%20Digitais.">CONHECER PLANO</a>
+    <section id="mais">
+      <div class="shell">
+        <div class="split">
+          <article class="feature"><span class="tag">Parcerias</span><h3>Quero ser parceiro da PD</h3><p>Para lojas de celular, eletrônicos, assistências e negócios locais que recebem demanda de informática e querem encaminhar atendimentos.</p><div class="checklist"><div class="check">Cadastro gratuito</div><div class="check">Origem do atendimento registrada</div><div class="check">Condições comerciais podem ser definidas individualmente</div></div></article>
+          <article class="feature"><span class="tag">Loja rápida</span><h3>Acessórios para necessidade urgente</h3><p>Catálogo simples para consulta e reserva de cabos, mouse, teclado, adaptadores, pendrive, filtro de linha e itens semelhantes.</p><div class="checklist"><div class="check">Disponível / poucas unidades / indisponível</div><div class="check">Preço e estoque administrados pelo Painel PD</div><div class="check">Retirada ou entrega somente mediante confirmação</div></div></article>
+        </div>
       </div>
+    </section>
 
-      <div class="card">
-        <h3>PLANO CONSULTIVO</h3>
-        <p>Para empresas que precisam de prevenção, infraestrutura, segurança e estratégia em TI.</p>
-        <a class="btn btn-primary" href="https://wa.me/5531995483280?text=Olá,%20quero%20conhecer%20o%20Plano%20Consultivo%20da%20PD%20Soluções%20Digitais.">CONHECER PLANO</a>
+    <section id="solicitar">
+      <div class="shell">
+        <div class="cta-panel">
+          <div><div class="eyebrow">Portal do Cliente</div><h2>Conte para a PD o que você precisa.</h2><p>No portal final, sua solicitação ficará registrada com protocolo e a PD fará o contato pelo WhatsApp informado para confirmar detalhes e disponibilidade.</p></div>
+          <button class="btn btn-primary open-form" type="button">Abrir solicitação</button>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <a class="whatsapp-fixed" href="https://wa.me/5531995483280?text=Olá,%20tenho%20interesse%20nos%20serviços%20da%20PD%20Soluções%20Digitais." target="_blank" rel="noopener" aria-label="Falar no WhatsApp com a PD Soluções Digitais">
-    FALAR NO WHATSAPP
-  </a>
+    </section>
+  </main>
 
   <footer>
-    <p>
-      <span class="highlight">PD SOLUÇÕES DIGITAIS</span>
-      <br><br>
-      Técnico em informática em Contagem - MG
-      <br>
-      Atendimento presencial e remoto | WhatsApp: (31) 99548-3280
-      <br>
-      Tecnologia | Segurança | Serviços Digitais
-    </p>
+    <div class="shell footer-grid">
+      <div class="footer-copy"><strong>PD Soluções Digitais</strong>Técnico em informática autônomo • Contagem - MG<br />Atendimento presencial dentro da área de cobertura e entrega de equipamentos somente mediante agendamento.</div>
+      <div class="footer-links"><a href="#servicos">Serviços</a><a href="#consultorias">Consultorias</a><a href="#empresas">Empresas</a><a href="mailto:pablosouza624@gmail.com">E-mail</a></div>
+    </div>
   </footer>
 
+  <a class="whatsapp" href="https://wa.me/5531995483280?text=Olá,%20vim%20pelo%20Portal%20do%20Cliente%20da%20PD%20Soluções%20Digitais." target="_blank" rel="noopener">WhatsApp PD</a>
+
+  <div class="modal-backdrop" id="requestModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-head"><div><h2 id="modalTitle">Solicitar atendimento</h2><p>Prévia visual do formulário que será conectado ao banco de dados do Portal.</p></div><button class="close" id="closeModal" type="button" aria-label="Fechar">✕</button></div>
+      <form id="previewForm">
+        <div class="form-grid">
+          <div class="field"><label for="nome">Nome</label><input id="nome" name="nome" required autocomplete="name" /></div>
+          <div class="field"><label for="whatsapp">WhatsApp</label><input id="whatsapp" name="whatsapp" required inputmode="tel" placeholder="(31) 99999-9999" /></div>
+          <div class="field"><label for="equipamento">Equipamento</label><select id="equipamento" name="equipamento" required><option value="">Selecione</option><option>Desktop</option><option>Notebook</option></select></div>
+          <div class="field"><label for="servico">Serviço / problema</label><select id="servico" name="servico" required><option value="">Selecione</option><option>Formatação / Windows</option><option>Limpeza preventiva</option><option>Computador lento</option><option>Não liga</option><option>Windows não inicia</option><option>Travamentos / tela azul</option><option>Vírus / malware</option><option>Troca de hardware</option><option>Backup / transferência</option><option>Não sei identificar o problema</option><option>Outro problema</option></select></div>
+          <div class="field"><label for="cep">CEP</label><input id="cep" name="cep" inputmode="numeric" placeholder="00000-000" /></div>
+          <div class="field"><label for="prioridade">Impacto</label><select id="prioridade" name="prioridade"><option>Consigo continuar usando</option><option>Está prejudicando meu trabalho</option><option>Não consigo trabalhar</option><option>Manutenção programada</option></select></div>
+          <div class="field full"><label for="detalhes">O que está acontecendo?</label><textarea id="detalhes" name="detalhes" placeholder="Descreva com suas palavras. Você não precisa saber explicar tecnicamente."></textarea></div>
+        </div>
+        <div class="form-note">Esta é a prévia visual do novo portal. Nesta etapa, o formulário ainda não grava no banco de dados. Para um atendimento real agora, utilize o botão de WhatsApp.</div>
+        <div class="form-result" id="formResult"></div>
+        <div class="form-actions"><a class="btn btn-secondary" href="https://wa.me/5531995483280?text=Olá,%20preciso%20de%20atendimento%20da%20PD%20Soluções%20Digitais." target="_blank" rel="noopener">Atendimento real via WhatsApp</a><button class="btn btn-primary" type="submit">Visualizar confirmação</button></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const filters=[...document.querySelectorAll('.filter')];
+      const services=[...document.querySelectorAll('.service')];
+      filters.forEach(btn=>btn.addEventListener('click',()=>{
+        filters.forEach(x=>x.classList.remove('active'));
+        btn.classList.add('active');
+        const cat=btn.dataset.filter;
+        services.forEach(card=>card.style.display=(cat==='all'||card.dataset.cat===cat)?'flex':'none');
+      }));
+
+      const modal=document.getElementById('requestModal');
+      const close=document.getElementById('closeModal');
+      const openers=[...document.querySelectorAll('.open-form')];
+      const form=document.getElementById('previewForm');
+      const result=document.getElementById('formResult');
+      function openModal(e){if(e)e.preventDefault();modal.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('nome').focus(),50)}
+      function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
+      openers.forEach(btn=>btn.addEventListener('click',openModal));
+      close.addEventListener('click',closeModal);
+      modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
+      document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))closeModal()});
+      form.addEventListener('submit',e=>{
+        e.preventDefault();
+        if(!form.reportValidity())return;
+        const nome=document.getElementById('nome').value.trim();
+        const equipamento=document.getElementById('equipamento').value;
+        const servico=document.getElementById('servico').value;
+        result.innerHTML='<strong>Prévia da confirmação</strong><br>Solicitação preparada para '+(nome||'cliente')+' • '+equipamento+' • '+servico+'.<br><br>No sistema final, aqui aparecerão o protocolo PD, o resumo e o aviso de que a equipe entrará em contato pelo WhatsApp.';
+        result.classList.add('show');
+      });
+    })();
+  </script>
 </body>
 </html>

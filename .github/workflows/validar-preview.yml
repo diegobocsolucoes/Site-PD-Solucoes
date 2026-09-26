@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   validar-fontes:
@@ -24,6 +24,15 @@ jobs:
           echo "ARQUIVOS APROVADOS:"
           find approved-ui/sources-expanded -type f | sort
           test "$COUNT" -ge 15
+      - name: Versionar HTML/CSS aprovados na branch de integração
+        run: |
+          git config user.name "PD Portal Builder"
+          git config user.email "actions@users.noreply.github.com"
+          git add approved-ui/sources-expanded
+          if ! git diff --cached --quiet; then
+            git commit -m "Importa fontes aprovadas para integração"
+            git push origin HEAD:integracao-portal-preview
+          fi
       - name: Montar prévia navegável com fontes originais
         run: |
           python scripts/montar_preview.py

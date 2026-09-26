@@ -1,0 +1,63 @@
+name: Validar Fase 3 — Formularios e Protocolos
+
+on:
+  push:
+    branches:
+      - fase3-formularios-protocolos
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - name: Baixar branch da Fase 3
+        uses: actions/checkout@v4
+      - name: Preparar Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Instalar cliente PostgreSQL
+        run: |
+          if ! command -v psql >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq postgresql-client
+          fi
+      - name: Testar migração, RLS, protocolos e limitação por IP
+        env:
+          PGPASSWORD: postgres
+        run: psql -h localhost -U postgres -d postgres -f supabase/tests/solicitacoes-smoke.sql
+      - name: Instalar dependências
+        working-directory: portal
+        run: npm install --no-audit --no-fund
+      - name: Validar regras dos formulários
+        working-directory: portal
+        run: npm test
+      - name: Validar runtime do navegador
+        run: node --check portal/public/pd-runtime.js
+      - name: Validar TypeScript
+        working-directory: portal
+        run: npm run typecheck
+      - name: Construir Next.js com as telas aprovadas
+        working-directory: portal
+        run: npm run build
+      - name: Confirmar telas públicas e ausência de painel estático
+        run: |
+          test "$(find portal/public/telas/screens -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 15
+          test ! -e portal/public/telas/screens/16-admin-dashboard-v2
+          test ! -e portal/public/telas/screens/17-admin-solicitacoes-v2
+          test -s portal/public/telas/assets/logo-pd-oficial.webp

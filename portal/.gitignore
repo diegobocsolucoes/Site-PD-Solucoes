@@ -1,0 +1,8 @@
+node_modules/
+.next/
+.env
+.env.*
+!.env.example
+public/telas/
+public/pd-public-config.js
+*.log

@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PD Soluções Digitais — Parcerias V2</title><style>
+:root{
+ --bg:#040705;--bg2:#07100b;--panel:#09130e;--panel2:#0c1711;
+ --green:#3f9564;--green2:#79d497;--green3:#c2f1d1;
+ --text:#f5f8f6;--muted:#9daaa2;--line:rgba(121,212,151,.21);
+ --line2:rgba(121,212,151,.47);--line3:rgba(121,212,151,.72);
+ --shadow:0 24px 75px rgba(0,0,0,.32);--max:1320px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text);text-transform:uppercase;letter-spacing:.025em;line-height:1.4}
+a{text-decoration:none;color:inherit}button,input,select,textarea{font:inherit}
+body:before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(circle at 10% 3%,rgba(63,149,100,.13),transparent 25%),radial-gradient(circle at 90% 22%,rgba(121,212,151,.07),transparent 25%),linear-gradient(180deg,#040705 0%,#07100b 50%,#040705 100%)}
+body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.065;background-image:linear-gradient(rgba(121,212,151,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(121,212,151,.06) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(to bottom,#000,transparent 85%)}
+.wrap{width:min(var(--max),calc(100% - 48px));margin:auto}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(3,6,4,.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(121,212,151,.16)}
+.nav{min-height:82px;display:grid;grid-template-columns:240px 1fr auto;align-items:center;gap:28px}.brand img{width:190px;display:block}.links{display:flex;justify-content:center;gap:27px;font-size:9px;color:#c5cec9;font-weight:800;letter-spacing:.085em}.links a{padding:31px 0 25px;border-bottom:2px solid transparent}.links a:hover,.links a.active{color:var(--green2);border-bottom-color:var(--green2)}.top-actions{display:flex;gap:9px}.small-btn{min-height:44px;padding:0 15px;border-radius:10px;border:1px solid var(--line2);background:rgba(63,149,100,.06);color:var(--green3);font-size:8px;font-weight:950;letter-spacing:.09em;display:flex;align-items:center;justify-content:center;gap:8px}
+.hero{padding:22px 0 30px}.crumb{font-size:8px;color:#7f8d84;letter-spacing:.17em;margin:0 0 14px}.crumb b{color:var(--green2)}
+.hero-shell{overflow:hidden;border:1px solid var(--line2);border-radius:24px;background:linear-gradient(135deg,rgba(10,20,14,.99),rgba(4,8,6,.95));box-shadow:var(--shadow)}
+.hero-grid{display:grid;grid-template-columns:1.03fr .97fr;min-height:365px}.hero-copy{padding:46px 44px 42px;display:flex;flex-direction:column;justify-content:center}.tag{display:inline-flex;align-self:flex-start;border:1px solid var(--line2);background:rgba(63,149,100,.08);border-radius:8px;padding:8px 12px;color:var(--green2);font-size:8.5px;font-weight:950;letter-spacing:.14em}.hero h1{font-size:clamp(44px,4.5vw,68px);line-height:.94;margin:17px 0 18px;letter-spacing:-.045em}.hero h1 em{font-style:normal;color:var(--green2)}.hero p{margin:0;max-width:680px;font-size:10.2px;line-height:1.72;color:#c2ccc6;letter-spacing:.045em}.mini-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}.mini{border:1px solid var(--line);background:rgba(255,255,255,.018);border-radius:8px;padding:8px 10px;font-size:7.2px;color:#cbd4cf;font-weight:850;letter-spacing:.075em}.mini strong{color:var(--green2)}
+.hero-art{position:relative;min-height:365px;overflow:hidden;background:#07110b}.hero-art img.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%;filter:saturate(.78) brightness(.56) contrast(1.08)}.hero-art:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#09130e 0%,rgba(9,19,14,.48) 24%,rgba(4,8,6,.1) 60%),linear-gradient(180deg,rgba(1,3,2,.05),rgba(1,3,2,.42))}.hero-logo{position:absolute;left:28px;bottom:24px;z-index:3;width:178px;filter:drop-shadow(0 10px 24px rgba(0,0,0,.5))}.hero-note{position:absolute;right:24px;bottom:22px;z-index:3;width:265px;border:1px solid var(--line2);background:rgba(4,9,6,.82);backdrop-filter:blur(12px);border-radius:12px;padding:13px 15px}.hero-note b{display:block;color:var(--green2);font-size:9px;letter-spacing:.08em}.hero-note span{display:block;color:#b9c5bd;font-size:7px;line-height:1.55;margin-top:4px}
+.section{padding:8px 0 34px}.head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:16px}.head h2{margin:0;font-size:28px;letter-spacing:-.02em}.head p{margin:5px 0 0;color:var(--muted);font-size:7.8px;line-height:1.6;max-width:600px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.step{position:relative;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(10,20,14,.97),rgba(5,10,7,.95));padding:20px;min-height:176px}.step-num{width:36px;height:36px;border:1px solid var(--line2);border-radius:10px;display:grid;place-items:center;color:var(--green2);font-weight:950;background:rgba(63,149,100,.06);font-size:11px}.step-icon{position:absolute;right:17px;top:17px;width:43px;height:43px;border:1px solid var(--line);border-radius:12px;display:grid;place-items:center;color:var(--green2);font-size:18px;background:rgba(255,255,255,.018)}.step h3{font-size:13px;margin:19px 0 7px}.step p{margin:0;color:var(--muted);font-size:7.6px;line-height:1.6}
+.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}.benefit{border:1px solid var(--line);border-radius:16px;padding:16px;background:rgba(255,255,255,.012);min-height:135px}.benefit .ico{width:40px;height:40px;border:1px solid var(--line2);border-radius:11px;display:grid;place-items:center;color:var(--green2);font-size:16px}.benefit h3{font-size:9.5px;margin:11px 0 5px}.benefit p{margin:0;color:var(--muted);font-size:7px;line-height:1.55}
+.content-grid{display:grid;grid-template-columns:.96fr 1.04fr;gap:16px;align-items:start}.panel{border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,rgba(10,20,14,.97),rgba(5,10,7,.95));padding:23px;box-shadow:0 14px 35px rgba(0,0,0,.16)}.panel h2{font-size:20px;margin:0 0 5px}.panel>p{margin:0 0 18px;color:var(--muted);font-size:7.8px;line-height:1.65}
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.service{border:1px solid rgba(255,255,255,.075);border-radius:13px;background:rgba(255,255,255,.012);padding:13px;min-height:88px;display:flex;gap:10px;align-items:center}.service .sico{width:37px;height:37px;flex:0 0 37px;border:1px solid var(--line2);border-radius:10px;display:grid;place-items:center;color:var(--green2);font-size:13px;background:rgba(63,149,100,.045)}.service b{font-size:7.7px;line-height:1.4}.callout{margin-top:14px;border:1px solid var(--line2);background:rgba(63,149,100,.055);border-radius:14px;padding:15px}.callout b{color:var(--green2);font-size:8px}.callout p{margin:5px 0 0;color:#b8c3bc;font-size:7.2px;line-height:1.6}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:6.8px;color:#aab5ae;font-weight:900;letter-spacing:.08em}.field input,.field select,.field textarea{width:100%;border:1px solid rgba(255,255,255,.105);background:#050806;color:#fff;border-radius:10px;padding:11px 12px;outline:none;font-size:9px;text-transform:uppercase;min-height:43px}.field textarea{min-height:88px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--line2)}
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.type-card{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.012);color:#c8d2cc;border-radius:11px;padding:11px 12px;font-size:7.2px;font-weight:900;cursor:pointer;text-align:left;min-height:42px}.type-card.active{border-color:var(--line2);background:rgba(63,149,100,.06);color:var(--green3)}
+.form-note{margin-top:13px;border:1px solid var(--line);border-radius:12px;padding:12px 13px;background:rgba(255,255,255,.012);font-size:7px;color:#9ca9a1;line-height:1.55}.form-note b{color:var(--green2)}.review{margin-top:12px;width:100%;min-height:48px;border-radius:10px;border:1px solid var(--line3);background:linear-gradient(135deg,#3f9564,#63ba7f);color:#061009;font-size:8.2px;font-weight:950;letter-spacing:.09em;cursor:pointer}.review:hover{filter:brightness(1.06)}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.trust-item{border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.012);min-height:56px;display:flex;align-items:center;justify-content:center;gap:9px;color:#cdd6d0;font-size:7.6px}.trust-icon{width:30px;height:30px;border:1px solid var(--line2);border-radius:9px;display:grid;place-items:center;color:var(--green2);font-size:12px}
+.info-band{margin-top:14px;border:1px solid var(--line);border-radius:15px;background:rgba(63,149,100,.035);padding:16px 18px;display:grid;grid-template-columns:1.4fr 1fr;gap:24px;align-items:center}.info-band strong{font-size:10px;color:var(--green2)}.info-band p{margin:5px 0 0;color:#aeb9b2;font-size:7.3px;line-height:1.6}.info-tags{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}.info-tag{border:1px solid var(--line2);border-radius:8px;padding:8px 10px;font-size:6.8px;color:#cfe1d5;background:rgba(63,149,100,.05);font-weight:850}
+footer{border-top:1px solid rgba(121,212,151,.14);padding:30px 0 34px;margin-top:4px;background:rgba(2,5,3,.48)}.foot{display:grid;grid-template-columns:1.6fr .8fr .8fr;gap:30px}.foot-brand img{width:185px}.foot-brand p{max-width:520px;color:#839087;font-size:7px;line-height:1.55;margin-top:10px}.foot h4{font-size:7.6px;color:var(--green2);margin:0 0 9px}.foot a,.foot span{display:block;color:#98a59d;font-size:6.8px;margin:5px 0}.foot-bottom{border-top:1px solid rgba(255,255,255,.06);margin-top:22px;padding-top:14px;display:flex;justify-content:space-between;color:#68756d;font-size:6.4px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:80;border:1px solid var(--line2);background:#08110c;color:var(--green3);border-radius:999px;padding:11px 16px;font-size:7.4px;font-weight:900;opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1}
+@media(max-width:1000px){.nav{grid-template-columns:190px 1fr auto}.brand img{width:165px}.links{gap:14px}.hero-grid,.content-grid{grid-template-columns:1fr}.hero-art{min-height:310px}.benefits{grid-template-columns:1fr 1fr}.services{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}.info-band{grid-template-columns:1fr}.info-tags{justify-content:flex-start}}
+@media(max-width:720px){.wrap{width:min(var(--max),calc(100% - 24px))}.links{display:none}.nav{grid-template-columns:1fr auto}.hero-copy{padding:30px 24px}.hero h1{font-size:42px}.hero-art{min-height:270px}.hero-note{right:15px;left:15px;width:auto}.hero-logo{width:150px;left:18px}.benefits,.services,.field-grid,.type-grid,.trust,.foot{grid-template-columns:1fr}.field.full{grid-column:auto}.top-actions .small-btn:first-child{display:none}.head{align-items:flex-start;flex-direction:column}.foot-bottom{flex-direction:column;gap:5px}}
+
+/* ===== REFINAMENTO V2 ===== */
+:root{
+ --max:1360px;
+ --shadow:0 28px 90px rgba(0,0,0,.36);
+}
+body{
+ letter-spacing:.022em;
+ background:
+ radial-gradient(circle at 8% 0%,rgba(63,149,100,.12),transparent 25%),
+ radial-gradient(circle at 92% 26%,rgba(121,212,151,.055),transparent 27%),
+ linear-gradient(180deg,#030604 0%,#07100b 48%,#030604 100%);
+}
+.wrap{width:min(var(--max),calc(100% - 56px))}
+.topbar{border-bottom-color:rgba(121,212,151,.14)}
+.nav{min-height:80px;grid-template-columns:250px 1fr auto;gap:30px}
+.brand img{width:196px}
+.links{gap:29px;font-size:9.2px}
+.links a{padding:30px 0 24px}
+.small-btn{
+ min-height:43px;padding:0 16px;border-radius:11px;
+ background:linear-gradient(180deg,rgba(63,149,100,.075),rgba(63,149,100,.035));
+ transition:.18s ease
+}
+.small-btn:hover{border-color:var(--line3);background:rgba(63,149,100,.11)}
+.hero{padding:20px 0 36px}
+.crumb{margin-bottom:15px;color:#87958c}
+.hero-shell{
+ border-color:rgba(121,212,151,.42);
+ border-radius:27px;
+ background:linear-gradient(135deg,rgba(9,19,13,.995),rgba(3,8,5,.975));
+ box-shadow:0 28px 85px rgba(0,0,0,.40),inset 0 1px 0 rgba(255,255,255,.015)
+}
+.hero-grid{grid-template-columns:1.02fr .98fr;min-height:394px}
+.hero-copy{padding:50px 48px 46px}
+.tag{padding:8px 13px;border-radius:9px;background:rgba(63,149,100,.075)}
+.hero h1{font-size:clamp(48px,4.45vw,70px);line-height:.93;margin:18px 0 20px;max-width:620px}
+.hero p{font-size:10.4px;line-height:1.77;max-width:650px;color:#c7d0ca}
+.mini-row{gap:9px;margin-top:24px}
+.mini{
+ padding:9px 12px;border-radius:9px;background:rgba(255,255,255,.016);
+ border-color:rgba(121,212,151,.20)
+}
+.hero-art{min-height:394px;background:#061009}
+.hero-art img.photo{
+ object-position:51% 50%;
+ filter:saturate(.76) brightness(.61) contrast(1.08)
+}
+.hero-art:after{
+ background:
+ linear-gradient(90deg,#09130e 0%,rgba(9,19,14,.33) 16%,rgba(4,8,6,.05) 52%),
+ linear-gradient(180deg,rgba(1,3,2,.02),rgba(1,3,2,.46))
+}
+.hero-logo{left:26px;bottom:24px;width:168px;opacity:.98}
+.hero-note{
+ right:22px;bottom:22px;width:286px;border-radius:14px;padding:15px 16px;
+ border-color:rgba(121,212,151,.42);background:rgba(3,8,5,.82)
+}
+.hero-note b{font-size:9.2px}.hero-note span{font-size:7.2px;line-height:1.6}
+.section{padding:14px 0 38px}
+.head{margin-bottom:18px}
+.head h2{font-size:30px;letter-spacing:-.025em}
+.head p{font-size:8px;max-width:720px}
+.steps{gap:15px}
+.step{
+ min-height:184px;padding:22px;border-radius:19px;
+ overflow:hidden;transition:.18s ease
+}
+.step:before{
+ content:"";position:absolute;left:20px;right:20px;top:0;height:1px;
+ background:linear-gradient(90deg,transparent,rgba(121,212,151,.52),transparent)
+}
+.step:hover,.benefit:hover,.service:hover{border-color:rgba(121,212,151,.38);transform:translateY(-1px)}
+.step-num{width:38px;height:38px;border-radius:11px}
+.step-icon{right:18px;top:18px;width:45px;height:45px;border-radius:12px}
+.step h3{font-size:13.4px;margin-top:21px}.step p{font-size:7.8px}
+.benefits{gap:13px;margin-top:15px}
+.benefit{
+ min-height:143px;padding:17px;border-radius:17px;transition:.18s ease;
+ background:linear-gradient(145deg,rgba(255,255,255,.018),rgba(255,255,255,.008))
+}
+.benefit .ico{width:42px;height:42px;border-radius:12px}
+.benefit h3{font-size:9.7px;margin-top:12px}.benefit p{font-size:7.15px}
+.content-grid{grid-template-columns:1fr 1fr;gap:18px}
+.panel{
+ border-radius:22px;padding:25px;
+ background:linear-gradient(145deg,rgba(10,20,14,.985),rgba(4,10,7,.965));
+ box-shadow:0 18px 48px rgba(0,0,0,.18)
+}
+.panel h2{font-size:21px;margin-bottom:6px}.panel>p{font-size:8px;margin-bottom:19px}
+.services{gap:10px}
+.service{
+ min-height:94px;padding:14px;border-radius:14px;transition:.18s ease;
+ background:linear-gradient(145deg,rgba(255,255,255,.018),rgba(255,255,255,.008))
+}
+.service .sico{width:39px;height:39px;flex-basis:39px;border-radius:11px}
+.service b{font-size:7.8px}
+.callout{margin-top:15px;border-radius:15px;padding:16px}
+.info-band{
+ margin-top:15px;padding:17px 18px;border-radius:16px;
+ grid-template-columns:1.32fr 1fr
+}
+.info-tags{gap:7px}
+.info-tag{padding:8px 11px;border-radius:9px}
+.field-grid{gap:12px}
+.field{gap:7px}
+.field label{font-size:7px;color:#b4beb8}
+.field input,.field select,.field textarea{
+ min-height:46px;border-radius:11px;padding:12px 13px;font-size:9px;
+ background:linear-gradient(180deg,#050806,#060b08)
+}
+.field textarea{min-height:96px}
+.type-grid{gap:9px}
+.type-card{
+ min-height:46px;border-radius:12px;padding:12px 13px;position:relative;
+ transition:.16s ease
+}
+.type-card:hover{border-color:rgba(121,212,151,.34)}
+.type-card.active{
+ border-color:rgba(121,212,151,.62);
+ background:linear-gradient(135deg,rgba(63,149,100,.10),rgba(63,149,100,.045));
+ color:#e7f7ec
+}
+.type-card.active:after{
+ content:"✓";position:absolute;right:10px;top:50%;transform:translateY(-50%);
+ color:var(--green2);font-size:10px
+}
+.form-note{margin-top:14px;padding:13px 14px;border-radius:13px}
+.review{
+ margin-top:13px;min-height:52px;border-radius:11px;font-size:8.5px;
+ box-shadow:0 12px 28px rgba(63,149,100,.14)
+}
+.trust{margin-top:18px;gap:11px}
+.trust-item{
+ min-height:60px;border-radius:13px;background:linear-gradient(180deg,rgba(255,255,255,.014),rgba(255,255,255,.006))
+}
+.trust-icon{width:32px;height:32px;border-radius:10px}
+footer{padding:32px 0 36px;margin-top:8px}
+.foot{gap:34px}.foot-brand img{width:190px}
+.foot-bottom{margin-top:23px;padding-top:15px}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+ outline:2px solid var(--green2);outline-offset:2px
+}
+@media(max-width:1120px){
+ .links{gap:18px}.hero h1{font-size:56px}
+ .hero-note{width:250px}
+}
+@media(max-width:1000px){
+ .nav{grid-template-columns:190px 1fr auto}.brand img{width:165px}
+ .links{gap:13px}.hero-grid,.content-grid{grid-template-columns:1fr}
+ .hero-art{min-height:330px}.benefits{grid-template-columns:1fr 1fr}
+ .services{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}
+ .info-band{grid-template-columns:1fr}.info-tags{justify-content:flex-start}
+}
+@media(max-width:720px){
+ .wrap{width:min(var(--max),calc(100% - 24px))}
+ .links{display:none}.nav{grid-template-columns:1fr auto}.brand img{width:160px}
+ .hero-copy{padding:32px 24px 30px}.hero h1{font-size:43px}
+ .hero p{font-size:9.2px}.hero-art{min-height:285px}
+ .hero-note{right:14px;left:14px;width:auto}.hero-logo{width:142px;left:17px}
+ .benefits,.services,.field-grid,.type-grid,.trust,.foot{grid-template-columns:1fr}
+ .field.full{grid-column:auto}.top-actions .small-btn:first-child{display:none}
+ .head{align-items:flex-start;flex-direction:column}
+ .foot-bottom{flex-direction:column;gap:5px}
+}
+
+</style></head><body><header class="topbar"><div class="wrap nav"><a class="brand" href="#"><img src="../../assets/logo-pd-oficial-2.webp" alt="PD Soluções Digitais"></a><nav class="links"><a href="#">INÍCIO</a><a href="#">ATENDIMENTO</a><a href="#">EMPRESAS</a><a href="#">CONSULTORIA</a><a class="active" href="#">PARCERIAS</a><a href="#">LOJA RÁPIDA</a></nav><div class="top-actions"><a class="small-btn" href="#">← VOLTAR AO PORTAL</a><a class="small-btn" href="#">WHATSAPP</a></div></div></header><main><section class="hero"><div class="wrap"><div class="crumb">PORTAL DO CLIENTE / <b>PARCERIAS</b></div><div class="hero-shell"><div class="hero-grid"><div class="hero-copy"><span class="tag">PARCERIAS PD</span><h1>VAMOS <em>CRESCER JUNTOS?</em></h1><p>CADASTRO GRATUITO PARA LOJAS DE CELULARES, ASSISTÊNCIAS TÉCNICAS, LOJAS DE ELETRÔNICOS, INFORMÁTICA E OUTROS NEGÓCIOS QUE DESEJAM ENCAMINHAR DEMANDAS DE SUPORTE TÉCNICO PARA A PD.</p><div class="mini-row"><span class="mini"><strong>+ SERVIÇOS</strong> PARA SEUS CLIENTES</span><span class="mini"><strong>RETORNO</strong> PELO WHATSAPP</span><span class="mini"><strong>PARCERIA</strong> DE LONGO PRAZO</span></div></div><div class="hero-art"><img class="photo" src="../../assets/hero-parcerias-v2.webp" alt="Aperto de mãos representando parceria"><img class="hero-logo" src="../../assets/logo-pd-oficial-2.webp" alt="PD Soluções Digitais"><div class="hero-note"><b>SEU NEGÓCIO + PD</b><span>VOCÊ ENCAMINHA A DEMANDA. A PD ANALISA, ATENDE E MANTÉM O CONTATO COM O PARCEIRO.</span></div></div></div></div></div></section><section class="section"><div class="wrap"><div class="head"><div><h2>COMO FUNCIONA A PARCERIA</h2><p>UM FLUXO SIMPLES PARA COMPLEMENTAR O ATENDIMENTO DO SEU NEGÓCIO SEM PRECISAR MANTER TODAS AS SOLUÇÕES INTERNAMENTE.</p></div></div><div class="steps"><article class="step"><div class="step-num">01</div><div class="step-icon">▣</div><h3>SEU NEGÓCIO RECEBE A DEMANDA</h3><p>SEU CLIENTE PRECISA DE SUPORTE EM DESKTOP, NOTEBOOK OU OUTRA NECESSIDADE PREVISTA NA PARCERIA.</p></article><article class="step"><div class="step-num">02</div><div class="step-icon">↗</div><h3>VOCÊ ENCAMINHA OU SOLICITA</h3><p>A DEMANDA É ENCAMINHADA PARA A PD COM AS INFORMAÇÕES NECESSÁRIAS PARA TRIAGEM E CONTATO.</p></article><article class="step"><div class="step-num">03</div><div class="step-icon">⚙</div><h3>A PD REALIZA O ATENDIMENTO</h3><p>A PD ANALISA A NECESSIDADE, ORIENTA O PRÓXIMO PASSO E MANTÉM O PARCEIRO INFORMADO SOBRE A SOLICITAÇÃO.</p></article></div><div class="benefits"><article class="benefit"><div class="ico">▣</div><h3>ATENDIMENTO ESPECIALIZADO</h3><p>SUPORTE PARA DESKTOPS E NOTEBOOKS CONFORME ESCOPO DA PD.</p></article><article class="benefit"><div class="ico">◉</div><h3>RETORNO PELO WHATSAPP</h3><p>COMUNICAÇÃO DIRETA PARA ALINHAR CADA DEMANDA ENCAMINHADA.</p></article><article class="benefit"><div class="ico">⇄</div><h3>PARCERIA RECORRENTE</h3><p>POSSIBILIDADE DE RELACIONAMENTO CONTÍNUO CONFORME VOLUME E PERFIL.</p></article><article class="benefit"><div class="ico">⌖</div><h3>ATUAÇÃO EM CONTAGEM</h3><p>ATENDIMENTO PRESENCIAL DENTRO DA COBERTURA E OPÇÕES REMOTAS QUANDO APLICÁVEL.</p></article></div></div></section><section class="section"><div class="wrap content-grid"><div class="panel"><h2>SERVIÇOS QUE PODEM SER ENCAMINHADOS</h2><p>O ESCOPO PODE SER ALINHADO CONFORME O PERFIL DO PARCEIRO. ESTES SÃO EXEMPLOS DE DEMANDAS TÉCNICAS ATENDIDAS PELA PD.</p><div class="services"><div class="service"><span class="sico">▣</span><b>FORMATAÇÃO / WINDOWS</b></div><div class="service"><span class="sico">⚙</span><b>MANUTENÇÃO E CHECK-UP</b></div><div class="service"><span class="sico">✦</span><b>LIMPEZA TÉCNICA</b></div><div class="service"><span class="sico">↗</span><b>OTIMIZAÇÃO E LENTIDÃO</b></div><div class="service"><span class="sico">SSD</span><b>SSD / HD / TRANSFERÊNCIA</b></div><div class="service"><span class="sico">RAM</span><b>MEMÓRIA E HARDWARE</b></div><div class="service"><span class="sico">⌁</span><b>ERROS / NÃO INICIA</b></div><div class="service"><span class="sico">◉</span><b>SUPORTE REMOTO</b></div><div class="service"><span class="sico">•••</span><b>OUTRAS DEMANDAS</b></div></div><div class="callout"><b>CADASTRO GRATUITO</b><p>O CADASTRO DA PARCERIA NÃO GERA COBRANÇA. PREÇOS, COMISSÕES, DESCONTOS OU CONDIÇÕES ESPECIAIS PODERÃO SER DEFINIDOS SEPARADAMENTE APÓS ANÁLISE E CONTATO DA PD.</p></div><div class="info-band"><div><strong>PREÇOS DE SERVIÇO</strong><p>NA FASE INICIAL, OS SERVIÇOS PODEM SEGUIR A TABELA OFICIAL DA PD. CONDIÇÕES DIFERENCIADAS PARA PARCEIROS PODEM SER DEFINIDAS POSTERIORMENTE.</p></div><div class="info-tags"><span class="info-tag">SEM LOGIN</span><span class="info-tag">CNPJ OPCIONAL</span><span class="info-tag">RETORNO PELO WHATSAPP</span></div></div></div><div class="panel"><h2>SOLICITAR PARCERIA</h2><p>PREENCHA O PERFIL DO SEU NEGÓCIO. A PD ENTRARÁ EM CONTATO PARA ENTENDER A DEMANDA E ALINHAR O MODELO DE PARCERIA.</p><div class="field-grid"><div class="field"><label>EMPRESA *</label><input placeholder="NOME DA EMPRESA"></div><div class="field"><label>RESPONSÁVEL *</label><input placeholder="NOME DO RESPONSÁVEL"></div><div class="field"><label>WHATSAPP *</label><input placeholder="(31) 9XXXX-XXXX"></div><div class="field"><label>E-MAIL *</label><input placeholder="SEU@EMAIL.COM"></div><div class="field"><label>CNPJ (OPCIONAL)</label><input placeholder="00.000.000/0000-00"></div><div class="field"><label>SEGMENTO *</label><select><option>SELECIONE O SEGMENTO</option><option>LOJA DE CELULARES</option><option>ASSISTÊNCIA TÉCNICA</option><option>LOJA DE ELETRÔNICOS</option><option>INFORMÁTICA</option><option>OUTRO NEGÓCIO</option></select></div><div class="field"><label>VOLUME / MÊS *</label><select><option>SELECIONE</option><option>1 A 5 SOLICITAÇÕES</option><option>6 A 10 SOLICITAÇÕES</option><option>11 A 20 SOLICITAÇÕES</option><option>MAIS DE 20</option><option>AINDA NÃO SEI INFORMAR</option></select></div><div class="field"><label>CEP / LOCALIZAÇÃO *</label><input placeholder="CEP, BAIRRO OU CIDADE"></div><div class="field full"><label>TIPO DE PARCERIA DESEJADA</label><div class="type-grid"><button type="button" class="type-card active">ENCAMINHAMENTO DE CLIENTES</button><button type="button" class="type-card">SUPORTE TÉCNICO RECORRENTE</button><button type="button" class="type-card">PARCERIA COMERCIAL</button><button type="button" class="type-card">QUERO ENTENDER AS OPÇÕES</button></div></div><div class="field full"><label>TIPOS DE DEMANDA / OBSERVAÇÕES</label><textarea placeholder="CONTE QUAIS DEMANDAS APARECEM COM MAIS FREQUÊNCIA E O QUE VOCÊ ESPERA DA PARCERIA."></textarea></div></div><div class="form-note"><b>IMPORTANTE:</b> O ENVIO DESTE CADASTRO NÃO APROVA AUTOMATICAMENTE A PARCERIA. A PD ANALISARÁ AS INFORMAÇÕES E FARÁ O RETORNO PELO WHATSAPP.</div><button class="review" id="reviewBtn" type="button">REVISAR SOLICITAÇÃO DE PARCERIA →</button></div></div><div class="wrap"><div class="trust"><div class="trust-item"><span class="trust-icon">◎</span><strong>SEM LOGIN</strong></div><div class="trust-item"><span class="trust-icon">▤</span><strong>CNPJ OPCIONAL</strong></div><div class="trust-item"><span class="trust-icon">◉</span><strong>RETORNO PELO WHATSAPP</strong></div></div></div></section></main><footer><div class="wrap"><div class="foot"><div class="foot-brand"><img src="../../assets/logo-pd-oficial-2.webp" alt="PD Soluções Digitais"><p>TECNOLOGIA QUE RESOLVE, PARA VOCÊ SEGUIR EM FRENTE. TÉCNICO DE INFORMÁTICA AUTÔNOMO • ATENDIMENTO MEDIANTE AGENDAMENTO.</p></div><div><h4>PARCERIAS</h4><a href="#">COMO FUNCIONA</a><a href="#">SERVIÇOS</a><a href="#">CADASTRO</a></div><div><h4>ATUAÇÃO</h4><span>CONTAGEM - MG</span><span>ATENDIMENTO PRESENCIAL E REMOTO</span><span>RETORNO PELO WHATSAPP</span></div></div><div class="foot-bottom"><span>© PD SOLUÇÕES DIGITAIS</span><span>PORTAL DO CLIENTE • PARCERIAS</span></div></div></footer><div class="toast" id="toast">SOLICITAÇÃO PRONTA PARA REVISÃO — FUTURO PROTOCOLO PD-PAR.</div><script>
+const typeCards=[...document.querySelectorAll('.type-card')];typeCards.forEach(c=>c.addEventListener('click',()=>{typeCards.forEach(x=>x.classList.remove('active'));c.classList.add('active')}));
+const review=document.getElementById('reviewBtn'),toast=document.getElementById('toast');review.addEventListener('click',()=>{review.textContent='REVISÃO PRONTA — CONTINUAR';toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2600)});
+</script></body></html>

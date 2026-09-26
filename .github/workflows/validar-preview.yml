@@ -24,6 +24,16 @@ jobs:
           echo "ARQUIVOS APROVADOS:"
           find approved-ui/sources-expanded -type f | sort
           test "$COUNT" -ge 15
+      - name: Montar prévia navegável com fontes originais
+        run: |
+          python scripts/montar_preview.py
+          test "$(find preview-dist/screens -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 17
+      - name: Publicar prévia navegável como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: pd-portal-preview-navegavel
+          path: preview-dist/
+          retention-days: 14
       - name: Disponibilizar HTML/CSS para revisão
         uses: actions/upload-artifact@v4
         with:

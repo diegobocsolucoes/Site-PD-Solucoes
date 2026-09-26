@@ -69,14 +69,14 @@ def prepare_screens() -> None:
         original = page.read_text(encoding="utf-8")
         # A única alteração no layout da cópia de preview são caminhos relativos
         # de imagem/CSS e o script de navegação externo.
-        modified = original.replace("../assets/", "../../assets/")
+        modified = original  # bundle já usa ../../assets/ a partir de screens/<slug>/
         css = DIST / "screens" / slug / "styles.css"
         if css.is_file():
             modified = re.sub(r'(?i)(["\'])' + re.escape(slug) + r'\.css\1',
                               lambda m: m.group(1) + "styles.css" + m.group(1), modified)
             if not re.search(r'href=["\']styles\.css["\']', modified, flags=re.I):
                 modified = modified.replace("</head>", '  <link rel="stylesheet" href="styles.css">\n</head>', 1)
-            css.write_text(css.read_text(encoding="utf-8").replace("../assets/", "../../assets/"), encoding="utf-8")
+            css.write_text(css.read_text(encoding="utf-8"), encoding="utf-8")
         script = '<script src="../../preview-navigation.js" defer></script>'
         if "</body>" not in modified.lower():
             raise SystemExit(f"HTML sem fechamento de body: {slug}")

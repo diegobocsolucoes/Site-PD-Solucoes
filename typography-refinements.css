@@ -1,0 +1,71 @@
+/* PD SOLUÇÕES DIGITAIS — TIPOGRAFIA OFICIAL | Refinamento responsivo.
+   Reduz apenas títulos grandes, mantendo legíveis navegação, descrições, campos e botões.
+   Aplicado após o CSS aprovado, sem alterar sua estrutura visual ou cores. */
+:root {
+  --pd-title: clamp(30px, 3.45vw, 44px);
+  --pd-section: clamp(23px, 2.2vw, 29px);
+  --pd-card: clamp(17px, 1.6vw, 21px);
+}
+
+/* HOME V15 */
+.entry-heading h1 {
+  font-size: clamp(29px, 3.15vw, 39px) !important;
+  line-height: 1.15 !important;
+  letter-spacing: -.025em !important;
+}
+.about-copy h2 {
+  font-size: clamp(30px, 3.45vw, 43px) !important;
+  line-height: 1.12 !important;
+  letter-spacing: -.023em !important;
+}
+.info-title h2 {
+  font-size: clamp(27px, 3vw, 37px) !important;
+  line-height: 1.15 !important;
+  letter-spacing: -.02em !important;
+}
+.section-title h2 { font-size: var(--pd-section) !important; line-height: 1.2 !important; }
+.category-grid-six .card-copy h2,
+.card-copy h2 { font-size: var(--pd-card) !important; line-height: 1.2 !important; }
+.refined-info-card h3 { font-size: clamp(18px, 1.65vw, 21px) !important; line-height: 1.25 !important; }
+
+/* ÁREAS INTERNAS: atendimento, empresas, consultorias, orçamento, loja e parcerias. */
+.hero h1,
+.hero-title h1,
+.hero-copy h1 { font-size: var(--pd-title) !important; line-height: 1.1 !important; letter-spacing: -.02em !important; }
+.access-head h2,
+.choose-head h2,
+.catalog-head h2,
+.head h2,
+.intro h2,
+.info-copy h2,
+.rules-head h2 { font-size: var(--pd-section) !important; line-height: 1.19 !important; letter-spacing: -.012em !important; }
+.panel h2 { font-size: clamp(18px, 1.65vw, 21px) !important; line-height: 1.22 !important; }
+.choice-body h3,
+.plan h3 { font-size: clamp(17px, 1.65vw, 22px) !important; line-height: 1.2 !important; }
+
+/* Números e caixas devem continuar com destaque, mas sem ocupar a seção inteira. */
+.calls { font-size: clamp(30px, 3vw, 39px) !important; }
+.info-num { font-size: clamp(25px, 2.6vw, 30px) !important; }
+
+/* Mantém a escala dos textos pequenos; só títulos são compactados. */
+@media (max-width: 767px) {
+  :root {
+    --pd-title: clamp(26px, 7.2vw, 34px);
+    --pd-section: clamp(21px, 5.1vw, 25px);
+    --pd-card: clamp(17px, 4.3vw, 20px);
+  }
+  .entry-heading h1 { font-size: clamp(27px, 7.3vw, 33px) !important; line-height: 1.16 !important; }
+  .about-copy h2 { font-size: clamp(27px, 7.2vw, 35px) !important; }
+  .info-title h2 { font-size: clamp(24px, 6.1vw, 31px) !important; }
+  .category-grid-six .card-copy h2,
+  .card-copy h2 { font-size: clamp(17px, 4.8vw, 20px) !important; }
+  .hero h1, .hero-title h1, .hero-copy h1 { letter-spacing: -.018em !important; }
+  .access-head h2, .choose-head h2, .catalog-head h2,
+  .head h2, .intro h2, .info-copy h2, .rules-head h2 { line-height: 1.23 !important; }
+}
+
+@media (max-width: 360px) {
+  .entry-heading h1 { font-size: 26px !important; }
+  .hero h1, .hero-title h1, .hero-copy h1 { font-size: 26px !important; }
+  .about-copy h2 { font-size: 26px !important; }
+}

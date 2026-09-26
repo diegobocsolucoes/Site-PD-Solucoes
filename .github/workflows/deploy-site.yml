@@ -8,6 +8,7 @@ on:
       - "privacidade.html"
       - "scripts/site-smoke.py"
       - "styles.css"
+      - "typography-refinements.css"
       - "screens/**"
       - "assets/**"
       - "preview/**"
@@ -40,6 +41,8 @@ jobs:
         run: |
           python3 scripts/site-smoke.py
           test -f index.html
+          test -s typography-refinements.css
+          grep -q "pd-typography" index.html
           grep -q "Home V15" index.html
           test -s assets/logo-pd-oficial.webp
           test "$(find screens -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 15
@@ -50,7 +53,7 @@ jobs:
       - name: Montar site no endereço principal
         run: |
           mkdir -p _site
-          cp index.html styles.css privacidade.html site-navigation.js site-live.js robots.txt sitemap.xml _site/
+          cp index.html styles.css typography-refinements.css privacidade.html site-navigation.js site-live.js robots.txt sitemap.xml _site/
           cp -R screens assets preview _site/
           touch _site/.nojekyll
           python3 -m http.server 8765 --directory _site > /tmp/pd-pages.log 2>&1 &
@@ -63,6 +66,7 @@ jobs:
           curl --fail --silent http://127.0.0.1:8765/assets/logo-pd-oficial.webp -o /dev/null
           curl --fail --silent http://127.0.0.1:8765/assets/scene-workstation-official.webp -o /dev/null
           curl --fail --silent http://127.0.0.1:8765/privacidade.html -o /dev/null
+          curl --fail --silent http://127.0.0.1:8765/typography-refinements.css -o /dev/null
           kill $SERVER_PID
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -82,3 +86,5 @@ jobs:
           curl -fLsS --retry 5 --retry-delay 3 --retry-all-errors "${SITE_URL}assets/logo-pd-oficial.webp" -o /dev/null
           curl -fLsS --retry 5 --retry-delay 3 --retry-all-errors "${SITE_URL}assets/scene-workstation-official.webp" -o /dev/null
           curl -fLsS --retry 5 --retry-delay 3 --retry-all-errors "${SITE_URL}privacidade.html" -o /dev/null
+          curl -fLsS --retry 5 --retry-delay 3 --retry-all-errors "${SITE_URL}typography-refinements.css" -o /tmp/pd-typography-live.css
+          grep -q "TIPOGRAFIA OFICIAL" /tmp/pd-typography-live.css

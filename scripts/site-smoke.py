@@ -52,6 +52,16 @@ class Assets(HTMLParser):
 
 html_files = [ROOT / "index.html", ROOT / "privacidade.html"]
 html_files += sorted(SCREENS.glob("*/index.html"))
+typography = ROOT / "typography-refinements.css"
+require(typography.is_file(), "Folha responsiva de tipografia ausente")
+typography_css = typography.read_text(encoding="utf-8")
+require("--pd-title:" in typography_css and "@media (max-width: 767px)" in typography_css,
+        "Escala tipográfica responsiva não encontrada")
+for page in [ROOT / "index.html", ROOT / "privacidade.html", *sorted(SCREENS.glob("*/index.html"))]:
+    expected = ('../../' if page.parent != ROOT else '') + 'typography-refinements.css'
+    require(f'href="{expected}"' in page.read_text(encoding="utf-8"),
+            f"Link de tipografia ausente em {page.relative_to(ROOT)}")
+
 missing_images: set[str] = set()
 checked = 0
 for doc in html_files:

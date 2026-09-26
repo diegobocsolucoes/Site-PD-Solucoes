@@ -1,0 +1,37 @@
+name: Validar refinamentos do site oficial
+
+on:
+  push:
+    branches:
+      - refino-site-oficial-20260926
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  site-estatico:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verificar JavaScript
+        run: |
+          node --check site-navigation.js
+          node --check site-live.js
+      - name: Verificar identidade oficial, rotas e catálogo
+        run: python3 scripts/site-smoke.py
+      - name: Confirmar resposta HTTP de todas as telas
+        run: |
+          python3 -m http.server 8765 > /tmp/pd-validation.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID' EXIT
+          sleep 2
+          for path in / /privacidade.html /assets/logo-pd-oficial.webp /assets/scene-workstation-official.webp /preview/; do
+            curl --fail --silent "http://127.0.0.1:8765$path" -o /dev/null
+          done
+          for page in screens/*/index.html; do
+            curl --fail --silent "http://127.0.0.1:8765/$page" -o /dev/null
+          done

@@ -36,7 +36,10 @@ jobs:
       - name: Montar prévia navegável com fontes originais
         run: |
           python scripts/montar_preview.py
+          node --check preview-dist/preview-navigation.js
           test "$(find preview-dist/screens -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 17
+          test -s preview-dist/assets/logo-pd-oficial.webp
+          test -f preview-dist/mapa.html
       - name: Publicar prévia navegável como artefato
         uses: actions/upload-artifact@v4
         with:

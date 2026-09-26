@@ -1,6 +1,7 @@
 # Manifesto de versões visuais finais
 
-Data de consolidação: 2026-09-20
+Data da consolidação inicial: 2026-09-20
+Atualização da integração: 2026-09-26 — Solicitações V2 do pacote consolidado
 
 ## Portal público
 - HOME: V15 — APROVADA
@@ -21,7 +22,7 @@ Data de consolidação: 2026-09-20
 
 ## Painel PD
 - DASHBOARD ADMIN: V2 — APROVADA
-- SOLICITAÇÕES: V1 — APROVADA
+- SOLICITAÇÕES: V2 — APROVADA
 
 ## Protocolos
 - PD-SV — Serviço

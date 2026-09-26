@@ -45,6 +45,8 @@ jobs:
           python3 scripts/montar_preview.py
           node --check preview-dist/preview-navigation.js
           rm -rf preview-dist/screens/16-admin-dashboard-v2 preview-dist/screens/17-admin-solicitacoes-v2
+          python3 -c 'from pathlib import Path; p=Path("preview-dist/mapa.html"); s=p.read_text(); p.write_text(s.split("<h2>Painel demonstrativo</h2>")[0]+"</main></body></html>")'
+          python3 -c 'from pathlib import Path; pages=Path("preview-dist/screens").glob("*/index.html"); [p.write_text(p.read_text().replace("<head>", "<head><meta name=\\"robots\\" content=\\"noindex,nofollow\\">", 1)) for p in pages]'
           test "$(find preview-dist/screens -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 15
       - name: Preparar arquivos públicos
         run: |

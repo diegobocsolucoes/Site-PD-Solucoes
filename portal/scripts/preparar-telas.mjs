@@ -30,7 +30,7 @@ for (const slug of publicScreens){
       html=html.replace(/<\/head>/i,'<link rel="stylesheet" href="styles.css"></head>');
     }
   }
-  html=html.replace(/<\/body>/i,'<script defer src="/pd-runtime.js"></script></body>');
+  html=html.replace(/<\/body>/i,'<script defer src="/pd-public-config.js"></script><script defer src="/pd-runtime.js"></script></body>');
   fs.writeFileSync(index,html);
 }
 // Prioridade para imagens originais aprovadas, quando forem importadas.

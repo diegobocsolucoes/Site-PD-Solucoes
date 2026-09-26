@@ -48,9 +48,14 @@ def prepare_assets() -> None:
     official = ROOT / "assets" / "official-logo.webp.b64"
     if official.exists():
         try:
-            (assets / "logo-pd-oficial.webp").write_bytes(
-                base64.b64decode(official.read_text(encoding="ascii").strip(), validate=True)
+            logo_bytes = base64.b64decode(
+                official.read_text(encoding="ascii").strip(), validate=True
             )
+            (assets / "logo-pd-oficial.webp").write_bytes(logo_bytes)
+            # Várias telas antigas referenciam a variante -2, que ainda não
+            # consta entre os assets transferidos. Preserva a marca já
+            # existente até que o arquivo aprovado seja importado.
+            (assets / "logo-pd-oficial-2.webp").write_bytes(logo_bytes)
         except (ValueError, base64.binascii.Error) as err:
             raise SystemExit(f"Não foi possível decodificar o logo oficial: {err}")
     if (ROOT / "logo.png").exists():
@@ -238,8 +243,13 @@ def asset_report() -> None:
     )
     print(f"Telas aprovadas integradas na prévia: {len(ROUTES)}")
     print(f"Referências relativas ausentes: {len(missing)}")
-    for item in missing[:30]:
-        print(f"  - {item['page']}: {item['reference']}")
+    for ref in sorted(set(item["reference"] for item in missing)):
+        print(f"  FALTA: {ref}")
+    critical = [item for item in missing
+                if item["reference"].endswith((".css", ".js"))
+                or "logo-pd-oficial" in item["reference"]]
+    if critical:
+        raise SystemExit(f"Referências críticas ausentes: {len(critical)}")
 
 
 def main() -> None:

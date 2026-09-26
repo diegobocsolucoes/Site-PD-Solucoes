@@ -72,3 +72,6 @@ jobs:
           curl -fLsS --retry 5 --retry-delay 3 --retry-all-errors "${SITE_URL}" -o /tmp/pd-live.html
           grep -q "Home V15" /tmp/pd-live.html
           curl -fLsS --retry 5 --retry-delay 3 --retry-all-errors "${SITE_URL}screens/02-atendimento-v5/index.html" -o /dev/null
+          curl -fLsS --retry 5 --retry-delay 3 --retry-all-errors "${SITE_URL}preview/" -o /tmp/pd-preview.html
+          grep -q "página principal" /tmp/pd-preview.html
+          curl -fLsS --retry 5 --retry-delay 3 --retry-all-errors "${SITE_URL}assets/logo-pd-oficial.webp" -o /dev/null

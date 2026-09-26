@@ -30,14 +30,30 @@ jobs:
     steps:
       - name: Baixar site
         uses: actions/checkout@v4
+      - name: Baixar branch de homologação
+        uses: actions/checkout@v4
+        with:
+          ref: fase3-formularios-protocolos
+          path: fase3-src
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5
+      - name: Gerar prévia das telas aprovadas
+        run: |
+          cd fase3-src
+          python3 scripts/verificar_bundle.py
+          sh approved-ui/bundle/rebuild.sh
+          python3 scripts/montar_preview.py
+          node --check preview-dist/preview-navigation.js
+          rm -rf preview-dist/screens/16-admin-dashboard-v2 preview-dist/screens/17-admin-solicitacoes-v2
+          test "$(find preview-dist/screens -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 15
       - name: Preparar arquivos públicos
         run: |
           mkdir -p _site
           cp index.html robots.txt sitemap.xml _site/
           cp -R assets _site/assets
           if [ -d artes ]; then cp -R artes _site/artes; fi
+          mkdir -p _site/preview
+          cp -R fase3-src/preview-dist/. _site/preview/
           touch _site/.nojekyll
       - name: Enviar arquivos do site
         uses: actions/upload-pages-artifact@v3

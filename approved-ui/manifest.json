@@ -1,0 +1,116 @@
+{
+  "project": "PD Soluções Digitais — Portal do Cliente",
+  "status": "visual aprovado / consolidado para integração",
+  "branch": "portal-ui-consolidado",
+  "screens": [
+    {
+      "id": "01",
+      "slug": "home",
+      "version": "V15",
+      "file": "sources/01-home-v15.html"
+    },
+    {
+      "id": "02",
+      "slug": "atendimento",
+      "version": "V5",
+      "file": "sources/02-atendimento-v5.html"
+    },
+    {
+      "id": "03",
+      "slug": "area-empresas",
+      "version": "V3",
+      "file": "sources/03-area-empresas-v3.html"
+    },
+    {
+      "id": "04",
+      "slug": "planos-chamados",
+      "version": "V2",
+      "file": "sources/04-planos-chamados-v2.html"
+    },
+    {
+      "id": "05",
+      "slug": "consultoria-ti",
+      "version": "V2",
+      "file": "sources/05-consultoria-ti-v2.html"
+    },
+    {
+      "id": "06",
+      "slug": "seguranca-eletronica",
+      "version": "V2",
+      "file": "sources/06-seguranca-eletronica-v2.html"
+    },
+    {
+      "id": "07",
+      "slug": "orcamento-empresarial",
+      "version": "V2",
+      "file": "sources/07-orcamento-empresarial-v2.html"
+    },
+    {
+      "id": "08",
+      "slug": "loja-rapida",
+      "version": "V2",
+      "file": "sources/08-loja-rapida-v2.html"
+    },
+    {
+      "id": "09",
+      "slug": "parcerias",
+      "version": "V2",
+      "file": "sources/09-parcerias-v2.html"
+    },
+    {
+      "id": "10",
+      "slug": "consultoria-entrada",
+      "version": "V2",
+      "file": "sources/10-consultoria-entrada-v2.html"
+    },
+    {
+      "id": "11",
+      "slug": "consultoria-domestica",
+      "version": "V2",
+      "file": "sources/11-consultoria-domestica-v2.html"
+    },
+    {
+      "id": "12",
+      "slug": "consultoria-setup",
+      "version": "V2",
+      "file": "sources/12-consultoria-setup-v2.html"
+    },
+    {
+      "id": "13",
+      "slug": "chamado-empresarial",
+      "version": "V2",
+      "file": "sources/13-chamado-empresarial-v2.html"
+    },
+    {
+      "id": "14",
+      "slug": "orcamento-entrada",
+      "version": "V2",
+      "file": "sources/14-orcamento-entrada-v2.html"
+    },
+    {
+      "id": "15",
+      "slug": "confirmacao-universal",
+      "version": "V3",
+      "file": "sources/15-confirmacao-universal-v3.html"
+    },
+    {
+      "id": "16",
+      "slug": "admin-dashboard",
+      "version": "V2",
+      "file": "sources/16-admin-dashboard-v2.html"
+    },
+    {
+      "id": "17",
+      "slug": "admin-solicitacoes",
+      "version": "V2",
+      "file": "sources/17-admin-solicitacoes-v2.html"
+    }
+  ],
+  "notes": [
+    "Não redesenhar versões aprovadas.",
+    "Usar logo oficial PD.",
+    "Preto/grafite + verde PD + caixa alta.",
+    "Confirmação Universal V3 deve ser componente reutilizado.",
+    "Loja Rápida deve ser dinâmica e administrável pelo Painel PD."
+  ]
+}

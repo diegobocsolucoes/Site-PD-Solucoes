@@ -32,3 +32,14 @@
 ## Segurança
 
 A nova branch utiliza versões de configuração sem valores de credenciais. Como cópias antigas permanecem no histórico e em outras branches públicas, substituir as credenciais antigas nos provedores e usar GitHub Actions Secrets nos fluxos autorizados.
+
+## Etapa 2 — prévia navegável (26/09/2026)
+
+- As 17 telas do bundle aprovado agora são reconstruídas, verificadas e versionadas em `approved-ui/sources-expanded/screens/` nesta branch.
+- O script `scripts/montar_preview.py` gera `preview-dist/` sem redesenhar o HTML/CSS de referência.
+- `index.html` da prévia abre a Home V15 e `mapa.html` permite revisar as 15 telas públicas e as 2 telas administrativas de demonstração.
+- A navegação principal foi conectada na prévia: seis categorias da Home, serviços da área Empresas, entradas de Orçamento e escolhas de Consultoria. A entrada de orçamento particular ativa o modo orçamento no Atendimento V5.
+- Os testes do GitHub Actions verificam SHA-256 do bundle, 17 páginas, presença da logo e sintaxe JavaScript. Os arquivos de revisão são disponibilizados como artefato `pd-portal-preview-navegavel`.
+- **Ainda não é o site público definitivo:** o artefato navegável deve ser revisado antes de qualquer substituição da `main`. Formulários não enviam dados nem geram protocolos até a integração real do backend.
+- **Assets originais pendentes:** 18 arquivos WebP distintos (incluindo as cenas, os heróis e fotos de produtos) não estão no pacote de fontes do GitHub; o build os lista no arquivo `relatorio-assets.json`. A logo PD existente foi reutilizada nas referências principais, inclusive na variante de nome `-2`, apenas como fallback na prévia.
+- Não substituir as imagens aprovadas por outras imagens sem validação. Quando o pacote original estiver disponível, incorporar os WebP com os mesmos nomes no diretório `assets/` e regenerar a prévia.

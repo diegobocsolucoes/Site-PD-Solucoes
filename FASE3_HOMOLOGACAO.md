@@ -41,3 +41,21 @@
 - `supabase/migrations/202609260001_solicitacoes.sql`
 - `supabase/tests/solicitacoes-smoke.sql`
 - `.github/workflows/fase3-validar.yml`
+
+## Conexões externas verificadas em 26/09/2026
+
+- **Supabase:** conexão autorizada; existe a organização `PD SOLUCOES DIGITAIS`, mas a conta ainda não possui projetos. Não há banco remoto em que aplicar a migração neste momento. Criar um projeto exige escolher expressamente a organização e confirmar o custo exibido pelo Supabase antes da criação.
+- **Vercel:** conexão autorizada; a equipe `pablosouza624-5415` foi localizada, mas ainda não há projetos hospedados. Não há prévia Next.js pública publicada por essa conta neste momento.
+- **GitHub:** o build, os testes de TypeScript e os testes SQL/segurança da branch foram concluídos com sucesso; isso valida o código de desenvolvimento, **não equivale a um teste de ponta a ponta com o Supabase remoto**.
+
+### Configuração de projeto Vercel quando houver banco de homologação
+
+1. Importar o repositório `diegobocsolucoes/Site-PD-Solucoes` no Vercel.
+2. Definir **Root Directory**: `portal`, **Framework Preset**: `Next.js`; manter o diretório pai com `approved-ui/sources-expanded/` disponível no clone completo.
+3. Para preview, usar a branch `fase3-formularios-protocolos`. Não conectar a publicação principal de produção até homologar, nem apontar o deploy da branch `main` atual para esta aplicação sem revisão.
+4. Definir as variáveis do arquivo `portal/.env.example` no ambiente **Preview**, separando chaves públicas e privadas. `SUPABASE_SERVICE_ROLE_KEY` e `TURNSTILE_SECRET_KEY` são exclusivamente de servidor.
+5. Configurar `PD_SITE_ORIGIN` com a URL HTTPS exata do preview. Cada URL de preview variável exige estratégia explícita de origens autorizadas; não usar `*` nem aceitar qualquer origem.
+6. Executar cenário de homologação com dados fictícios: envio de serviço/orçamento, consulta de protocolo, autenticação do administrador com TOTP e mudança de status.
+7. Após confirmar funcionamento e autorização, considerar publicação definitiva. GitHub Pages não executa as rotas API do Next.js.
+
+**Bloqueio atual:** sem projeto Supabase remoto e sem projeto Vercel, não é possível comprovar a recepção de solicitações reais na nuvem ou apresentar URL de preview funcional.

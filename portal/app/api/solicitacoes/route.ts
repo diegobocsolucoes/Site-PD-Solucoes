@@ -41,7 +41,8 @@ export async function POST(request: Request) {
   const config = ambienteServidor();
   const salt = process.env.PD_RATE_LIMIT_SALT;
   if (!config || !salt || salt.length < 24 ||
-      (process.env.NODE_ENV === "production" && !process.env.TURNSTILE_SECRET_KEY))
+      (process.env.NODE_ENV === "production" &&
+        (!process.env.TURNSTILE_SECRET_KEY || !process.env.PD_SITE_ORIGIN)))
     return json({erro:"Atendimento temporariamente indisponível."},503);
   let raw: unknown;
   try {

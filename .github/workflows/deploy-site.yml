@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - "index.html"
+      - "privacidade.html"
+      - "scripts/site-smoke.py"
       - "styles.css"
       - "screens/**"
       - "assets/**"
@@ -36,6 +38,7 @@ jobs:
       - uses: actions/configure-pages@v5
       - name: Validar site oficial antes de publicar
         run: |
+          python3 scripts/site-smoke.py
           test -f index.html
           grep -q "Home V15" index.html
           test -s assets/logo-pd-oficial.webp
@@ -47,7 +50,7 @@ jobs:
       - name: Montar site no endereço principal
         run: |
           mkdir -p _site
-          cp index.html styles.css site-navigation.js site-live.js robots.txt sitemap.xml _site/
+          cp index.html styles.css privacidade.html site-navigation.js site-live.js robots.txt sitemap.xml _site/
           cp -R screens assets preview _site/
           touch _site/.nojekyll
           python3 -m http.server 8765 --directory _site > /tmp/pd-pages.log 2>&1 &
@@ -58,6 +61,8 @@ jobs:
           curl --fail --silent http://127.0.0.1:8765/screens/02-atendimento-v5/index.html -o /dev/null
           curl --fail --silent http://127.0.0.1:8765/preview/ -o /dev/null
           curl --fail --silent http://127.0.0.1:8765/assets/logo-pd-oficial.webp -o /dev/null
+          curl --fail --silent http://127.0.0.1:8765/assets/scene-workstation-official.webp -o /dev/null
+          curl --fail --silent http://127.0.0.1:8765/privacidade.html -o /dev/null
           kill $SERVER_PID
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -75,3 +80,5 @@ jobs:
           curl -fLsS --retry 5 --retry-delay 3 --retry-all-errors "${SITE_URL}preview/" -o /tmp/pd-preview.html
           grep -q "página principal" /tmp/pd-preview.html
           curl -fLsS --retry 5 --retry-delay 3 --retry-all-errors "${SITE_URL}assets/logo-pd-oficial.webp" -o /dev/null
+          curl -fLsS --retry 5 --retry-delay 3 --retry-all-errors "${SITE_URL}assets/scene-workstation-official.webp" -o /dev/null
+          curl -fLsS --retry 5 --retry-delay 3 --retry-all-errors "${SITE_URL}privacidade.html" -o /dev/null

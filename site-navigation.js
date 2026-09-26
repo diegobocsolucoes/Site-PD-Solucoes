@@ -127,26 +127,61 @@
       new URLSearchParams(location.search).get("modo") === "orcamento") {
     document.querySelector('[data-request-mode="quote"]')?.click();
   }
-  // Navegação transversal sem alterar âncoras reais nem submeter formulários.
+  // Liga as rotas das telas oficiais sem alterar as âncoras locais da Home.
   const navRoutes = [
-    ["voltar ao portal", "01-home-v15"], ["inicio", "01-home-v15"],
-    ["atendimento", "02-atendimento-v5"], ["empresas", "03-area-empresas-v3"],
-    ["consultoria", "10-consultoria-entrada-v2"], ["parcerias", "09-parcerias-v2"],
-    ["loja rapida", "08-loja-rapida-v2"]
+    ["inicio", "01-home-v15"], ["voltar ao portal", "01-home-v15"],
+    ["voltar ao inicio", "01-home-v15"], ["atendimento", "02-atendimento-v5"],
+    ["area para empresas", "03-area-empresas-v3"], ["empresas", "03-area-empresas-v3"],
+    ["voltar para empresas", "03-area-empresas-v3"],
+    ["planos de chamados", "04-planos-chamados-v2"],
+    ["abrir chamado", "13-chamado-empresarial-v2"],
+    ["consultoria de ti", "05-consultoria-ti-v2"],
+    ["seguranca eletronica", "06-seguranca-eletronica-v2"],
+    ["orcamento empresarial", "07-orcamento-empresarial-v2"],
+    ["consultoria", "10-consultoria-entrada-v2"],
+    ["parcerias", "09-parcerias-v2"], ["loja rapida", "08-loja-rapida-v2"],
+    ["solicitar orcamento", "14-orcamento-entrada-v2"]
   ];
-  document.querySelectorAll("a").forEach(a => {
-    const href = a.getAttribute("href");
-    if (href && href !== "#") return;
-    const label = normalize(a.textContent);
-    if (label.includes("whatsapp") || label.includes("falar com a pd")) {
-      a.href = "https://wa.me/5531995483280";
-      a.target = "_blank"; a.rel = "noopener noreferrer";
-      return;
+  const absolute = (slug) => new URL("screens/" + slug + "/index.html", base).href;
+  const navigate = (label) => {
+    const text=normalize(label).replace(/^[\s←→↗◉]+/g,"");
+    if (text.includes("whatsapp") || text.includes("falar com a pd")) return null;
+    const match=navRoutes.find(([phrase]) => text===phrase);
+    if (match) return absolute(match[1]);
+    if (screen !== "01-home-v15") {
+      if (text==="sobre"||text==="sobre a pd") return new URL("index.html#sobre",base).href;
+      if (text==="como funciona") return new URL("index.html#como-funciona",base).href;
+      if (text==="contato") return new URL("index.html#contato",base).href;
     }
-    const target = navRoutes.find(([phrase]) => label === phrase);
-    if (target) a.href = new URL("screens/" + target[1] + "/index.html", base).href;
-    else if (a.classList.contains("brand")) a.href = new URL(
-      "screens/01-home-v15/index.html", base).href;
+    return null;
+  };
+  document.querySelectorAll("a").forEach(a => {
+    if(a.classList.contains("brand")){a.href=new URL("index.html",base).href;return;}
+    const href=a.getAttribute("href");
+    // Preserva âncoras válidas da Home, URLs externas e links já definidos.
+    if(href && href!=="#")return;
+    const target=navigate(a.textContent);
+    if(target) a.href=target;
+  });
+  // As seções de rodapé da Home tinham somente texto, sem links.
+  document.querySelectorAll(".footer-areas-final span").forEach(span=>{
+    const target=navigate(span.textContent);
+    if(!target)return;
+    const a=document.createElement("a");
+    a.href=target;
+    a.textContent=span.textContent;
+    a.className=span.className;
+    a.style.cssText="color:inherit;text-decoration:none;display:block";
+    span.replaceWith(a);
+  });
+  document.querySelectorAll(".footer-nav-final span,.footer-bottom-links span").forEach(span=>{
+    if(normalize(span.textContent)!=="privacidade")return;
+    const a=document.createElement("a");
+    a.href=new URL("privacidade.html",base).href;
+    a.textContent=span.textContent;
+    a.className=span.className;
+    a.style.cssText="color:inherit;text-decoration:none";
+    span.replaceWith(a);
   });
 
 })();

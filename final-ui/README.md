@@ -33,7 +33,7 @@ Esta branch foi criada a partir de `portal-ui-docs` e reúne a documentação of
 | Tela | Versão canônica | Artefato HTML aprovado |
 |---|---|---|
 | Dashboard Admin | V2 | `PD_Painel_Admin_v2_selfcontained.html` |
-| Solicitações | V1 | `PD_Painel_Solicitacoes_v1_selfcontained.html` |
+| Solicitações | V2 | `PD_Painel_Solicitacoes_v2_selfcontained.html` |
 
 ## Documentação
 Os arquivos em `docs/` detalham cada versão final, mapa do Portal, protocolos, Loja dinâmica e regras para o Codex.
@@ -67,3 +67,6 @@ final-ui/
 ```
 
 Depois que o Codex importar esses artefatos, esta branch deve ser usada como base da implementação integrada.
+
+## Atualização da branch de integração
+O pacote das fontes aprovadas está incorporado em `approved-ui/`, vindo da branch `portal-ui-consolidado`. A referência de Solicitações V2 substitui V1 nesta branch, conforme `docs/PAINEL_SOLICITACOES_V2_FINAL.md` e `approved-ui/manifest.json`. Consulte `INTEGRACAO_PREVIEW.md` para a ordem de integração e revisão.

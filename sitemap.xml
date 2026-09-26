@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/</loc>
-    <lastmod>2026-06-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/</loc><lastmod>2026-09-26</lastmod></url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/screens/01-home-v15/</loc><lastmod>2026-09-26</lastmod></url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/screens/02-atendimento-v5/</loc><lastmod>2026-09-26</lastmod></url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/screens/03-area-empresas-v3/</loc><lastmod>2026-09-26</lastmod></url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/screens/04-planos-chamados-v2/</loc><lastmod>2026-09-26</lastmod></url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/screens/05-consultoria-ti-v2/</loc><lastmod>2026-09-26</lastmod></url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/screens/06-seguranca-eletronica-v2/</loc><lastmod>2026-09-26</lastmod></url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/screens/07-orcamento-empresarial-v2/</loc><lastmod>2026-09-26</lastmod></url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/screens/08-loja-rapida-v2/</loc><lastmod>2026-09-26</lastmod></url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/screens/09-parcerias-v2/</loc><lastmod>2026-09-26</lastmod></url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/screens/10-consultoria-entrada-v2/</loc><lastmod>2026-09-26</lastmod></url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/screens/11-consultoria-domestica-v2/</loc><lastmod>2026-09-26</lastmod></url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/screens/12-consultoria-setup-v2/</loc><lastmod>2026-09-26</lastmod></url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/screens/13-chamado-empresarial-v2/</loc><lastmod>2026-09-26</lastmod></url>
+<url><loc>https://diegobocsolucoes.github.io/Site-PD-Solucoes/screens/14-orcamento-entrada-v2/</loc><lastmod>2026-09-26</lastmod></url>
 </urlset>

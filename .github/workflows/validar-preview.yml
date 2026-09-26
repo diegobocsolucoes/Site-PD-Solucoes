@@ -1,0 +1,29 @@
+name: Validar fontes aprovadas do Portal
+
+on:
+  push:
+    branches:
+      - integracao-portal-preview
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar-fontes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar branch de integração
+        uses: actions/checkout@v4
+      - name: Reconstruir bundle e validar checksum
+        run: |
+          sh approved-ui/bundle/rebuild.sh
+          COUNT="$(find approved-ui/sources-expanded -type f -iname '*.html' | wc -l)"
+          echo "Telas HTML reconstruídas: $COUNT"
+          test "$COUNT" -ge 15
+      - name: Disponibilizar HTML/CSS para revisão
+        uses: actions/upload-artifact@v4
+        with:
+          name: pd-ui-aprovada-preview
+          path: approved-ui/sources-expanded/
+          retention-days: 14

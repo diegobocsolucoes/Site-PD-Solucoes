@@ -1,0 +1,31 @@
+.pd-admin{max-width:1280px;margin:auto;padding:30px 20px 70px;color:#f7f9f7;text-transform:uppercase;letter-spacing:.02em}
+.pd-admin-top{display:flex;align-items:center;justify-content:space-between;gap:24px;
+ border-bottom:1px solid #43875b;padding-bottom:20px;margin-bottom:24px}
+.pd-admin-top span{color:#79d497;font-size:12px;letter-spacing:.15em}
+.pd-admin h1{font-size:clamp(24px,4vw,38px);margin:5px 0}
+.pd-admin button,.pd-admin select,.pd-admin input{font:inherit}
+.pd-admin button{cursor:pointer}
+.pd-admin-top button,.pd-admin-auth button,.pd-admin-tools button{
+ background:#1c3625;color:#e9ffed;border:1px solid #79d497;
+ padding:12px 18px;font-weight:700;border-radius:5px}
+.pd-admin-auth{width:min(100%,480px);margin:40px auto;padding:30px;
+ border:1px solid #416c4c;background:#111a14;border-radius:7px}
+.pd-admin-auth h2{color:#79d497}
+.pd-admin-auth label,.pd-admin-tools label,.pd-admin-detail label{
+ display:grid;gap:7px;margin:14px 0;color:#d8e9dc;font-size:12px;font-weight:700}
+.pd-admin-auth input,.pd-admin-tools input,.pd-admin-detail select{
+ padding:12px;background:#08120b;color:white;border:1px solid #4b8058;border-radius:4px}
+.pd-admin-error{padding:13px;border-left:4px solid #ffb4b4;color:#ffcece;background:#371e21}
+.pd-admin-cols{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(300px,1fr);gap:18px}
+.pd-admin-cols>section,.pd-admin-detail{background:#101b14;padding:18px;border:1px solid #3b6545;border-radius:6px}
+.pd-admin-tools{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:20px}
+.pd-admin-tools label{flex:1;margin:0}
+.pd-admin-head,.pd-admin-row{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:12px;padding:14px;text-align:left}
+.pd-admin-head{color:#a1bba8;font-weight:700;font-size:11px;border-bottom:1px solid #48664f}
+.pd-admin-row{width:100%;color:#ebf4ed;border:0;border-bottom:1px solid #334637;background:transparent;font-size:12px}
+.pd-admin-row:hover,.pd-admin-row.selected{background:#24432b}
+.pd-admin-detail h2{font-size:22px;color:#79d497;overflow-wrap:anywhere}
+.pd-admin-detail a{display:block;margin:20px 0;padding:12px;text-align:center;border:1px solid #79d497;color:#9fecb4}
+.pd-admin-detail p{overflow-wrap:anywhere}.pd-admin-detail small{font-size:11px;color:#acc3b2}
+.pd-admin-foot{font-size:11px;color:#b9c8bf;margin-top:30px}
+@media(max-width:760px){.pd-admin-cols{grid-template-columns:1fr}.pd-admin-tools{flex-wrap:wrap}.pd-admin-top{align-items:start}}

@@ -1,0 +1,41 @@
+name: Validar Fase 3 — Formularios e Protocolos
+
+on:
+  push:
+    branches:
+      - fase3-formularios-protocolos
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar branch da Fase 3
+        uses: actions/checkout@v4
+      - name: Preparar Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Instalar dependências
+        working-directory: portal
+        run: npm install --no-audit --no-fund
+      - name: Validar regras dos formulários
+        working-directory: portal
+        run: npm test
+      - name: Validar runtime do navegador
+        run: node --check portal/public/pd-runtime.js
+      - name: Validar TypeScript
+        working-directory: portal
+        run: npm run typecheck
+      - name: Construir Next.js com as telas aprovadas
+        working-directory: portal
+        run: npm run build
+      - name: Confirmar telas públicas e ausência de painel estático
+        run: |
+          test "$(find portal/public/telas/screens -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 15
+          test ! -e portal/public/telas/screens/16-admin-dashboard-v2
+          test ! -e portal/public/telas/screens/17-admin-solicitacoes-v2
+          test -s portal/public/telas/assets/logo-pd-oficial.webp

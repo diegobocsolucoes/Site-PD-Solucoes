@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Reconstruir bundle e validar checksum
         run: |
+          python scripts/verificar_bundle.py
           sh approved-ui/bundle/rebuild.sh
           COUNT="$(find approved-ui/sources-expanded -type f -iname '*.html' | wc -l)"
           echo "Telas HTML reconstruídas: $COUNT"

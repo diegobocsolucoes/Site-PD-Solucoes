@@ -1,0 +1,31 @@
+name: Validar API pública Supabase — Fase 5
+
+on:
+  push:
+    branches: [fase5-api-supabase-homologacao]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  testar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configurar Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Validar tipos da Edge Function
+        run: deno check supabase/functions/solicitacoes-publicas/index.ts
+      - name: Executar testes das regras públicas
+        run: deno test supabase/functions/solicitacoes-publicas/validation.test.ts
+      - name: Verificar que o site oficial permanece preservado
+        run: |
+          python3 scripts/site-smoke.py
+          test ! -e public/SUPABASE_SERVICE_ROLE_KEY
+          test ! -e .env.local

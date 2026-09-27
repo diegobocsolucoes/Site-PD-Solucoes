@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - refino-site-oficial-20260926
+      - refino-tipografia-oficial-20260926
   pull_request:
     branches:
       - main

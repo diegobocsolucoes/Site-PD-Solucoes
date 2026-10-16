@@ -4,32 +4,21 @@ import {consultaPrivada, ambienteServidor} from "@/lib/supabase-server";
 import {validarContato, ROTULO_ASSUNTO} from "@/lib/contato";
 import {verificarTurnstile} from "@/lib/antifraude";
 import {enviarAviso} from "@/lib/aviso-email";
+import {cabecalhosCors, origemPermitida} from "@/lib/cors";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-// O site estático (GitHub Pages) chama esta API de outro domínio: libera só a origem oficial.
-function cabecalhos(origem: string | null, permitida: string) {
-  const h: Record<string,string> = {"Cache-Control":"no-store", "Vary":"Origin"};
-  if (origem && origem === permitida) {
-    h["Access-Control-Allow-Origin"] = permitida;
-    h["Access-Control-Allow-Methods"] = "POST, OPTIONS";
-    h["Access-Control-Allow-Headers"] = "Content-Type";
-    h["Access-Control-Max-Age"] = "600";
-  }
-  return h;
-}
-
 export async function OPTIONS(request: Request) {
-  const permitida = process.env.PD_SITE_ORIGIN || new URL(request.url).origin;
-  return new NextResponse(null, {status: 204, headers: cabecalhos(request.headers.get("origin"), permitida)});
+  return new NextResponse(null, {status: 204,
+    headers: cabecalhosCors(request.headers.get("origin"), origemPermitida(request))});
 }
 
 export async function POST(request: Request) {
   const origin = request.headers.get("origin");
-  const permitida = process.env.PD_SITE_ORIGIN || new URL(request.url).origin;
+  const permitida = origemPermitida(request);
   const resp = (data: object, status = 200) =>
-    NextResponse.json(data, {status, headers: cabecalhos(origin, permitida)});
+    NextResponse.json(data, {status, headers: cabecalhosCors(origin, permitida)});
   if (!origin || origin !== permitida) return resp({erro:"Origem não autorizada."},403);
   if (!request.headers.get("content-type")?.startsWith("application/json"))
     return resp({erro:"Envie os dados em JSON."},415);

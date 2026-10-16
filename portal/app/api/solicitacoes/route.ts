@@ -4,19 +4,21 @@ import {consultaPrivada, ambienteServidor} from "@/lib/supabase-server";
 import {validarSolicitacao, mascararWhatsapp} from "@/lib/solicitacao";
 import {verificarTurnstile} from "@/lib/antifraude";
 import {enviarAviso} from "@/lib/aviso-email";
+import {cabecalhosCors, origemPermitida} from "@/lib/cors";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function json(data: object, status = 200) {
-  return NextResponse.json(data, {
-    status, headers: {"Cache-Control":"no-store"}
-  });
+export async function OPTIONS(request: Request) {
+  return new NextResponse(null, {status: 204,
+    headers: cabecalhosCors(request.headers.get("origin"), origemPermitida(request))});
 }
 
 export async function POST(request: Request) {
   const origin = request.headers.get("origin");
-  const allowed = process.env.PD_SITE_ORIGIN || new URL(request.url).origin;
+  const allowed = origemPermitida(request);
+  const json = (data: object, status = 200) =>
+    NextResponse.json(data, {status, headers: cabecalhosCors(origin, allowed)});
   if (!origin || origin !== allowed) return json({erro:"Origem não autorizada."},403);
   if (!request.headers.get("content-type")?.startsWith("application/json"))
     return json({erro:"Envie os dados em JSON."},415);

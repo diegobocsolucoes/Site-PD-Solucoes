@@ -23,3 +23,25 @@ Rode no SQL Editor do Supabase: `supabase/migrations/202610160002_contatos.sql` 
 
 ## Testes
 `supabase/tests/contatos-smoke.sql`, `portal/tests/contato.test.ts` e uma simulação ponta a ponta (CORS, origem errada, WhatsApp inválido, bot, limite, e-mail enviado com o conteúdo certo). Não testado com Supabase e Resend reais.
+
+## Estado da configuração (16/10/2026)
+- **Supabase:** projeto `PD Solucoes Digitais` (`fqjtjfgcnbjjmjkrmuty`, região sa-east-1) criado, com as migrações de solicitações, produtos e contatos aplicadas e acesso público bloqueado (verificado).
+- **Pendente (exige o seu login):** projeto na Vercel, chave do Resend, chaves do Turnstile e a chave secreta do Supabase.
+
+## Passo a passo da Vercel
+1. vercel.com → Add New → Project → importar `diegobocsolucoes/Site-PD-Solucoes`.
+2. Production Branch: `solicitacoes-por-email`. Root Directory: `portal`. Framework: Next.js.
+3. Variáveis de ambiente:
+
+| Variável | Valor |
+|---|---|
+| `SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_URL` | `https://fqjtjfgcnbjjmjkrmuty.supabase.co` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | chave pública "anon" (Supabase → Settings → API Keys) |
+| `SUPABASE_SERVICE_ROLE_KEY` | chave **secreta** (service_role) — nunca no GitHub nem no chat |
+| `PD_SITE_ORIGIN` | `https://diegobocsolucoes.github.io` |
+| `PD_RATE_LIMIT_SALT` | texto aleatório com 32+ caracteres |
+| `PD_ADMIN_USER_ID` | ID do seu usuário em Supabase → Authentication |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY` | chaves do Cloudflare Turnstile |
+| `RESEND_API_KEY` | chave de envio do Resend |
+| `PD_NOTIFY_EMAIL` | e-mail que recebe os avisos |
+| `PD_NOTIFY_FROM` | `PD Soluções <onboarding@resend.dev>` (sem domínio próprio, o Resend só entrega ao e-mail da própria conta) |

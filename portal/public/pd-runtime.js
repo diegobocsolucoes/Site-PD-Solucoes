@@ -107,6 +107,89 @@
   });
   if(slug==="02-atendimento-v5") setupAtendimento();
   if(slug==="15-confirmacao-universal-v3") setupConfirmacao();
+  if(slug==="08-loja-rapida-v2") setupLoja();
+
+  // Loja Rápida dinâmica: mostra os produtos cadastrados no Painel PD.
+  // Sem produtos (ou sem banco), permanece o aviso "catálogo em montagem".
+  async function setupLoja(){
+    const grade=document.getElementById("products");
+    if(!grade) return;
+    let produtos=[];
+    try{
+      const resposta=await fetch("/api/produtos",{cache:"no-store"});
+      if(resposta.ok) produtos=(await resposta.json()).produtos||[];
+    }catch{}
+    if(!Array.isArray(produtos)||!produtos.length) return;
+
+    const rotulo={disponivel:"DISPONÍVEL",poucas_unidades:"POUCAS UNIDADES",indisponivel:"INDISPONÍVEL"};
+    const moeda=new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"});
+    const el=(tag,cls,text)=>{
+      const n=document.createElement(tag);
+      if(cls)n.className=cls;
+      if(text!==undefined)n.textContent=text;  // textContent: nada do painel vira HTML
+      return n;
+    };
+    const chave=(c)=>normalize(c).replace(/[^a-z0-9]+/g,"-");
+    const cartoes=[];
+    grade.replaceChildren();
+    produtos.forEach(p=>{
+      const cartao=el("article","product");
+      cartao.dataset.cat=chave(p.categoria);
+      const imagem=el("div","product-img");
+      // Classes de cor do desenho aprovado: ok (verde), low (amarelo), off (cinza).
+      const corStatus={disponivel:"ok",poucas_unidades:"low",indisponivel:"off"}[p.status]||"ok";
+      imagem.append(el("span","status "+corStatus,rotulo[p.status]||"SOB CONSULTA"));
+      if(p.foto_url){
+        const foto=document.createElement("img");
+        foto.src=p.foto_url;foto.alt=p.nome;foto.loading="lazy";
+        foto.addEventListener("error",()=>{foto.remove();imagem.classList.add("pd-sem-foto");});
+        imagem.append(foto);
+      }else imagem.classList.add("pd-sem-foto");
+      const corpo=el("div","product-body");
+      corpo.append(el("h3",null,p.nome.toUpperCase()),
+        el("div","product-desc",(p.descricao||"").toUpperCase()));
+      const linha=el("div","price-row");
+      const preco=document.createElement("div");
+      const semPreco=p.preco_centavos===null||p.preco_centavos===undefined;
+      preco.append(el("span","price-label",semPreco?"VALOR":"VALOR ATUAL"),
+        el("span","price",semPreco?"A CONFIRMAR":moeda.format(p.preco_centavos/100)));
+      const botao=el("button","reserve","CONSULTAR →");
+      botao.type="button";botao.dataset.product=p.nome.toUpperCase();
+      botao.addEventListener("click",()=>{
+        const seletor=document.getElementById("productSelect");
+        if(seletor)seletor.value=botao.dataset.product;
+        document.getElementById("reserva")?.scrollIntoView({behavior:"smooth",block:"start"});
+      });
+      linha.append(preco,botao);corpo.append(linha);
+      cartao.append(imagem,corpo);grade.append(cartao);cartoes.push(cartao);
+    });
+
+    const filtros=document.getElementById("filters");
+    if(filtros){
+      const categorias=[...new Map(produtos.map(p=>[chave(p.categoria),p.categoria])).entries()]
+        .sort((a,b)=>a[1].localeCompare(b[1],"pt-BR"));
+      const botoes=[["all","TODOS"],...categorias.map(([k,nome])=>[k,nome.toUpperCase()])]
+        .map(([k,nome],i)=>{
+          const b=el("button","filter"+(i===0?" active":""),nome);
+          b.type="button";b.dataset.filter=k;
+          b.addEventListener("click",()=>{
+            botoes.forEach(x=>x.classList.remove("active"));b.classList.add("active");
+            cartoes.forEach(c=>{c.style.display=(k==="all"||c.dataset.cat===k)?"flex":"none";});
+          });
+          return b;
+        });
+      filtros.replaceChildren(...botoes);
+    }
+    const seletor=document.getElementById("productSelect");
+    if(seletor){
+      seletor.replaceChildren(new Option("SELECIONE O PRODUTO",""),
+        ...produtos.map(p=>new Option(p.nome.toUpperCase(),p.nome.toUpperCase())),
+        new Option("OUTRO PRODUTO — DESCREVER NA OBSERVAÇÃO","OUTRO PRODUTO — DESCREVER NA OBSERVAÇÃO"));
+    }
+    const subtitulo=document.querySelector(".catalog-head p");
+    if(subtitulo)subtitulo.textContent=
+      "CONSULTE VALORES E DISPONIBILIDADE PELO WHATSAPP. NÃO HÁ RESERVA OU PAGAMENTO AUTOMÁTICO.";
+  }
 
   function setupAtendimento(){
     if(new URLSearchParams(location.search).get("modo")==="orcamento")

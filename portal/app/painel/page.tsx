@@ -2,6 +2,7 @@
 
 import {createClient, type SupabaseClient} from "@supabase/supabase-js";
 import {useState, type FormEvent} from "react";
+import PainelProdutos from "./produtos";
 
 type Pedido={
   id:string;protocolo:string;tipo:string;status:string;nome:string;
@@ -36,7 +37,16 @@ export default function Painel(){
  const [itens,setItens]=useState<Pedido[]>([]);
  const [selecionado,setSelecionado]=useState<string>("");
  const [pesquisa,setPesquisa]=useState("");
+ const [aba,setAba]=useState<"solicitacoes"|"produtos">("solicitacoes");
 
+ async function obterToken(){
+   const sb=authClient();
+   if(!sb)throw Error("Supabase indisponível.");
+   const session=await sb.auth.getSession();
+   const token=session.data.session?.access_token;
+   if(!token)throw Error("Sessão expirada. Entre novamente.");
+   return token;
+ }
  async function carregar(){
    const sb=authClient();
    if(!sb)throw Error("Supabase não configurado.");
@@ -101,7 +111,7 @@ export default function Painel(){
  }
  async function sair(){
    await authClient()?.auth.signOut();
-   setItens([]);setModo("login");setSelecionado("");setErro("");
+   setItens([]);setModo("login");setSelecionado("");setErro("");setAba("solicitacoes");
  }
  const filtrados=itens.filter(x=>{
    const q=pesquisa.trim().toLowerCase();
@@ -111,9 +121,15 @@ export default function Painel(){
  const atual=filtrados.find(x=>x.id===selecionado) || filtrados[0];
  return <main className="pd-admin">
    <div className="pd-admin-top">
-     <div><span>PD SOLUÇÕES DIGITAIS</span><h1>PAINEL PD — SOLICITAÇÕES</h1></div>
+     <div><span>PD SOLUÇÕES DIGITAIS</span><h1>PAINEL PD</h1></div>
      {modo==="lista"&&<button onClick={sair}>SAIR</button>}
    </div>
+   {modo==="lista"&&<nav className="pd-admin-tabs" aria-label="Áreas do painel">
+     <button type="button" className={aba==="solicitacoes"?"ativa":""}
+       onClick={()=>{setErro("");setAba("solicitacoes");}}>SOLICITAÇÕES</button>
+     <button type="button" className={aba==="produtos"?"ativa":""}
+       onClick={()=>{setErro("");setAba("produtos");}}>LOJA RÁPIDA — PRODUTOS</button>
+   </nav>}
    {erro&&<p className="pd-admin-error" role="alert">{erro}</p>}
    {modo==="login"&&<form onSubmit={entrar} className="pd-admin-auth">
      <h2>ACESSO RESTRITO</h2>
@@ -131,7 +147,8 @@ export default function Painel(){
        maxLength={8} value={codigo} onChange={e=>setCodigo(e.target.value)}/></label>
      <button disabled={carregando}>VERIFICAR</button>
    </form>}
-   {modo==="lista"&&<div className="pd-admin-cols">
+   {modo==="lista"&&aba==="produtos"&&<PainelProdutos obterToken={obterToken}/>}
+   {modo==="lista"&&aba==="solicitacoes"&&<div className="pd-admin-cols">
      <section>
        <div className="pd-admin-tools">
          <label>BUSCAR POR PROTOCOLO, NOME OU WHATSAPP

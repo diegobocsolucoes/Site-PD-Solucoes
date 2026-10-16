@@ -1,6 +1,6 @@
 # Loja Rápida — Administração de Produtos
 
-Status: regra funcional definida para implementação futura.
+Status: regra funcional definida. A primeira implementação (cadastro, edição, foto, ocultar e excluir produtos) está na branch `painel-produtos`; ver `PAINEL_PRODUTOS.md`.
 
 ## Regra principal
 A Loja Rápida pública deve ser dinâmica. Produtos, preços, fotos, estoque e status não devem ficar fixos no código.

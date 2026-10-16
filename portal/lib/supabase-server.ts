@@ -23,6 +23,29 @@ export async function consultaPrivada(
   });
 }
 
+// Supabase Storage com a chave de serviço (somente servidor).
+export async function armazenamentoPrivado(
+  path: string, opts: RequestInit = {}
+): Promise<Response> {
+  const config = ambienteServidor();
+  if (!config) throw new Error("SUPABASE_NAO_CONFIGURADO");
+  return fetch(config.url + "/storage/v1/" + path, {
+    ...opts, cache:"no-store",
+    headers:{
+      apikey: config.key,
+      Authorization: "Bearer " + config.key,
+      ...opts.headers
+    }
+  });
+}
+
+// Link público de uma foto do bucket "produtos" (o bucket é de leitura pública).
+export function urlFotoPublica(caminho: string | null): string | null {
+  const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!caminho || !url || !/^https:\/\//.test(url)) return null;
+  return url.replace(/\/$/,"") + "/storage/v1/object/public/produtos/" + caminho;
+}
+
 export async function validarAdmin(request: Request): Promise<boolean> {
   const config = ambienteServidor();
   const publicKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;

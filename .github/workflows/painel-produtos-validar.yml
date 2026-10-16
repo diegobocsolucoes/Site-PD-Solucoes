@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - painel-produtos
+      - solicitacoes-por-email
   workflow_dispatch:
 
 permissions:
@@ -45,6 +46,10 @@ jobs:
         env:
           PGPASSWORD: postgres
         run: psql -h localhost -U postgres -d postgres -f supabase/tests/produtos-smoke.sql
+      - name: Testar contatos (migração, RLS, limite de envios)
+        env:
+          PGPASSWORD: postgres
+        run: psql -h localhost -U postgres -d postgres -f supabase/tests/contatos-smoke.sql
       - name: Instalar dependências
         working-directory: portal
         run: npm install --no-audit --no-fund

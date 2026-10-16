@@ -79,7 +79,9 @@ for doc in html_files:
                 raise SystemExit(f"FALHA: {tag} ausente em {doc.relative_to(ROOT)}: {ref}")
 
 store = (SCREENS / "08-loja-rapida-v2/index.html").read_text(encoding="utf-8")
-require("SOB CONSULTA" in store, "O catálogo anuncia estoque sem verificação")
+require("SOB CONSULTA" in store or "CATÁLOGO EM MONTAGEM" in store,
+        "O catálogo anuncia estoque sem verificação")
+require("EM ESTOQUE" not in store.upper(), "Estoque anunciado sem verificação")
 require(not re.search(r'<span class="price">\s*R\$', store),
         "Valores de demonstração expostos como preços públicos")
 live = (ROOT / "site-live.js").read_text(encoding="utf-8")

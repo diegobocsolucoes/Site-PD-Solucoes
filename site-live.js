@@ -70,7 +70,7 @@
     document.querySelectorAll(".product .price-label").forEach(el=>el.textContent="VALOR ATUAL");
     document.querySelectorAll(".product .reserve").forEach(el=>el.textContent="CONSULTAR →");
     document.querySelectorAll(".catalog-head p").forEach(el=>{
-      el.textContent="CATÁLOGO ILUSTRATIVO. CONSULTE VALORES E DISPONIBILIDADE PELO WHATSAPP. NÃO HÁ RESERVA OU PAGAMENTO AUTOMÁTICO.";
+      el.textContent="CATÁLOGO EM MONTAGEM. CONSULTE ITENS, VALORES E DISPONIBILIDADE PELO WHATSAPP. NÃO HÁ RESERVA OU PAGAMENTO AUTOMÁTICO.";
     });
   }
 

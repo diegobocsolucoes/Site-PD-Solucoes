@@ -6,6 +6,7 @@ on:
     paths:
       - "index.html"
       - "privacidade.html"
+      - "404.html"
       - "scripts/site-smoke.py"
       - "styles.css"
       - "typography-refinements.css"
@@ -53,7 +54,7 @@ jobs:
       - name: Montar site no endereço principal
         run: |
           mkdir -p _site
-          cp index.html styles.css typography-refinements.css privacidade.html site-navigation.js site-live.js robots.txt sitemap.xml _site/
+          cp index.html 404.html styles.css typography-refinements.css privacidade.html site-navigation.js site-live.js robots.txt sitemap.xml _site/
           cp -R screens assets preview _site/
           touch _site/.nojekyll
           python3 -m http.server 8765 --directory _site > /tmp/pd-pages.log 2>&1 &
@@ -66,6 +67,7 @@ jobs:
           curl --fail --silent http://127.0.0.1:8765/assets/logo-pd-oficial.webp -o /dev/null
           curl --fail --silent http://127.0.0.1:8765/assets/scene-workstation-official.webp -o /dev/null
           curl --fail --silent http://127.0.0.1:8765/privacidade.html -o /dev/null
+          curl --fail --silent http://127.0.0.1:8765/assets/og-image.png -o /dev/null
           curl --fail --silent http://127.0.0.1:8765/typography-refinements.css -o /dev/null
           kill $SERVER_PID
       - uses: actions/upload-pages-artifact@v3

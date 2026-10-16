@@ -84,6 +84,16 @@ require("SOB CONSULTA" in store or "CATÁLOGO EM MONTAGEM" in store,
 require("EM ESTOQUE" not in store.upper(), "Estoque anunciado sem verificação")
 require(not re.search(r'<span class="price">\s*R\$', store),
         "Valores de demonstração expostos como preços públicos")
+require((ROOT / "404.html").is_file(), "Página 404 ausente")
+for icon in ("favicon-32.png", "apple-touch-icon.png", "og-image.png"):
+    require((ROOT / "assets" / icon).read_bytes()[:8] == b"\x89PNG\r\n\x1a\n", f"Ícone inválido: {icon}")
+for page in html_files:
+    text = page.read_text(encoding="utf-8")
+    nome = str(page.relative_to(ROOT))
+    for marca, rotulo in (('name="description"', "meta description"), ('rel="canonical"', "canonical"),
+                          ('property="og:image"', "imagem de compartilhamento"), ('rel="icon"', "favicon")):
+        require(marca in text, f"{rotulo} ausente em {nome}")
+    require('<html lang="pt-BR"' in text, f"idioma ausente em {nome}")
 live = (ROOT / "site-live.js").read_text(encoding="utf-8")
 require("wa.me" in live and "showDialog" in live, "Contato WhatsApp não implementado")
 require("Não" not in live or "protocolo" in live, "Mensagem de atendimento não revisada")

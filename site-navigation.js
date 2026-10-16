@@ -155,11 +155,55 @@
     }
     return null;
   };
+  // Links de rodapé e de apoio que estavam sem destino. Cada texto leva a uma
+  // tela existente ou à seção correspondente da própria página.
+  const C13 = "13-chamado-empresarial-v2", B07 = "07-orcamento-empresarial-v2";
+  const EXTRA = {
+    "04-planos-chamados-v2": [["15 chamados", C13], ["20 chamados", C13], ["30 chamados", C13], ["chamado avulso", C13]],
+    "05-consultoria-ti-v2": [["diagnostico inicial", B07], ["plano de melhorias", B07]],
+    "06-seguranca-eletronica-v2": [["cftv e cameras", B07], ["alarmes e sensores", B07], ["controle de acesso", B07]],
+    "07-orcamento-empresarial-v2": [["suporte tecnico", "#needs"]],
+    "08-loja-rapida-v2": [["cabos", "#filters"], ["perifericos", "#filters"], ["adaptadores", "#filters"]],
+    "09-parcerias-v2": [["como funciona", "#pd-como-funciona"], ["servicos", "#pd-servicos"], ["cadastro", "#pd-cadastro"]],
+    "10-consultoria-entrada-v2": [["cliente / particular", "__escolher_cliente__"], ["empresa", "__escolher_empresa__"],
+      ["computador domestico", "11-consultoria-domestica-v2"], ["consultoria de setup", "12-consultoria-setup-v2"],
+      ["consultoria de ti", "05-consultoria-ti-v2"], ["seguranca eletronica", "06-seguranca-eletronica-v2"]],
+    "11-consultoria-domestica-v2": [["computador domestico", "11-consultoria-domestica-v2"],
+      ["consultoria de setup", "12-consultoria-setup-v2"], ["voltar para consultoria", "10-consultoria-entrada-v2"]],
+    "12-consultoria-setup-v2": [["computador domestico", "11-consultoria-domestica-v2"],
+      ["consultoria de setup", "12-consultoria-setup-v2"], ["voltar para consultoria", "10-consultoria-entrada-v2"],
+      ["voltar", "10-consultoria-entrada-v2"]],
+    "14-orcamento-entrada-v2": [["orcamento", "14-orcamento-entrada-v2"], ["cliente / particular", "__orcamento_particular__"],
+      ["empresa", B07]]
+  };
+  if (screen === "09-parcerias-v2") {
+    [["como funciona a parceria", "pd-como-funciona"], ["servicos que podem ser encaminhados", "pd-servicos"],
+     ["solicitar parceria", "pd-cadastro"]].forEach(([frase, id]) => {
+      const alvo = [...document.querySelectorAll("h1,h2,h3")].find(h => normalize(h.textContent).includes(frase));
+      if (alvo && !alvo.id) alvo.id = id;
+    });
+  }
+  const aplicar = (a, destino) => {
+    if (destino.startsWith("#")) { a.href = destino; return; }
+    if (destino.startsWith("__")) {
+      a.href = "#";
+      a.addEventListener("click", (event) => {
+        event.preventDefault();
+        if (destino === "__orcamento_particular__") go("02-atendimento-v5", "?modo=orcamento");
+        else chooseConsulting(destino === "__escolher_empresa__");
+      });
+      return;
+    }
+    a.href = absolute(destino);
+  };
   document.querySelectorAll("a").forEach(a => {
     if(a.classList.contains("brand")){a.href=new URL("index.html",base).href;return;}
     const href=a.getAttribute("href");
     // Preserva âncoras válidas da Home, URLs externas e links já definidos.
     if(href && href!=="#")return;
+    const texto=normalize(a.textContent).replace(/^[\s←→↗◉]+/g,"");
+    const extra=(EXTRA[screen]||[]).find(([frase]) => texto===frase);
+    if(extra){ aplicar(a, extra[1]); return; }
     const target=navigate(a.textContent);
     if(target) a.href=target;
   });

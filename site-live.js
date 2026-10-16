@@ -1,9 +1,14 @@
-/* Portal oficial estático: contato pelo WhatsApp, sem registro/protocolo fictício. */
+/* Portal oficial estático: envia os formulários ao portal (que avisa a PD por e-mail); sem API configurada, abre o WhatsApp. */
 (() => {
   "use strict";
   const script=document.currentScript;
   const base=new URL(".",script.src);
   const phone="5531995483280";
+  // Endereço do portal (Vercel) que recebe os formulários e avisa a PD por e-mail.
+  // Vazio = envio automático desligado; o site segue abrindo o WhatsApp.
+  const API_URL="";
+  // Chave pública do Cloudflare Turnstile (antirrobô). Obrigatória no servidor em produção.
+  const TURNSTILE_KEY="";
   const slug=location.pathname.match(/\/screens\/([^/]+)\//)?.[1]||"01-home-v15";
   const wa=(message)=>"https://wa.me/"+phone+"?text="+encodeURIComponent(message);
   const norm=(s)=>(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"")
@@ -120,6 +125,10 @@
       const cep=digits(cepInput?.value||"");
       if(!result.error&&presencial&&cep.length!==8){result.error="Informe um CEP válido com 8 números.";result.element=cepInput;}
       const tipo=document.querySelector('[data-request-mode="quote"].selected')?"ORÇAMENTO PARTICULAR":"ATENDIMENTO PARTICULAR";
+      result.endpoint="/api/solicitacoes";
+      result.payload={tipo:tipo.startsWith("ORÇAMENTO")?"orcamento":"servico",nome,whatsapp:numero,
+        equipamento:norm(equip),servico:service?.dataset.service||"",
+        modalidade:presencial?"presencial":"entrega",descricao,cep};
       result.lines=[tipo,"Nome: "+nome,"Meu WhatsApp: "+numero,"Equipamento: "+equip,
         "Serviço: "+(service?.dataset.service||"A CONFIRMAR"),
         "Problema: "+descricao,"Modalidade: "+(presencial?"ATENDIMENTO NO ENDEREÇO":"ENTREGA AGENDADA"),
@@ -131,6 +140,7 @@
       const local=required('input[placeholder="INFORME A LOCALIZAÇÃO DA EMPRESA"]',"a localização da empresa");
       const descricao=required("textarea","a descrição da necessidade (mínimo 10 caracteres)",10);
       const areas=[...document.querySelectorAll(".choice.active")].map(el=>tidy(el.textContent,70));
+      result.endpoint="/api/contatos";result.payload={assunto:"orcamento-empresarial",nome:responsavel,whatsapp:numero};
       result.lines=["ORÇAMENTO EMPRESARIAL","Empresa: "+empresa,"Responsável: "+responsavel,
         "Meu WhatsApp: "+numero,"Localização: "+local,
         "Áreas: "+(areas.join("; ")||"A CONFIRMAR"),"Necessidade: "+descricao];
@@ -140,6 +150,7 @@
       const numero=number('input[placeholder="(31) 9XXXX-XXXX"]');
       const email=required('input[placeholder="SEU@EMAIL.COM"]',"o e-mail de contato",5);
       const select=document.querySelector(".field-grid select");
+      result.endpoint="/api/contatos";result.payload={assunto:"parceria",nome:responsavel,whatsapp:numero};
       result.lines=["PROPOSTA DE PARCERIA (SUJEITA À ANÁLISE)",
         "Empresa: "+empresa,"Responsável: "+responsavel,"Meu WhatsApp: "+numero,
         "E-mail: "+email,"Segmento: "+(select?.value||"A CONFIRMAR"),
@@ -150,6 +161,7 @@
       const produto=val("#productSelect");
       if(!result.error&&!produto){result.error="Selecione um produto.";result.element=document.getElementById("productSelect");}
       const selects=[...document.querySelectorAll(".field-grid select")];
+      result.endpoint="/api/contatos";result.payload={assunto:"loja-rapida",nome,whatsapp:numero};
       result.lines=["CONSULTA DE PRODUTO (NÃO É RESERVA CONFIRMADA)",
         "Nome: "+nome,"Meu WhatsApp: "+numero,"Produto: "+produto,
         "Quantidade: "+(selects[1]?.value||"A CONFIRMAR"),
@@ -164,6 +176,7 @@
       if(!result.error&&!servico){result.error="Selecione o serviço desejado.";result.element=document.querySelector('[data-choice-group="service"] button');}
       const descricao=required("textarea","a descrição do problema (mínimo 10 caracteres)",10);
       const groups=["plan","equip","service","impact","mode"];
+      result.endpoint="/api/contatos";result.payload={assunto:"chamado-empresarial",nome:responsavel,whatsapp:numero};
       result.lines=["CHAMADO EMPRESARIAL (SUJEITO À CONFIRMAÇÃO)",
         "Empresa: "+empresa,"Responsável: "+responsavel,"Meu WhatsApp: "+numero,
         ...groups.map(k=>k.toUpperCase()+": "+(
@@ -227,12 +240,66 @@
   errorBox.style.cssText="color:#ffcfbd;font:700 13px/1.5 Arial,sans-serif;margin:12px 0";
   const target=finalButtons?document.querySelector(finalButtons):null;
   if(target)target.before(errorBox);
+  let turnstileToken="";
+  if(API_URL&&TURNSTILE_KEY&&target){
+    const box=document.createElement("div");box.setAttribute("aria-label","Verificação de segurança");
+    target.before(box);
+    const lib=document.createElement("script");
+    lib.src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+    lib.async=true;lib.defer=true;
+    lib.addEventListener("load",()=>window.turnstile?.render(box,{sitekey:TURNSTILE_KEY,theme:"dark",
+      callback:t=>{turnstileToken=t;},"expired-callback":()=>{turnstileToken="";}}));
+    document.head.append(lib);
+  }
+  // Campo-isca invisível: robôs preenchem, pessoas não.
+  const trap=document.createElement("input");
+  trap.type="text";trap.name="site_url";trap.autocomplete="off";trap.tabIndex=-1;
+  trap.setAttribute("aria-hidden","true");trap.style.cssText="position:absolute;left:-9999px";
+  if(target)target.after(trap);
+
+  function showReceived(protocolo){
+    visibleDialog?.remove();
+    const dialog=document.createElement("dialog");visibleDialog=dialog;
+    dialog.setAttribute("aria-label","Solicitação recebida");
+    dialog.style.cssText="max-width:min(94vw,520px);width:100%;border:1px solid #79d497;border-radius:9px;"
+      +"background:#101a13;color:#f2fff5;padding:28px;box-shadow:0 25px 70px #000c;font:14px/1.6 Arial,sans-serif";
+    const h=document.createElement("h2");h.textContent="SOLICITAÇÃO RECEBIDA";h.style.cssText="font-size:22px;color:#9be5ae";
+    const proto=document.createElement("p");proto.textContent="PROTOCOLO: "+protocolo;proto.style.cssText="font-weight:bold;font-size:17px";
+    const msg=document.createElement("p");
+    msg.textContent="A PD recebeu o seu pedido e retorna pelo WhatsApp informado para confirmar valores, disponibilidade e agendamento. Guarde o protocolo.";
+    const ok=document.createElement("button");ok.type="button";ok.textContent="FECHAR";
+    ok.style.cssText="margin-top:14px;padding:13px 22px;background:#21603a;color:#fff;border:0;border-radius:5px;font-weight:bold;cursor:pointer";
+    ok.addEventListener("click",()=>{dialog.close();location.assign(new URL("index.html",base).href);});
+    dialog.addEventListener("close",()=>{dialog.remove();visibleDialog=null;});
+    dialog.append(h,proto,msg,ok);document.body.append(dialog);
+    if(dialog.showModal)dialog.showModal();else dialog.setAttribute("open","");
+  }
+  let enviando=false;
+  async function enviar(r){
+    if(enviando)return;
+    if(TURNSTILE_KEY&&!turnstileToken){errorBox.textContent="Conclua a verificação de segurança.";return;}
+    enviando=true;errorBox.textContent="Enviando solicitação...";
+    try{
+      const body=r.endpoint==="/api/contatos"
+        ?{...r.payload,linhas:r.lines,site_url:trap.value,turnstileToken}
+        :{...r.payload,site_url:trap.value,turnstileToken};
+      const resposta=await fetch(API_URL.replace(/\/$/,"")+r.endpoint,{
+        method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+      const dados=await resposta.json().catch(()=>({}));
+      if(!resposta.ok||!dados.protocolo)throw new Error(dados.erro||"Não foi possível enviar agora.");
+      errorBox.textContent="";showReceived(dados.protocolo);
+    }catch(erro){
+      errorBox.textContent=(erro instanceof Error?erro.message:"Não foi possível enviar agora.")
+        +" Tente novamente ou use o botão FALAR COM A PD.";
+      window.turnstile?.reset?.();turnstileToken="";
+    }finally{enviando=false;}
+  }
   function handleFinal(event){
     if(event){event.preventDefault();event.stopImmediatePropagation();}
     const r=review();
     if(r.error){errorBox.textContent=r.error;r.element?.focus?.();return;}
     errorBox.textContent="";
-    showDialog(r.lines);
+    if(API_URL&&r.endpoint)enviar(r);else showDialog(r.lines);
   }
   if(target)document.addEventListener("click",(event)=>{
     if(event.target.closest?.(finalButtons)===target)handleFinal(event);

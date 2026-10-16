@@ -69,3 +69,20 @@
   .hero h1, .hero-title h1, .hero-copy h1 { font-size: 26px !important; }
   .about-copy h2 { font-size: 26px !important; }
 }
+
+/* Foto de produto ausente: bloco escuro com a logo PD discreta (provisório,
+   até as fotos originais serem reinseridas em assets/). */
+.pd-sem-foto {
+  background: linear-gradient(145deg, rgba(14, 28, 20, .96), rgba(6, 12, 8, .96)) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pd-sem-foto::after {
+  content: "";
+  width: 46%;
+  max-width: 120px;
+  aspect-ratio: 1;
+  background: url("assets/logo-pd-oficial.webp") center / contain no-repeat;
+  opacity: .3;
+}

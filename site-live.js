@@ -47,7 +47,10 @@
       if(img.dataset.pdFallback==="1"){img.style.display="none";return;}
       img.dataset.pdFallback="1";
       if(/produto|hdmi|mouse|teclado|pendrive|adaptador|filtro|rede|forca/i.test(img.src)){
-        img.style.display="none";return;
+        img.style.display="none";
+        const box=img.closest(".product-img,.product-float");
+        if(box)box.classList.add("pd-sem-foto");
+        return;
       }
       img.src=new URL("assets/pd-background.jpg",base).href;
     };

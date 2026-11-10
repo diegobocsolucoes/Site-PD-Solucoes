@@ -24,8 +24,8 @@ Domínio deste pacote: **{{DOMINIO}}** · Os avisos chegam em: **{{EMAIL}}**
      /home/SEU_USUARIO/pd-privado/    ← config.php, sessoes
      ```
    - Ative *Configurações → Mostrar arquivos ocultos* (para ver os `.htaccess`).
-6. **Configurar o banco**: abra `pd-privado/config.php` (botão *Editar*) e preencha só as 3 linhas do bloco `db`:
-   `dbname=` (nome do banco), `usuario` e `senha`. Salve.
+6. **Configurar**: abra `pd-privado/config.php` (botão *Editar*) e preencha as 3 linhas do bloco `db`:
+   `dbname=` (nome do banco), `usuario` e `senha`. Confira também a linha `'para'` (e-mail que recebe os avisos; aceita vários separados por vírgula). Salve.
 7. **Instalar**: abra `https://{{DOMINIO}}/instalar.php`.
    - Código de instalação: `{{TOKEN}}` (o mesmo que está no `config.php`).
    - Escolha seu **usuário** e uma **senha de 12+ caracteres**.

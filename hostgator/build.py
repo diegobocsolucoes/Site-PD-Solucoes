@@ -26,6 +26,7 @@ def principal():
     ap.add_argument("--turnstile-site", default="", help="chave PÚBLICA do Cloudflare Turnstile (opcional)")
     ap.add_argument("--turnstile-segredo", default="", help="chave SECRETA do Turnstile (opcional)")
     ap.add_argument("--modo-aviso", choices=["mail", "arquivo"], default="mail")
+    ap.add_argument("--pasta-site", default="public_html", help="nome da pasta do site no servidor (domínio adicional: o próprio domínio)")
     ap.add_argument("--saida", default=str(RAIZ / "dist"))
     ap.add_argument("--http", action="store_true", help="só para testes locais: URLs http:// e sem forçar HTTPS")
     a = ap.parse_args()
@@ -41,7 +42,7 @@ def principal():
     saida = Path(a.saida) / "pd-hostgator"
     if saida.exists():
         shutil.rmtree(saida)
-    pub = saida / "public_html"
+    pub = saida / a.pasta_site
     priv = saida / "pd-privado"
     pub.mkdir(parents=True)
     priv.mkdir()
@@ -109,7 +110,7 @@ def principal():
     # 4) Guia
     guia = (AQUI / "LEIAME_HOSTGATOR.md")
     if guia.exists():
-        t = guia.read_text(encoding="utf-8").replace("{{DOMINIO}}", dominio).replace("{{TOKEN}}", token).replace("{{EMAIL}}", a.email)
+        t = guia.read_text(encoding="utf-8").replace("{{DOMINIO}}", dominio).replace("{{TOKEN}}", token).replace("{{EMAIL}}", a.email).replace("public_html", a.pasta_site)
         (saida / "LEIAME_HOSTGATOR.md").write_text(t, encoding="utf-8")
 
     # 5) Zip

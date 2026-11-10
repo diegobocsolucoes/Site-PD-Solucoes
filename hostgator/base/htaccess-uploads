@@ -1,0 +1,8 @@
+# Pasta de fotos: só imagens, nunca código.
+Options -Indexes -ExecCGI
+<FilesMatch "\.(php|phtml|phar|pl|py|cgi|sh|html?|js)$">
+  Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+Header set X-Content-Type-Options "nosniff"
+</IfModule>

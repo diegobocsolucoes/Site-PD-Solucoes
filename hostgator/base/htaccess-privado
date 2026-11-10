@@ -1,0 +1,2 @@
+# Se esta pasta ficar acidentalmente dentro de public_html, nada é servido.
+Require all denied

@@ -69,7 +69,48 @@
 
   // Este catálogo ainda não está conectado ao estoque do Painel PD.
   // Não divulgar preços ou disponibilidade meramente ilustrativos.
-  if(slug==="08-loja-rapida-v2"){
+  if(slug==="08-loja-rapida-v2"&&API_URL){
+    // Catálogo vivo: lê os produtos publicados no Painel PD (somente campos públicos).
+    const ROT={disponivel:["ok","DISPONÍVEL"],poucas_unidades:["low","POUCAS UNIDADES"],indisponivel:["off","INDISPONÍVEL"]};
+    const grid=document.getElementById("products"),filtros=document.getElementById("filters");
+    const sel=document.getElementById("productSelect"),vazio=document.getElementById("catalogEmpty");
+    const dinheiro=c=>c===null||c===undefined?"A CONFIRMAR":new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(c/100);
+    const el=(t,c,x)=>{const n=document.createElement(t);if(c)n.className=c;if(x!==undefined)n.textContent=x;return n;};
+    fetch(API_URL.replace(/\/$/,"")+"/api/produtos",{headers:{Accept:"application/json"}})
+      .then(r=>r.ok?r.json():Promise.reject(new Error("catalogo")))
+      .then(({produtos})=>{
+        if(!grid||!Array.isArray(produtos)||!produtos.length)return;
+        vazio?.remove();
+        const cards=[];
+        produtos.forEach(p=>{
+          const [cls,rot]=ROT[p.status]||ROT.indisponivel;
+          const card=el("article","product");card.dataset.cat=p.categoria;
+          const img=el("div","product-img");
+          img.append(el("span","status "+cls,rot));
+          if(p.foto_url){const i=document.createElement("img");i.src=new URL(p.foto_url,API_URL).href;i.alt=p.nome;i.loading="lazy";img.append(i);}
+          const body=el("div","product-body");
+          const linha=el("div","price-row"),bloco=document.createElement("div");
+          bloco.append(el("span","price-label","VALOR ATUAL"),el("span","price",dinheiro(p.preco_centavos)));
+          const b=el("button","reserve","CONSULTAR →");b.type="button";
+          if(p.status==="indisponivel")b.disabled=true;
+          b.addEventListener("click",()=>{if(sel){sel.value=p.nome;}document.getElementById("reserva")?.scrollIntoView({behavior:"smooth",block:"start"});});
+          linha.append(bloco,b);
+          body.append(el("h3","",p.nome),el("div","product-desc",p.descricao||""),linha);
+          card.append(img,body);grid.append(card);cards.push(card);
+          if(sel){const o=document.createElement("option");o.value=p.nome;o.textContent=p.nome;sel.insertBefore(o,sel.options[sel.options.length-1]);}
+        });
+        document.querySelectorAll(".catalog-head p").forEach(x=>{x.textContent="VALORES E DISPONIBILIDADE SÃO CONFIRMADOS PELO WHATSAPP. NÃO HÁ RESERVA OU PAGAMENTO AUTOMÁTICO.";});
+        if(filtros){
+          const cats=[...new Set(produtos.map(p=>p.categoria))].sort((a,b)=>a.localeCompare(b,"pt-BR"));
+          if(cats.length>1)["TODOS",...cats].forEach((c,i)=>{
+            const f=el("button","filter"+(i?"":" active"),c.toUpperCase());f.type="button";
+            f.addEventListener("click",()=>{filtros.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));f.classList.add("active");
+              cards.forEach(k=>{k.style.display=(i===0||k.dataset.cat===c)?"flex":"none";});});
+            filtros.append(f);
+          });
+        }
+      }).catch(()=>{/* mantém "catálogo em montagem" */});
+  }else if(slug==="08-loja-rapida-v2"){
     document.querySelectorAll(".product .status").forEach(el=>el.textContent="SOB CONSULTA");
     document.querySelectorAll(".product .price").forEach(el=>el.textContent="A CONFIRMAR");
     document.querySelectorAll(".product .price-label").forEach(el=>el.textContent="VALOR ATUAL");

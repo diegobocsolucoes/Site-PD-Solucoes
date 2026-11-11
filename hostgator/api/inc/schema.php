@@ -53,6 +53,7 @@ function pd_schema(string $driver): array {
   status VARCHAR(20) NOT NULL DEFAULT 'novo',
   nome VARCHAR(100) NOT NULL,
   whatsapp VARCHAR(13) NOT NULL,
+  categoria VARCHAR(20) NULL,
   resumo TEXT NOT NULL,
   aviso_enviado TINYINT NOT NULL DEFAULT 0,
   criado_em DATETIME NOT NULL,
@@ -156,7 +157,7 @@ function pd_criar_tabelas(PDO $pdo): void {
     if ((int)$existe === 0) $pdo->exec("INSERT INTO pd_contagem (chave, valor) VALUES ('protocolo', 0)");
 }
 
-const PD_SCHEMA_VERSAO = 3;
+const PD_SCHEMA_VERSAO = 4;
 
 /** Atualiza bancos já instalados (cria as tabelas novas uma única vez). Nunca derruba a página. */
 function pd_migrar(PDO $pdo): void {
@@ -167,6 +168,7 @@ function pd_migrar(PDO $pdo): void {
         if ((int)$tem === 0) return;                       // instalação ainda não concluída
         pd_criar_tabelas($pdo);
         try { $pdo->exec('ALTER TABLE pd_solicitacoes ADD COLUMN cobertura VARCHAR(10) NULL'); } catch (Throwable $e) { /* já existe */ }
+        try { $pdo->exec('ALTER TABLE pd_contatos ADD COLUMN categoria VARCHAR(20) NULL'); } catch (Throwable $e) { /* já existe */ }
         if ($v === false) $pdo->exec("INSERT INTO pd_contagem (chave, valor) VALUES ('schema', " . PD_SCHEMA_VERSAO . ")");
         else $pdo->exec("UPDATE pd_contagem SET valor = " . PD_SCHEMA_VERSAO . " WHERE chave = 'schema'");
     } catch (Throwable $e) {

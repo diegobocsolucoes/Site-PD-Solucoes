@@ -196,3 +196,14 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,syste
 .pd-card form{display:grid;gap:4px;max-width:420px}
 .pd-card form label{display:grid;gap:7px;margin:10px 0;color:var(--muted);font-size:13px;font-weight:600}
 .pd-card form input{min-height:46px;padding:0 14px;background:#0e1812;color:var(--ink);border:1px solid var(--line-2);border-radius:10px;font-size:15px;width:100%}
+
+/* categorias dos outros pedidos */
+.pd-categorias{display:flex;flex-wrap:wrap;gap:8px;padding:6px 20px 14px}
+.pd-categorias .pd-cat{min-height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line-2);background:transparent;color:#c9d6ce;font-weight:600;font-size:13px;cursor:pointer}
+.pd-categorias .pd-cat.ativa{background:rgba(88,185,120,.18);border-color:var(--green-2);color:var(--green-2)}
+.pd-cat-rotulo{display:block;margin-top:2px;color:var(--green-2);font-size:12px;font-weight:600;letter-spacing:.02em}
+@media(max-width:760px){.pd-categorias{padding:6px 14px 12px}}
+
+/* detalhe do pedido: só aparece ao clicar no protocolo */
+.pd-admin-detail .pd-fechar-detalhe{float:right;min-height:36px;padding:0 12px;border-radius:8px;border:1px solid var(--line-2);background:transparent;color:#c9d6ce;font-weight:600;font-size:13px;cursor:pointer}
+@media(max-width:760px){.pd-admin-detail.vazio{display:none}}

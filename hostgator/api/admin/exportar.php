@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require dirname(__DIR__) . '/inc/boot.php';
 require dirname(__DIR__) . '/inc/admin.php';
+require dirname(__DIR__) . '/inc/validar.php';
 
 pd_exigir_metodo('GET');
 pd_exigir_admin(false);
@@ -10,7 +11,7 @@ $tabela = ['contatos' => 'pd_contatos', 'auditoria' => 'pd_auditoria'][$fonte] ?
 $campos = $fonte === 'auditoria'
     ? ['criado_em', 'usuario', 'acao', 'alvo', 'detalhe']
     : ($fonte === 'contatos'
-    ? ['protocolo', 'assunto', 'status', 'nome', 'whatsapp', 'resumo', 'criado_em', 'atualizado_em']
+    ? ['protocolo', 'assunto', 'categoria', 'status', 'nome', 'whatsapp', 'resumo', 'criado_em', 'atualizado_em']
     : ['protocolo', 'tipo', 'status', 'nome', 'whatsapp', 'equipamento', 'servico', 'modalidade', 'cep', 'cobertura', 'descricao', 'criado_em', 'atualizado_em']);
 $linhas = pd_db()->query('SELECT ' . implode(', ', $campos) . " FROM $tabela ORDER BY criado_em DESC LIMIT 5000")->fetchAll();
 pd_auditar('exportar', $fonte, count($linhas) . ' registros exportados (CSV)');
@@ -22,6 +23,7 @@ $saida = fopen('php://output', 'w');
 fwrite($saida, "\xEF\xBB\xBF");                       // Excel reconhece os acentos
 fputcsv($saida, $campos, ';');
 foreach ($linhas as $l) {
+    if ($fonte === 'contatos' && !isset(PD_CATEGORIAS[(string)$l['categoria']])) $l['categoria'] = pd_categoria_padrao((string)$l['assunto']);
     $linha = [];
     foreach ($campos as $c) {                          // evita fórmulas maliciosas no Excel
         $v = (string)$l[$c];

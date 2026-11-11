@@ -8,6 +8,12 @@ const PD_SERVICOS = ['formatacao','lento','nao-liga','limpeza','windows','ssd','
 const PD_ASSUNTOS = ['orcamento-empresarial' => 'Orçamento empresarial', 'chamado-empresarial' => 'Chamado empresarial',
     'parceria' => 'Proposta de parceria', 'loja-rapida' => 'Consulta da Loja Rápida',
     'plano-chamados' => 'Pedido de plano de chamados', 'consultoria-ti' => 'Consultoria de TI', 'seguranca-eletronica' => 'Segurança eletrônica'];
+const PD_CATEGORIAS = ['comercial' => 'Comercial', 'chamados' => 'Chamados', 'empresas' => 'Empresas',
+    'parcerias' => 'Parcerias', 'loja' => 'Loja Rápida', 'outros' => 'Outros'];
+const PD_CATEGORIA_PADRAO = ['orcamento-empresarial' => 'comercial', 'plano-chamados' => 'comercial', 'chamado-empresarial' => 'chamados',
+    'consultoria-ti' => 'empresas', 'seguranca-eletronica' => 'empresas', 'parceria' => 'parcerias', 'loja-rapida' => 'loja'];
+function pd_categoria_padrao(string $assunto): string { return PD_CATEGORIA_PADRAO[$assunto] ?? 'outros'; }
+
 const PD_STATUS_SOLICITACAO = ['novo','aguardando_contato','cliente_contatado','orcamento_enviado','aguardando_cliente',
     'agendado','em_atendimento','aguardando_peca_cliente','concluido','cancelado','nao_convertido'];
 const PD_STATUS_CONTATO = ['novo','contatado','em_andamento','concluido','cancelado'];

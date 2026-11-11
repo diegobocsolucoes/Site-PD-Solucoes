@@ -398,18 +398,18 @@
     const contatos = fonte === "contatos";
     const status = contatos ? STATUS_CT : STATUS_SOL;
     const rotuloStatus = (v) => (status.find(([k]) => k === v) || [v, v])[1];
-    let itens = [], selecionado = "", busca = "", erro = "", filtro = "";
+    let itens = [], selecionado = "", busca = "", erro = "", filtro = "", filtroCat = "", categorias = {};
 
     async function carregar() {
       erro = "";
-      try { itens = (await api("/api/admin/solicitacoes?fonte=" + fonte))[fonte] || []; }
+      try { const r = await api("/api/admin/solicitacoes?fonte=" + fonte); itens = r[fonte] || []; categorias = r.categorias || {}; }
       catch (ex) { if (ex instanceof SessaoExpirada) return; erro = ex.message; }
       desenhar();
     }
-    async function mudar(id, novo) {
+    async function mudar(id, novo, cat) {
       erro = "";
       try {
-        const r = await api("/api/admin/solicitacoes", { metodo: "PATCH", corpo: { id, status: novo, fonte } });
+        const r = await api("/api/admin/solicitacoes", { metodo: "PATCH", corpo: cat ? { id, categoria: cat, fonte } : { id, status: novo, fonte } });
         const atualizado = r.solicitacao || r.contato;
         itens = itens.map((x) => (x.id === id ? atualizado : x));
       } catch (ex) { if (ex instanceof SessaoExpirada) return; erro = ex.message; }
@@ -434,22 +434,27 @@
     }
     function desenhar() {
       const q = busca.trim().toLowerCase();
-      const filtrados = itens.filter((x) => (!filtro || x.status === filtro) && (!q || [x.protocolo, x.nome, x.whatsapp, x.servico || x.assunto, x.status]
+      const filtrados = itens.filter((x) => (!filtro || x.status === filtro) && (!filtroCat || x.categoria === filtroCat) && (!q || [x.protocolo, x.nome, x.whatsapp, x.servico || x.assunto, x.status]
         .some((v) => String(v || "").toLowerCase().includes(q))));
-      const atual = filtrados.find((x) => x.id === selecionado) || filtrados[0];
+      const atual = filtrados.find((x) => x.id === selecionado);
       const pesquisa = h("input", { value: busca, oninput: (e) => { busca = e.target.value; desenhar(); const i = raiz.querySelector(".pd-busca input"); i && (i.focus(), i.setSelectionRange(busca.length, busca.length)); } });
+      const contar = (c) => itens.filter((x) => x.categoria === c).length;
+      const chips = contatos ? h("div", { class: "pd-categorias", role: "group", "aria-label": "Filtrar por categoria" },
+        [["", "Todas", itens.length], ...Object.entries(categorias).map(([k, t]) => [k, t, contar(k)])].map(([k, t, n]) =>
+          h("button", { type: "button", class: "pd-cat" + (k === filtroCat ? " ativa" : ""), onclick: () => { filtroCat = k; desenhar(); } }, t + " (" + n + ")"))) : null;
       const lista = h("div", { role: "table", "aria-label": contatos ? "Outros pedidos recebidos" : "Solicitações recebidas" },
         h("div", { role: "row", class: "pd-admin-head" }, h("span", null, "PROTOCOLO"), h("span", null, "CLIENTE"), h("span", null, "STATUS")),
         filtrados.length === 0 ? h("p", null, contatos ? "NENHUM PEDIDO ENCONTRADO." : "NENHUMA SOLICITAÇÃO ENCONTRADA.") : null,
         filtrados.map((x) => h("button", { type: "button", class: "pd-admin-row " + (atual && x.id === atual.id ? "selected" : ""),
-          onclick: () => { selecionado = x.id; desenhar(); } },
-          h("strong", null, x.protocolo), h("span", null, x.nome), h("span", null, rotuloStatus(x.status)))));
+          onclick: () => { selecionado = selecionado === x.id ? "" : x.id; desenhar(); if (selecionado && window.matchMedia("(max-width:760px)").matches) { const d = raiz.querySelector(".pd-admin-detail"); d && d.scrollIntoView({ behavior: "smooth", block: "start" }); } } },
+          h("strong", null, x.protocolo), h("span", null, x.nome, contatos && categorias[x.categoria] ? h("small", { class: "pd-cat-rotulo" }, categorias[x.categoria]) : null), h("span", null, rotuloStatus(x.status)))));
       let detalhe;
-      if (!atual) detalhe = h("p", null, "Selecione um pedido.");
+      if (!atual) detalhe = h("p", { class: "pd-mudo" }, "Clique no protocolo de um pedido para ver os detalhes.");
       else {
         const seletor = h("select", { onchange: (e) => mudar(atual.id, e.target.value) },
           status.map(([v, t]) => h("option", { value: v, selected: v === atual.status }, t)));
         detalhe = h("div", null,
+          h("button", { type: "button", class: "pd-fechar-detalhe", onclick: () => { selecionado = ""; desenhar(); } }, "FECHAR ✕"),
           h("h2", null, atual.protocolo),
           contatos
             ? [h("p", null, h("strong", null, atual.nome), " — ", ASSUNTOS[atual.assunto] || atual.assunto), h("div", { class: "pd-pre" }, atual.resumo)]
@@ -461,6 +466,8 @@
           h("div", { class: "pd-encerrar" }, ENCERRADOS.includes(atual.status)
             ? h("button", { type: "button", class: "pd-reabrir", onclick: () => mudar(atual.id, contatos ? "em_andamento" : "em_atendimento") }, "REABRIR CHAMADO")
             : h("button", { type: "button", class: "pd-fechar", onclick: () => { if (window.confirm("Encerrar o chamado " + atual.protocolo + "?")) mudar(atual.id, "concluido"); } }, "ENCERRAR CHAMADO")),
+          contatos ? h("label", null, "CATEGORIA", h("select", { onchange: (e) => mudar(atual.id, null, e.target.value) },
+            Object.entries(categorias).map(([v, t]) => h("option", { value: v, selected: v === atual.categoria }, t)))) : null,
           h("label", null, "STATUS", seletor),
           h("small", null, "Recebido em " + quando(atual.criado_em) + " • Aviso por e-mail: " + (Number(atual.aviso_enviado) ? "enviado" : "não enviado")),
           blocoNotas(atual.id));
@@ -475,8 +482,8 @@
                 h("option", { value: "" }, "TODOS"), status.map(([v, t]) => h("option", { value: v, selected: v === filtro }, t)))),
               h("button", { type: "button", onclick: carregar }, "ATUALIZAR FILA"),
               h("a", { class: "pd-botao-link", href: "/api/admin/exportar?fonte=" + fonte, download: "" }, "BAIXAR PLANILHA (CSV)")),
-            lista),
-          h("aside", { class: "pd-admin-detail" }, detalhe)),
+            chips, lista),
+          h("aside", { class: "pd-admin-detail" + (atual ? "" : " vazio") }, detalhe)),
       ].filter(Boolean));
     }
     carregar();

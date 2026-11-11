@@ -103,3 +103,24 @@ textarea{min-height:110px}
  .stepper .step b{font-size:10.5px!important}
  .stepper .line{flex:1 1 6px!important;min-width:6px!important}
 }
+
+/* ===== sem retângulos em volta de texto solto ===== */
+/* etiquetas e chips viram texto com um ponto verde */
+.mini,.bullets span,.micro-tags span,.info-tags span,.hero-tags span,.info-tag,.mini-call,.choice-badge,.plan-label,.side-head span,.hero-note,.selected-mode-line span{
+ border:0!important;background:none!important;box-shadow:none!important;border-radius:0!important;padding:0!important}
+.mini-row,.bullets,.micro-tags,.info-tags,.hero-tags{display:flex;flex-wrap:wrap;gap:8px 20px!important}
+.mini,.bullets span,.micro-tags span,.info-tags span,.hero-tags span,.info-tag{display:inline-block!important;color:#cfe0d5!important;font-weight:500!important}
+.mini:before,.bullets span:before,.micro-tags span:before,.info-tags span:before,.hero-tags span:before,.info-tag:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--a-green);display:inline-block;margin-right:8px;vertical-align:middle}
+.mini strong,.info-tags strong{color:var(--a-green2)!important}
+.plan-label,.choice-badge{color:var(--a-green2)!important}
+/* avisos viram nota com filete lateral */
+.warning,.scope-note,.scope,.form-note,.info-strip,.disclaimer,.notice-box,.toast,.hero-art-note,.hero-note,.side-note,.info-highlight .mini-call{
+ border:0!important;border-left:3px solid var(--a-green)!important;border-radius:0 12px 12px 0!important;background:rgba(88,185,120,.07)!important;padding:12px 16px!important;box-shadow:none!important}
+.warning{border-left-color:#e6c777!important;background:rgba(230,199,119,.07)!important}
+.toast{border-radius:12px!important}
+/* botões "ir" e rótulos de formulário sem moldura extra */
+.field label,.field>span,label>b,.check-option>span{border:0!important;background:none!important;padding:0!important}
+.filebox{border:1px dashed var(--a-line2)!important;background:transparent!important;border-radius:12px!important}
+/* o selo "WhatsApp / fale conosco" do topo vira texto simples */
+.whatsapp-badge{border:0!important;background:none!important;padding:0!important}
+.mini strong,.info-tags strong,.hero-tags strong{color:inherit!important;font-weight:inherit!important}

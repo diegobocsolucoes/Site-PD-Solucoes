@@ -10,6 +10,7 @@ on:
       - "scripts/site-smoke.py"
       - "styles.css"
       - "typography-refinements.css"
+      - "home-a.css"
       - "screens/**"
       - "assets/**"
       - "preview/**"
@@ -54,7 +55,7 @@ jobs:
       - name: Montar site no endereço principal
         run: |
           mkdir -p _site
-          cp index.html 404.html styles.css typography-refinements.css privacidade.html site-navigation.js site-live.js robots.txt sitemap.xml _site/
+          cp index.html 404.html styles.css typography-refinements.css home-a.css privacidade.html site-navigation.js site-live.js robots.txt sitemap.xml _site/
           cp -R screens assets preview _site/
           touch _site/.nojekyll
           python3 -m http.server 8765 --directory _site > /tmp/pd-pages.log 2>&1 &

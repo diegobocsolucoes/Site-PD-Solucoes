@@ -12,7 +12,7 @@ AQUI = Path(__file__).resolve().parent
 RAIZ = AQUI.parent
 ANTIGO_URL = "https://diegobocsolucoes.github.io/Site-PD-Solucoes/"
 ANTIGO_PREFIXO = "/Site-PD-Solucoes/"
-ARQUIVOS_SITE = ["index.html", "404.html", "privacidade.html", "styles.css", "typography-refinements.css",
+ARQUIVOS_SITE = ["index.html", "404.html", "privacidade.html", "styles.css", "typography-refinements.css", "home-a.css",
                  "site-navigation.js", "site-live.js", "robots.txt", "sitemap.xml"]
 PASTAS_SITE = ["screens", "assets"]
 IGNORAR = {".b64", ".map"}

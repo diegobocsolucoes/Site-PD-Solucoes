@@ -6,7 +6,8 @@ const PD_SERVICOS = ['formatacao','lento','nao-liga','limpeza','windows','ssd','
     'superaquecimento','programas','backup','wifi','hardware','novo-pc','otimizacao','tela-azul','atualizacoes',
     'transferencia','recuperacao','audio','usb','montagem','outro'];
 const PD_ASSUNTOS = ['orcamento-empresarial' => 'Orçamento empresarial', 'chamado-empresarial' => 'Chamado empresarial',
-    'parceria' => 'Proposta de parceria', 'loja-rapida' => 'Consulta da Loja Rápida'];
+    'parceria' => 'Proposta de parceria', 'loja-rapida' => 'Consulta da Loja Rápida',
+    'plano-chamados' => 'Pedido de plano de chamados', 'consultoria-ti' => 'Consultoria de TI', 'seguranca-eletronica' => 'Segurança eletrônica'];
 const PD_STATUS_SOLICITACAO = ['novo','aguardando_contato','cliente_contatado','orcamento_enviado','aguardando_cliente',
     'agendado','em_atendimento','aguardando_peca_cliente','concluido','cancelado','nao_convertido'];
 const PD_STATUS_CONTATO = ['novo','contatado','em_andamento','concluido','cancelado'];

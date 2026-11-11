@@ -8,7 +8,7 @@
   const STATUS_CT = [["novo","NOVO"],["contatado","CONTATADO"],["em_andamento","EM ANDAMENTO"],
     ["concluido","CONCLUÍDO"],["cancelado","CANCELADO"]];
   const ASSUNTOS = {"orcamento-empresarial":"ORÇAMENTO EMPRESARIAL","chamado-empresarial":"CHAMADO EMPRESARIAL",
-    "parceria":"PARCERIA","loja-rapida":"LOJA RÁPIDA"};
+    "parceria":"PARCERIA","loja-rapida":"LOJA RÁPIDA","plano-chamados":"PLANO DE CHAMADOS","consultoria-ti":"CONSULTORIA DE TI","seguranca-eletronica":"SEGURANÇA ELETRÔNICA"};
   const ROTULO_PROD = {disponivel:"DISPONÍVEL",poucas_unidades:"POUCAS UNIDADES",indisponivel:"INDISPONÍVEL"};
   const ENCERRADOS = ["concluido", "cancelado", "nao_convertido"];
   const FOTO_MAX = 2 * 1024 * 1024;

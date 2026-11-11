@@ -265,6 +265,38 @@
         "Recebimento: "+(selects[2]?.value||"A combinar"),
         "Localização: "+(val('input[placeholder="Informe sua localização"]')||"A combinar"),
         "Observações: "+(val("textarea")||"NENHUMA")];
+    }else if(slug==="04-planos-chamados-v2"){
+      const empresa=required("#prEmpresa","o nome da empresa");
+      const responsavel=required("#prResp","o nome do responsável");
+      const numero=number("#prZap");
+      const plano=val("#prPlano");
+      result.endpoint="/api/contatos";result.payload={assunto:"plano-chamados",nome:responsavel,whatsapp:numero};
+      result.lines=["Pedido de plano de chamados (sujeito à confirmação)","Plano: "+plano+" chamados",
+        "Empresa: "+empresa,"Responsável: "+responsavel,"Meu WhatsApp: "+numero,"Observações: "+(val("#prObs")||"Nenhuma")];
+    }else if(slug==="05-consultoria-ti-v2"){
+      const empresa=required('input[placeholder="Nome da empresa"]',"o nome da empresa");
+      const responsavel=required('input[placeholder="Seu nome"]',"o nome do responsável");
+      const numero=number('input[placeholder="(31) 9xxxx-xxxx"]');
+      const qtd=required('input[placeholder="EX.: 6"]',"a quantidade de equipamentos",1);
+      const local=required('input[placeholder="Informe a localização da empresa"]',"a localização da empresa");
+      const objetivos=[...document.querySelectorAll(".choice.active")].map(el=>tidy(el.textContent,60));
+      const seg=document.querySelector("select");
+      result.endpoint="/api/contatos";result.payload={assunto:"consultoria-ti",nome:responsavel,whatsapp:numero};
+      result.lines=["Consultoria de TI (sujeita à análise)","Empresa: "+empresa,"Responsável: "+responsavel,"Meu WhatsApp: "+numero,
+        "E-mail: "+(val('input[type="email"]')||"Não informado"),"Equipamentos: "+qtd,
+        "Segmento: "+((seg&&seg.selectedIndex>0)?seg.value:"A confirmar"),"Objetivo: "+(objetivos.join("; ")||"A confirmar"),
+        "Dificuldades: "+(val("textarea")||"A combinar"),"Localização: "+local];
+    }else if(slug==="06-seguranca-eletronica-v2"){
+      const empresa=required('input[placeholder="Nome da empresa"]',"o nome da empresa");
+      const responsavel=required('input[placeholder="Seu nome"]',"o nome do responsável");
+      const numero=number('input[placeholder="(31) 9xxxx-xxxx"]');
+      const local=required('input[placeholder="Informe a localização da empresa"]',"a localização da empresa");
+      const existe=[...document.querySelectorAll(".choice.active")].map(el=>tidy(el.textContent,60));
+      const [tipo,tam]=[...document.querySelectorAll("select")].map(el=>el.selectedIndex>0?el.value:"A confirmar");
+      result.endpoint="/api/contatos";result.payload={assunto:"seguranca-eletronica",nome:responsavel,whatsapp:numero};
+      result.lines=["Segurança eletrônica (sujeita à análise)","Empresa: "+empresa,"Responsável: "+responsavel,"Meu WhatsApp: "+numero,
+        "E-mail: "+(val('input[type="email"]')||"Não informado"),"Tipo de negócio: "+tipo,"Tamanho: "+tam,
+        "Já existe: "+(existe.join("; ")||"A confirmar"),"Necessidade: "+(val("textarea")||"A combinar"),"Localização: "+local];
     }else if(slug==="13-chamado-empresarial-v2"){
       const empresa=required('input[placeholder="Nome da empresa"]',"a empresa");
       const responsavel=required('input[placeholder="Nome do responsável"]',"o responsável");
@@ -331,7 +363,9 @@
 
   const finalButtons=slug==="02-atendimento-v5"?"#submitButton":
     ["07-orcamento-empresarial-v2","08-loja-rapida-v2","09-parcerias-v2"].includes(slug)?"#reviewBtn":
-    slug==="13-chamado-empresarial-v2"?".primary":"";
+    slug==="13-chamado-empresarial-v2"?".primary":
+    slug==="04-planos-chamados-v2"?"#planoBtn":
+    ["05-consultoria-ti-v2","06-seguranca-eletronica-v2"].includes(slug)?"button.submit":"";
   const errorBox=document.createElement("p");
   errorBox.setAttribute("role","alert");errorBox.setAttribute("aria-live","assertive");
   errorBox.style.cssText="color:#ffcfbd;font:700 13px/1.5 Arial,sans-serif;margin:12px 0";
@@ -370,6 +404,15 @@
     dialog.addEventListener("close",()=>{dialog.remove();visibleDialog=null;});
     dialog.append(h,proto,msg,ok);document.body.append(dialog);
     if(dialog.showModal)dialog.showModal();else dialog.setAttribute("open","");
+  }
+  if(slug==="04-planos-chamados-v2"){
+    document.querySelectorAll(".plan .go").forEach(btn=>btn.addEventListener("click",ev=>{
+      ev.preventDefault();ev.stopImmediatePropagation();
+      const num=(btn.closest(".plan")?.textContent.match(/Plano\s*(\d+)/)||[])[1];
+      const sel=document.getElementById("prPlano");if(sel&&num)sel.value=num;
+      const alvo=document.getElementById("solicitar-plano");alvo?.scrollIntoView({behavior:"smooth",block:"start"});
+      setTimeout(()=>document.getElementById("prEmpresa")?.focus({preventScroll:true}),400);
+    },true));
   }
   let enviando=false;
   async function enviar(r){

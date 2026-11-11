@@ -159,7 +159,7 @@
   // tela existente ou à seção correspondente da própria página.
   const C13 = "13-chamado-empresarial-v2", B07 = "07-orcamento-empresarial-v2";
   const EXTRA = {
-    "04-planos-chamados-v2": [["15 chamados", C13], ["20 chamados", C13], ["30 chamados", C13], ["chamado avulso", C13]],
+    "04-planos-chamados-v2": [["chamado avulso", C13]],
     "05-consultoria-ti-v2": [["diagnostico inicial", B07], ["plano de melhorias", B07]],
     "06-seguranca-eletronica-v2": [["cftv e cameras", B07], ["alarmes e sensores", B07], ["controle de acesso", B07]],
     "07-orcamento-empresarial-v2": [["suporte tecnico", "#needs"]],

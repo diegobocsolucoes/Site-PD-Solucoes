@@ -38,6 +38,7 @@ if ($atual['status'] !== $status) {
     $pdo->prepare("UPDATE $tabela SET status = ?, atualizado_em = ? WHERE id = ?")->execute([$status, $agora, $id]);
     $pdo->prepare('INSERT INTO pd_historico_status (id, origem, registro_id, status_anterior, status_novo, criado_em) VALUES (?, ?, ?, ?, ?, ?)')
         ->execute([pd_uuid(), $fonte, $id, $atual['status'], $status, $agora]);
+    pd_auditar('status', (string)$atual['protocolo'], $atual['status'] . ' → ' . $status);
 }
 $q->execute([$id]);
 $novo = $q->fetch();

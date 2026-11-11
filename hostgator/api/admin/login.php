@@ -15,9 +15,10 @@ $admin = pd_admin_buscar($usuario);
 // Hash falso mantém o tempo de resposta igual quando o usuário não existe.
 $hash = $admin['senha_hash'] ?? '$2y$10$.yzjaKgTGuH5rT0FP7Ww2uGE5u3EPwQ7GdBB451ZM2KQmVxEO8P9.';
 $senhaOk = password_verify($senha, $hash);
-if ($admin && pd_admin_bloqueado($admin)) pd_falha(429, 'Acesso bloqueado temporariamente por tentativas incorretas. Tente mais tarde.');
+if ($admin && pd_admin_bloqueado($admin)) { pd_auditar('login_bloqueado', '', 'Tentativa durante bloqueio', $usuario); pd_falha(429, 'Acesso bloqueado temporariamente por tentativas incorretas. Tente mais tarde.'); }
 if (!$admin || !$senhaOk) {
     if ($admin) pd_admin_registrar_falha($admin);
+    pd_auditar('login_falha', '', 'Senha incorreta' . ($admin ? '' : ' (usuário inexistente)'), substr($usuario, 0, 60));
     pd_falha(401, 'Usuário ou senha inválidos.');
 }
 pd_sessao_iniciar();

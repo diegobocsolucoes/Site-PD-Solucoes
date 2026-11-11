@@ -6,5 +6,6 @@ require dirname(__DIR__) . '/inc/admin.php';
 pd_exigir_metodo('POST');
 if (!pd_origem_ok()) pd_falha(403, 'Origem não autorizada.');
 pd_sessao_iniciar();
+if (($_SESSION['etapa'] ?? '') === 'aal2') pd_auditar('logout', '', 'Saída do painel');
 pd_sessao_destruir();
 pd_json(['ok' => true]);

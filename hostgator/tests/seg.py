@@ -48,4 +48,14 @@ base=S+"/dist/pd-hostgator/public_html"
 check("uploads/.htaccess bloqueia php",open(base+"/uploads/.htaccess").read().count("php")>=1)
 check("config fora de public_html",not os.path.exists(base+"/pd-privado") and os.path.exists(S+"/dist/pd-hostgator/pd-privado/config.php"))
 check("acesso direto a api/inc negado",requests.get(B+"/api/inc/boot.php").status_code==403)
+for ep in ["metricas","auditoria","logs","push","exportar","notas"]:
+    r=requests.get(B+"/api/admin/"+ep); check("admin/"+ep+" exige login",r.status_code==401,r.status_code)
+r=requests.post(B+"/api/admin/push",data="{}",headers=H); check("admin/push POST sem login 401",r.status_code in(401,403),r.status_code)
+UA={"User-Agent":"Mozilla/5.0 (iPhone) Safari"}
+r=requests.post(B+"/api/metricas",data=json.dumps({"c":"/","r":""}),headers={"Content-Type":"application/json","Origin":"https://evil.example",**UA}); check("beacon de outro site não grava",r.status_code==204 and True)
+import sqlite3 as _q
+_n=lambda: _q.connect(S+"/teste.db").execute("select count(*) from pd_acessos").fetchone()[0]
+a=_n(); requests.post(B+"/api/metricas",data=json.dumps({"c":"/","r":""}),headers={"Content-Type":"application/json","Origin":"https://evil.example",**UA}); check("beacon com Origin falso não conta",_n()==a)
+requests.post(B+"/api/metricas",data=json.dumps({"c":"/../../etc/passwd","r":""}),headers={**H,**UA}); check("beacon com caminho malicioso não conta",_n()==a)
+requests.post(B+"/api/metricas",data=json.dumps({"c":"/","r":""}),headers={**H,**UA}); check("beacon válido conta",_n()==a+1)
 print(ok,"ok",bad,"falhas"); sys.exit(1 if bad else 0)

@@ -29,6 +29,7 @@ if ($metodo === 'POST') {
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)')
         ->execute([$id, $d['nome'], $d['categoria'], $d['descricao'], $d['preco_centavos'], $d['quantidade'], $d['status'],
                    $d['ativo'], $d['destaque'], $d['ordem'], $d['observacao_interna'], $agora, $agora]);
+    pd_auditar('produto_criar', $d['nome'], 'Produto cadastrado');
     pd_json(['produto' => pd_produto_saida(pd_produto_buscar($id))], 201);
 }
 
@@ -48,10 +49,12 @@ if ($metodo === 'PATCH') {
     }
     $sets[] = 'atualizado_em = ?'; $vals[] = pd_agora(); $vals[] = $id;
     $pdo->prepare('UPDATE pd_produtos SET ' . implode(', ', $sets) . ' WHERE id = ?')->execute($vals);
+    pd_auditar('produto_editar', (string)$atual['nome'], 'Campos: ' . implode(', ', array_keys($d)));
     pd_json(['produto' => pd_produto_saida(pd_produto_buscar($id))]);
 }
 
 // DELETE: remove o produto e o arquivo da foto.
 $pdo->prepare('DELETE FROM pd_produtos WHERE id = ?')->execute([$id]);
 pd_foto_apagar_arquivo($atual['foto_path']);
+pd_auditar('produto_excluir', (string)$atual['nome'], 'Produto excluído');
 pd_json(['ok' => true]);

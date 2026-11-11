@@ -21,9 +21,11 @@ if ($passo === null) {
     pd_admin_registrar_falha($admin);
     $depois = pd_admin_buscar($admin['usuario']);
     if ($depois && pd_admin_bloqueado($depois)) { pd_sessao_destruir(); pd_falha(429, 'Acesso bloqueado temporariamente. Tente mais tarde.'); }
+    pd_auditar('login_falha_2fa', '', 'Código do autenticador incorreto', $admin['usuario'], $admin['id']);
     pd_falha(401, 'Código inválido ou já utilizado.');
 }
 pd_db()->prepare('UPDATE pd_admin SET totp_ultimo_passo = ? WHERE id = ?')->execute([$passo, $admin['id']]);
 pd_admin_zerar_falhas($admin['id']);
 pd_sessao_promover('aal2', $admin['id']);
+pd_auditar('login', '', 'Entrada no painel', $admin['usuario'], $admin['id']);
 pd_json(['autenticado' => true, 'csrf' => $_SESSION['csrf'], 'usuario' => $admin['usuario']]);

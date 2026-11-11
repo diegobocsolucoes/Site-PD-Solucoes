@@ -30,7 +30,7 @@ with sync_playwright() as p:
     pg.fill("input[autocomplete=one-time-code]","000000"); pg.click("form button"); pg.wait_for_selector(".pd-admin-error:not([hidden])")
     check("TOTP errado rejeitado", True)
     pg.fill("input[autocomplete=one-time-code]",totp(segredo)); pg.click("form button"); pg.wait_for_selector(".pd-admin-tabs")
-    check("login completo com TOTP", pg.locator(".pd-admin-tabs button").count()==3)
+    check("login completo com TOTP", pg.locator(".pd-admin-tabs button").count()==7)
     # produto
     pg.click("[data-aba=produtos]"); pg.click("text=NOVO PRODUTO")
     pg.fill("form input[required]:nth-of-type(1)","") if False else None
@@ -86,9 +86,46 @@ with sync_playwright() as p:
     j=json.load(urllib.request.urlopen(BASE+"/api/produtos")); check("produto oculto some da loja", len(j["produtos"])==1)
     pg.once("dialog",lambda d:d.accept()); pg.locator("text=EXCLUIR").first.click(); pg.wait_for_selector(".pd-admin-ok")
     pg.wait_for_timeout(500); check("excluir funciona", pg.locator(".pd-prod-row:not(.pd-admin-head)").count()==1)
+    # ---- painel v2: métricas, auditoria, logs, notas, CSV, push
+    def beacon(caminho, ua="Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) Safari/604.1", ref="https://www.google.com/"):
+        rq=urllib.request.Request(BASE+"/api/metricas",data=json.dumps({"c":caminho,"r":ref}).encode(),method="POST",
+            headers={"Content-Type":"application/json","Origin":BASE,"User-Agent":ua})
+        return urllib.request.urlopen(rq).status
+    check("beacon aceito (204)", beacon("/screens/02-atendimento-v5/")==204)
+    beacon("/"); beacon("/screens/02-atendimento-v5/"); beacon("/inventado/x"); beacon("/", ua="Googlebot/2.1")
+    pg.click("[data-aba=resumo]"); pg.wait_for_selector(".pd-kpis"); pg.wait_for_timeout(300)
+    txt=pg.inner_text("#app")
+    check("resumo mostra páginas e origem", "Atendimento" in txt and "google.com" in txt and "Celular" in txt, txt[:400])
+    check("resumo ignora robô e caminho inválido", "inventado" not in txt)
+    check("resumo tem gráfico", pg.locator("svg.pd-grafico rect").count()>=7)
+    pg.click("[data-aba=auditoria]"); pg.wait_for_selector(".pd-linha-log")
+    t=pg.inner_text("#app"); check("auditoria registra login e status", "Entrou no painel" in t and "Mudou status" in t, t[:300])
+    pg.click("[data-aba=logs]"); pg.wait_for_selector("text=/24 horas/")
+    pg.click("[data-aba=avisos]"); pg.wait_for_selector("text=Aparelhos cadastrados")
+    check("aba avisos mostra passos do iPhone", "Adicionar à Tela de Início" in pg.inner_text("#app"))
+    pg.click("[data-aba=contatos]"); pg.wait_for_selector(".pd-notas textarea")
+    pg.fill(".pd-notas textarea","Liguei e combinei visita"); pg.click("text=SALVAR ANOTAÇÃO"); pg.wait_for_selector(".pd-nota")
+    check("nota interna salva", "Liguei e combinei" in pg.inner_text(".pd-nota"))
+    check("histórico de status aparece", pg.locator(".pd-hist").count()>=1)
+    csv=pg.evaluate("fetch('/api/admin/exportar?fonte=contatos',{credentials:'same-origin'}).then(r=>r.text())")
+    check("CSV exportado com BOM e protocolo", csv.startswith("protocolo;") and "PD-CT" in csv, csv[:120])
+    chave=pg.evaluate("fetch('/api/admin/push',{credentials:'same-origin'}).then(r=>r.json())")
+    check("chave VAPID pública (65 bytes)", len(base64.urlsafe_b64decode(chave["chave"]+"=="))==65)
+    # inscrição push: endpoint inválido é recusado, válido (formato Apple) é aceito
+    csrf=pg.evaluate("fetch('/api/admin/sessao',{credentials:'same-origin'}).then(r=>r.json()).then(d=>d.csrf)")
+    def pushpost(c):
+        return pg.evaluate("(a)=>fetch('/api/admin/push',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-PD-CSRF':a[0]},body:JSON.stringify(a[1])}).then(r=>r.status)",[csrf,c])
+    from cryptography.hazmat.primitives.asymmetric import ec
+    from cryptography.hazmat.primitives import serialization
+    k=ec.generate_private_key(ec.SECP256R1()); pub=k.public_key().public_bytes(serialization.Encoding.X962,serialization.PublicFormat.UncompressedPoint)
+    b64=lambda b: base64.urlsafe_b64encode(b).rstrip(b"=").decode()
+    ruim={"acao":"inscrever","inscricao":{"endpoint":"https://evil.example.com/x"*3,"keys":{"p256dh":b64(pub),"auth":b64(b"a"*16)}}}
+    check("push: endpoint de outro domínio recusado", pushpost(ruim)==422)
+    boa={"acao":"inscrever","inscricao":{"endpoint":"https://web.push.apple.com/"+"Q"*60,"keys":{"p256dh":b64(pub),"auth":b64(b"a"*16)}},"agente":"iPhone • Safari"}
+    check("push: inscrição Apple aceita", pushpost(boa)==201)
     # sessão persiste no reload; logout
     pg.reload(); pg.wait_for_selector(".pd-admin-tabs"); check("sessão persiste", True)
     pg.click("text=SAIR"); pg.wait_for_selector("input[name=senha]"); check("logout", True)
-    errs=[e for e in errs if "401" not in e]; check("sem erros JS", not errs, errs)
+    errs=[e for e in errs if "401" not in e and "422" not in e]; check("sem erros JS", not errs, errs)
     b.close()
 print(len(ok),"ok",len(bad),"falhas"); sys.exit(1 if bad else 0)

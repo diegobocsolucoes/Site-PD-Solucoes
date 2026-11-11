@@ -58,6 +58,8 @@ function pd_db(): PDO {
         error_log('PD: falha ao conectar no banco: ' . $e->getMessage());
         pd_falha(503, 'Serviço indisponível. Tente novamente em instantes.');
     }
+    require_once __DIR__ . '/schema.php';
+    pd_migrar($pdo);
     return $pdo;
 }
 
@@ -177,6 +179,7 @@ function pd_enviar_aviso(string $assunto, string $texto): bool {
     $de = pd_linha_segura((string)($a['de'] ?? ''));
     if (!$para || $de === '' || !filter_var($de, FILTER_VALIDATE_EMAIL)) {
         error_log('PD: aviso por e-mail não configurado.');
+        pd_log('aviso', 'email', 'Aviso por e-mail não configurado.');
         return false;
     }
     foreach ($para as $p) if (!filter_var($p, FILTER_VALIDATE_EMAIL)) { error_log('PD: e-mail de destino inválido.'); return false; }
@@ -194,10 +197,13 @@ function pd_enviar_aviso(string $assunto, string $texto): bool {
         'X-Mailer' => 'PD-Portal',
     ];
     try {
-        return @mail(implode(',', $para), mb_encode_mimeheader($assunto, 'UTF-8'),
+        $ok = @mail(implode(',', $para), mb_encode_mimeheader($assunto, 'UTF-8'),
             str_replace("\n", "\r\n", $texto), $cabecalhos, '-f' . $de);
+        if (!$ok) pd_log('erro', 'email', 'O servidor recusou o envio do aviso por e-mail.');
+        return $ok;
     } catch (Throwable $e) {
         error_log('PD: falha no envio de e-mail: ' . $e->getMessage());
+        pd_log('erro', 'email', 'Falha no envio de e-mail: ' . $e->getMessage());
         return false;
     }
 }
@@ -211,4 +217,33 @@ function pd_mascarar_whatsapp(string $numero): string {
     $n = preg_replace('/\D/', '', $numero) ?? '';
     if (str_starts_with($n, '55') && strlen($n) >= 12) $n = substr($n, 2);
     return '(' . substr($n, 0, 2) . ') ' . str_repeat('*', max(0, strlen($n) - 6)) . '-' . substr($n, -4);
+}
+
+/* ---------- registro de eventos (logs) ---------- */
+
+/** Guarda um evento do sistema para consulta no Painel PD. Nunca lança erro. */
+function pd_log(string $nivel, string $evento, string $mensagem): void {
+    try {
+        pd_db()->prepare('INSERT INTO pd_logs (id, nivel, evento, mensagem, criado_em) VALUES (?, ?, ?, ?, ?)')
+            ->execute([pd_uuid(), in_array($nivel, ['info', 'aviso', 'erro'], true) ? $nivel : 'info',
+                       substr(pd_linha_segura($evento), 0, 40), substr(pd_linha_segura($mensagem), 0, 300), pd_agora()]);
+        if (random_int(1, 100) === 1) {
+            pd_db()->prepare('DELETE FROM pd_logs WHERE criado_em < ?')->execute([gmdate('Y-m-d H:i:s', time() - 90 * 86400)]);
+        }
+    } catch (Throwable $e) { error_log('PD: falha ao gravar log: ' . $e->getMessage()); }
+}
+
+/** Responde ao visitante agora e deixa o PHP terminar o resto (avisos) em seguida. */
+function pd_responder_e_continuar(array $dados, int $status = 200): void {
+    $corpo = json_encode($dados, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    http_response_code($status);
+    pd_cabecalhos_json();
+    header('Content-Length: ' . strlen($corpo));
+    header('Connection: close');
+    ignore_user_abort(true);
+    echo $corpo;
+    while (ob_get_level() > 0) @ob_end_flush();
+    flush();
+    if (function_exists('fastcgi_finish_request')) fastcgi_finish_request();
+    set_time_limit(30);
 }

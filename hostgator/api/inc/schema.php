@@ -81,9 +81,60 @@ function pd_schema(string $driver): array {
   criado_em DATETIME NOT NULL,
   atualizado_em DATETIME NOT NULL" . $k('pd_produtos_idx', 'ativo, destaque, ordem') . "
 )$fim";
+    $sql[] = "CREATE TABLE IF NOT EXISTS pd_acessos (
+  id CHAR(36) NOT NULL PRIMARY KEY,
+  dia CHAR(10) NOT NULL,
+  caminho VARCHAR(80) NOT NULL,
+  origem VARCHAR(60) NOT NULL,
+  dispositivo VARCHAR(8) NOT NULL,
+  visitante CHAR(16) NOT NULL,
+  criado_em DATETIME NOT NULL" . $k('pd_acessos_idx', 'dia') . "
+)$fim";
+    $sql[] = "CREATE TABLE IF NOT EXISTS pd_auditoria (
+  id CHAR(36) NOT NULL PRIMARY KEY,
+  admin_id CHAR(36) NULL,
+  usuario VARCHAR(60) NOT NULL,
+  acao VARCHAR(40) NOT NULL,
+  alvo VARCHAR(80) NOT NULL DEFAULT '',
+  detalhe VARCHAR(300) NOT NULL DEFAULT '',
+  ip_hash CHAR(16) NOT NULL,
+  criado_em DATETIME NOT NULL" . $k('pd_auditoria_idx', 'criado_em') . "
+)$fim";
+    $sql[] = "CREATE TABLE IF NOT EXISTS pd_logs (
+  id CHAR(36) NOT NULL PRIMARY KEY,
+  nivel VARCHAR(8) NOT NULL,
+  evento VARCHAR(40) NOT NULL,
+  mensagem VARCHAR(300) NOT NULL,
+  criado_em DATETIME NOT NULL" . $k('pd_logs_idx', 'criado_em') . "
+)$fim";
+    $sql[] = "CREATE TABLE IF NOT EXISTS pd_push (
+  id CHAR(36) NOT NULL PRIMARY KEY,
+  admin_id CHAR(36) NOT NULL,
+  endpoint VARCHAR(700) NOT NULL,
+  endpoint_hash CHAR(64) NOT NULL UNIQUE,
+  p256dh VARCHAR(120) NOT NULL,
+  auth VARCHAR(60) NOT NULL,
+  agente VARCHAR(120) NOT NULL DEFAULT '',
+  falhas INT NOT NULL DEFAULT 0,
+  ultimo_ok DATETIME NULL,
+  criado_em DATETIME NOT NULL
+)$fim";
+    $sql[] = "CREATE TABLE IF NOT EXISTS pd_ajustes (
+  chave VARCHAR(40) NOT NULL PRIMARY KEY,
+  valor TEXT NOT NULL
+)$fim";
+    $sql[] = "CREATE TABLE IF NOT EXISTS pd_notas (
+  id CHAR(36) NOT NULL PRIMARY KEY,
+  origem VARCHAR(12) NOT NULL,
+  registro_id CHAR(36) NOT NULL,
+  texto VARCHAR(1000) NOT NULL,
+  criado_em DATETIME NOT NULL" . $k('pd_notas_idx', 'registro_id, criado_em') . "
+)$fim";
     foreach ([['pd_limite', 'pd_limite_idx', 'chave, criado_em'], ['pd_solicitacoes', 'pd_solicitacoes_idx', 'criado_em'],
               ['pd_contatos', 'pd_contatos_idx', 'criado_em'], ['pd_historico_status', 'pd_historico_idx', 'registro_id, criado_em'],
-              ['pd_produtos', 'pd_produtos_idx', 'ativo, destaque, ordem']] as [$t, $n, $c]) {
+              ['pd_produtos', 'pd_produtos_idx', 'ativo, destaque, ordem'],
+              ['pd_acessos', 'pd_acessos_idx', 'dia'], ['pd_auditoria', 'pd_auditoria_idx', 'criado_em'],
+              ['pd_logs', 'pd_logs_idx', 'criado_em'], ['pd_notas', 'pd_notas_idx', 'registro_id, criado_em']] as [$t, $n, $c]) {
         foreach ($idx($t, $n, $c) as $s) $sql[] = $s;
     }
     return $sql;
@@ -94,4 +145,21 @@ function pd_criar_tabelas(PDO $pdo): void {
     foreach (pd_schema($driver === 'mysql' ? 'mysql' : 'sqlite') as $s) $pdo->exec($s);
     $existe = $pdo->query("SELECT COUNT(*) FROM pd_contagem WHERE chave = 'protocolo'")->fetchColumn();
     if ((int)$existe === 0) $pdo->exec("INSERT INTO pd_contagem (chave, valor) VALUES ('protocolo', 0)");
+}
+
+const PD_SCHEMA_VERSAO = 2;
+
+/** Atualiza bancos já instalados (cria as tabelas novas uma única vez). Nunca derruba a página. */
+function pd_migrar(PDO $pdo): void {
+    try {
+        $v = $pdo->query("SELECT valor FROM pd_contagem WHERE chave = 'schema'")->fetchColumn();
+        if ($v !== false && (int)$v >= PD_SCHEMA_VERSAO) return;
+        $tem = $pdo->query("SELECT COUNT(*) FROM pd_contagem WHERE chave = 'protocolo'")->fetchColumn();
+        if ((int)$tem === 0) return;                       // instalação ainda não concluída
+        pd_criar_tabelas($pdo);
+        if ($v === false) $pdo->exec("INSERT INTO pd_contagem (chave, valor) VALUES ('schema', " . PD_SCHEMA_VERSAO . ")");
+        else $pdo->exec("UPDATE pd_contagem SET valor = " . PD_SCHEMA_VERSAO . " WHERE chave = 'schema'");
+    } catch (Throwable $e) {
+        error_log('PD: migração do banco: ' . $e->getMessage());
+    }
 }

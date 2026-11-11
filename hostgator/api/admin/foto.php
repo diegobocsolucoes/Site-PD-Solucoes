@@ -17,6 +17,7 @@ if ($metodo === 'DELETE') {
     if (!$p) pd_falha(404, 'Produto não encontrado.');
     $pdo->prepare('UPDATE pd_produtos SET foto_path = NULL, atualizado_em = ? WHERE id = ?')->execute([pd_agora(), $id]);
     pd_foto_apagar_arquivo($p['foto_path']);
+    pd_auditar('foto_remover', (string)$p['nome'], 'Foto removida');
     pd_json(['produto' => pd_produto_saida(pd_produto_buscar($id))]);
 }
 
@@ -42,4 +43,5 @@ if (file_put_contents($destino, $bytes) === false) pd_falha(503, 'Não foi poss�
 @chmod($destino, 0644);
 $pdo->prepare('UPDATE pd_produtos SET foto_path = ?, atualizado_em = ? WHERE id = ?')->execute([$caminho, pd_agora(), $id]);
 if ($p['foto_path'] && $p['foto_path'] !== $caminho) pd_foto_apagar_arquivo($p['foto_path']);
+pd_auditar('foto_enviar', (string)$p['nome'], 'Foto enviada (' . $tipo . ')');
 pd_json(['produto' => pd_produto_saida(pd_produto_buscar($id))]);

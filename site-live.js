@@ -10,6 +10,16 @@
   // Chave pública do Cloudflare Turnstile (antirrobô). Obrigatória no servidor em produção.
   const TURNSTILE_KEY="";
   const slug=location.pathname.match(/\/screens\/([^/]+)\//)?.[1]||"01-home-v15";
+  // Contagem anônima de acessos (sem cookies, sem IP). Não conta robôs nem as visitas do próprio administrador.
+  try{
+    let proprio=false;try{proprio=localStorage.getItem("pd-nao-contar")==="1";}catch(e){}
+    if(API_URL&&!proprio&&navigator.sendBeacon!==undefined&&!navigator.webdriver){
+      const c=location.pathname.replace(/\/index\.html$/,"/");
+      let ref="";try{ref=document.referrer?new URL(document.referrer).origin:"";}catch(e){}
+      fetch(API_URL.replace(/\/$/,"")+"/api/metricas",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({c:c,r:ref}),keepalive:true,credentials:"omit"}).catch(()=>{});
+    }
+  }catch(e){}
   const wa=(message)=>"https://wa.me/"+phone+"?text="+encodeURIComponent(message);
   const norm=(s)=>(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"")
     .replace(/\s+/g," ").trim().toLowerCase();

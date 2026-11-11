@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require __DIR__ . '/inc/boot.php';
 require __DIR__ . '/inc/validar.php';
+require __DIR__ . '/inc/push.php';
 
 pd_exigir_metodo('POST');
 if (!pd_origem_ok()) pd_falha(403, 'Origem não autorizada.');
@@ -34,9 +35,11 @@ $texto = "Nova solicitação pelo site — $titulo\nProtocolo: $protocolo\nClien
 if (pd_enviar_aviso("[PD] $titulo — {$d['nome']} ($protocolo)", $texto)) {
     $pdo->prepare('UPDATE pd_solicitacoes SET aviso_enviado = 1 WHERE id = ?')->execute([$id]);
 }
-pd_json([
+pd_responder_e_continuar([
     'protocolo' => $protocolo,
     'resumo' => ['tipo' => $d['tipo'], 'equipamento' => $d['equipamento'], 'servico' => $d['servico'],
                  'modalidade' => $d['modalidade'], 'cep' => $d['cep'], 'whatsapp' => pd_mascarar_whatsapp($d['whatsapp'])],
     'aviso' => 'Recebemos a solicitação. O atendimento dependerá de confirmação pelo WhatsApp.',
 ], 201);
+pd_log('info', 'pedido', "Novo pedido $protocolo ($titulo).");
+pd_push_avisar('Nova solicitação — ' . $titulo, $d['nome'] . ' • ' . $d['servico'] . " ($protocolo)", '/painel/', 'pedido-' . $protocolo);

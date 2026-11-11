@@ -133,3 +133,25 @@ function pd_admin_registrar_falha(array $admin): void {
 function pd_admin_zerar_falhas(string $id): void {
     pd_db()->prepare('UPDATE pd_admin SET tentativas = 0, bloqueado_ate = NULL WHERE id = ?')->execute([$id]);
 }
+
+/* ---------- auditoria (quem fez o quê) ---------- */
+
+/** Registra uma ação do administrador. Nunca lança erro. $usuario só é usado quando não há sessão (ex.: tentativa de login). */
+function pd_auditar(string $acao, string $alvo = '', string $detalhe = '', ?string $usuario = null, ?string $adminId = null): void {
+    try {
+        if ($usuario === null) {
+            if (session_status() !== PHP_SESSION_ACTIVE) pd_sessao_iniciar();
+            $adminId = $adminId ?? ($_SESSION['admin_id'] ?? null);
+            $usuario = '';
+            if ($adminId) {
+                $q = pd_db()->prepare('SELECT usuario FROM pd_admin WHERE id = ?');
+                $q->execute([$adminId]);
+                $usuario = (string)($q->fetchColumn() ?: '');
+            }
+        }
+        pd_db()->prepare('INSERT INTO pd_auditoria (id, admin_id, usuario, acao, alvo, detalhe, ip_hash, criado_em) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+            ->execute([pd_uuid(), $adminId, substr(pd_linha_segura($usuario), 0, 60), substr($acao, 0, 40),
+                       substr(pd_linha_segura($alvo), 0, 80), substr(pd_linha_segura($detalhe), 0, 300),
+                       substr(pd_hash_ip(), 0, 16), pd_agora()]);
+    } catch (Throwable $e) { error_log('PD: falha ao gravar auditoria: ' . $e->getMessage()); }
+}

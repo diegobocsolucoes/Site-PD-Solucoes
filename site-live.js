@@ -136,6 +136,18 @@
         +"background:#0b1910;border:1px solid #79d497;border-radius:6px;color:#f4fff5;font:15px Arial";
       label.append(cepInput);
       grid.after(label);
+      // A caixa "Digite seu CEP" do cartão é só desenho (fica dentro de um botão).
+      // Ao tocar nela, o foco vai para o campo real e o texto digitado aparece no cartão.
+      const caixa=document.querySelector(".cep-box"),rotulo=caixa?.querySelector("span");
+      cepInput.addEventListener("input",()=>{
+        const d=cepInput.value.replace(/\D/g,"").slice(0,8);
+        cepInput.value=d.length>5?d.slice(0,5)+"-"+d.slice(5):d;
+        if(rotulo)rotulo.textContent=cepInput.value||"Digite seu CEP";
+      });
+      if(caixa){
+        caixa.style.cursor="text";
+        caixa.addEventListener("click",()=>setTimeout(()=>{label.hidden=false;label.scrollIntoView({block:"center",behavior:"smooth"});cepInput.focus();},0));
+      }
       const refresh=()=>label.hidden=!document.querySelector(".attendance.selected")?.textContent?.toLowerCase().includes("no seu endereço");
       document.querySelectorAll(".attendance").forEach(btn=>btn.addEventListener("click",refresh));
       refresh();

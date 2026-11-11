@@ -147,3 +147,5 @@ textarea{min-height:110px}
 .num,.step-no,.how-no,.stage-no,.block-no,.step-num,.info-step,.step-index{border:0!important;background:none!important;box-shadow:none!important;width:auto!important;height:auto!important;min-width:0!important;padding:0!important;border-radius:0!important;font-size:18px!important;display:inline-flex;align-items:center}
 .field{align-self:start}
 .field input,.field select{height:46px}
+.cep-box{cursor:text}
+.cep-box:hover{border-color:var(--a-green2)!important}

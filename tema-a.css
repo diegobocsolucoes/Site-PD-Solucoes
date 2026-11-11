@@ -124,3 +124,4 @@ textarea{min-height:110px}
 /* o selo "WhatsApp / fale conosco" do topo vira texto simples */
 .whatsapp-badge{border:0!important;background:none!important;padding:0!important}
 .mini strong,.info-tags strong,.hero-tags strong{color:inherit!important;font-weight:inherit!important}
+.choice-art img,.hero-art img[src$=".svg"]{object-fit:contain!important;object-position:center!important;background:transparent!important;filter:none!important;padding:14px}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-hidden="true">
+<defs><radialGradient id="g" cx="50%" cy="45%" r="65%"><stop offset="0" stop-color="#17402a"/><stop offset="1" stop-color="#07100b"/></radialGradient>
+<pattern id="d" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.4" fill="#79d497" opacity=".16"/></pattern>
+<filter id="b"><feGaussianBlur stdDeviation="22"/></filter></defs>
+<rect width="960" height="640" fill="url(#g)"/><rect width="960" height="640" fill="url(#d)"/>
+<circle cx="480" cy="330" r="190" fill="#58b978" opacity=".16" filter="url(#b)"/>
+<g fill="none" stroke="#79d497" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><rect x="250" y="190" width="460" height="290" rx="20" fill="rgba(88,185,120,.10)"/><path d="M200 500h560"/><path d="M215 500h530l-24 28H239z" fill="rgba(88,185,120,.10)"/>
+<path d="M330 290h160M330 340h260M330 390h200" opacity=".7"/><path d="M640 130h140a30 30 0 0 1 30 30v70a30 30 0 0 1-30 30h-60l-40 36v-36h-40a30 30 0 0 1-30-30v-70a30 30 0 0 1 30-30z" fill="#07100b"/><path d="M650 190h130" opacity=".8"/></g></svg>

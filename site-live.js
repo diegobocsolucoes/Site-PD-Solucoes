@@ -10,6 +10,15 @@
   // Chave pública do Cloudflare Turnstile (antirrobô). Obrigatória no servidor em produção.
   const TURNSTILE_KEY="";
   const slug=location.pathname.match(/\/screens\/([^/]+)\//)?.[1]||"01-home-v15";
+  // Números da área de atendimento (raio, limite e taxa) vêm do painel; o texto da página já traz os valores padrão.
+  if(API_URL&&document.querySelector("[data-cob]")){
+    fetch(API_URL.replace(/\/$/,"")+"/api/cobertura",{headers:{Accept:"application/json"}}).then(r=>r.ok?r.json():null).then(j=>{
+      if(!j)return;
+      const n=(v)=>String(v).replace(".",",");
+      const val={raio:n(j.raio),max:n(j.raio_max),taxa:(j.taxa_centavos/100).toFixed(2).replace(".",",")};
+      document.querySelectorAll("[data-cob]").forEach(el=>{if(val[el.dataset.cob])el.textContent=val[el.dataset.cob];});
+    }).catch(()=>{});
+  }
   // Contagem anônima de acessos (sem cookies, sem IP). Não conta robôs nem as visitas do próprio administrador.
   try{
     let proprio=false;try{proprio=localStorage.getItem("pd-nao-contar")==="1";}catch(e){}

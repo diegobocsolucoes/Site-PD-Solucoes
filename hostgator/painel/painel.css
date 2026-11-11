@@ -167,3 +167,17 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,syste
  .pd-linha-log,.pd-linha-log[class*="n-"]{grid-template-columns:1fr}
  .pd-aparelhos li{flex-direction:column;align-items:flex-start}
 }
+
+/* ===== Ajuste: respiro interno das listas (nada colado nas bordas) ===== */
+.pd-admin-cols>section>.pd-admin-tools{flex-wrap:wrap;justify-content:flex-start;align-items:end;padding:20px 20px 0;margin:0 0 6px;gap:14px}
+.pd-admin-cols>section>.pd-admin-tools label{flex:1 1 220px;min-width:0}
+.pd-admin-cols>section>.pd-admin-tools input,.pd-admin-cols>section>.pd-admin-tools select{width:100%;min-width:0}
+.pd-admin-cols>section>.pd-admin-tools button,.pd-admin-cols>section>.pd-admin-tools .pd-botao-link{flex:0 0 auto}
+.pd-admin-cols>section [role=table]>p,.pd-admin-cols>section>p{padding:16px 20px;margin:0;line-height:1.5}
+.pd-admin-cols>section>.pd-admin-error,.pd-admin-cols>section>.pd-admin-ok{margin:10px 20px 0;padding:10px 12px}
+@media(max-width:760px){
+ .pd-admin{padding-inline:14px}
+ .pd-admin-cols>section>.pd-admin-tools{padding:16px 14px 0}
+ .pd-admin-cols>section>.pd-admin-tools button,.pd-admin-cols>section>.pd-admin-tools .pd-botao-link{flex:1 1 100%;justify-content:center;text-align:center}
+ .pd-admin-cols>section [role=table]>p,.pd-admin-cols>section>p{padding:14px}
+}

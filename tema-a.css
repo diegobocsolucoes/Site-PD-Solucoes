@@ -134,3 +134,16 @@ textarea{min-height:110px}
 .selected-mode-line,.selected-mode-line *{border:0!important;background:none!important;box-shadow:none!important;padding-left:0;padding-right:0}
 .selected-mode-line{color:var(--a-muted)!important}
 .selected-mode-line strong,.selected-mode-line span:last-child{color:var(--a-green2)!important}
+
+/* ===== sem caixas dentro de caixas: blocos informativos viram texto com filete ===== */
+.info-point,.benefit,.how,.rule,.include,.deliver,.stage,.rulebox,.box,.delivery-card,.analysis-card,.compare-card,.r,.after-card,.info-card,.tier{
+ border:0!important;border-top:1px solid var(--a-line)!important;border-radius:0!important;background:none!important;box-shadow:none!important;padding:14px 4px 6px!important}
+.info-highlight{border:0!important;background:none!important;box-shadow:none!important;border-radius:0!important}
+.trust,.info-band{border:0!important;border-top:1px solid var(--a-line)!important;border-bottom:1px solid var(--a-line)!important;border-radius:0!important;background:none!important}
+/* ícones sem quadradinho de fundo */
+.ico,.side-icon,.trust-icon,.receive-icon,.sico,.choice-ico,.benefit i{border:0!important;background:none!important;box-shadow:none!important;width:auto!important;height:auto!important;flex:0 0 auto!important}
+.ico svg,.side-icon svg,.trust-icon svg{width:32px!important;height:32px!important}
+/* números de passo sem quadradinho */
+.num,.step-no,.how-no,.stage-no,.block-no,.step-num,.info-step,.step-index{border:0!important;background:none!important;box-shadow:none!important;width:auto!important;height:auto!important;min-width:0!important;padding:0!important;border-radius:0!important;font-size:18px!important;display:inline-flex;align-items:center}
+.field{align-self:start}
+.field input,.field select{height:46px}

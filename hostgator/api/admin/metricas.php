@@ -3,9 +3,17 @@ declare(strict_types=1);
 require dirname(__DIR__) . '/inc/boot.php';
 require dirname(__DIR__) . '/inc/admin.php';
 
-pd_exigir_metodo('GET');
-pd_exigir_admin(false);
+pd_exigir_metodo('GET', 'POST');
+pd_exigir_admin($_SERVER['REQUEST_METHOD'] === 'POST');
 $pdo = pd_db();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $c = pd_ler_json(300);
+    if (($c['acao'] ?? '') !== 'zerar_acessos') pd_falha(422, 'Ação inválida.');
+    $n = (int)$pdo->query('SELECT COUNT(*) FROM pd_acessos')->fetchColumn();
+    $pdo->exec('DELETE FROM pd_acessos');
+    pd_auditar('acessos_zerar', '', $n . ' registros de acesso apagados');
+    pd_json(['ok' => true, 'apagados' => $n]);
+}
 $tz = new DateTimeZone('America/Sao_Paulo');
 $dias = in_array((int)($_GET['dias'] ?? 30), [7, 30, 90], true) ? (int)$_GET['dias'] : 30;
 $hoje = new DateTime('today', $tz);
@@ -63,7 +71,7 @@ $hojeK = $hoje->format('Y-m-d');
 pd_json([
     'dias' => $dias,
     'totais' => ['visualizacoes' => $totalV, 'visitantes' => $totalU, 'pedidos' => $totalP,
-                 'conversao' => $totalU > 0 ? round($totalP * 100 / $totalU, 1) : 0.0,
+                 'conversao' => ($totalU > 0 && $totalP <= $totalU) ? round($totalP * 100 / $totalU, 1) : null,
                  'hoje_visualizacoes' => (int)($porDia[$hojeK]['visualizacoes'] ?? 0), 'hoje_visitantes' => (int)($porDia[$hojeK]['visitantes'] ?? 0),
                  'hoje_pedidos' => (int)($pedidosDia[$hojeK] ?? 0)],
     'serie' => $serie, 'paginas' => $paginas, 'origens' => $agrupar('origem', 8), 'dispositivos' => $agrupar('dispositivo', 3),

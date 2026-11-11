@@ -5,7 +5,7 @@ require dirname(__DIR__) . '/inc/admin.php';
 require dirname(__DIR__) . '/inc/validar.php';
 require dirname(__DIR__) . '/inc/produtos.php';
 
-pd_exigir_metodo('GET', 'PATCH');
+pd_exigir_metodo('GET', 'PATCH', 'DELETE');
 $metodo = $_SERVER['REQUEST_METHOD'];
 pd_exigir_admin($metodo !== 'GET');
 $pdo = pd_db();
@@ -28,6 +28,18 @@ if ($metodo === 'GET') {
 $c = pd_ler_json(600);
 $id = pd_id_do_corpo($c);
 $fonte = ($c['fonte'] ?? 'solicitacoes') === 'contatos' ? 'contatos' : 'solicitacoes';
+if ($metodo === 'DELETE') {
+    $tab = $fonte === 'contatos' ? 'pd_contatos' : 'pd_solicitacoes';
+    $q = $pdo->prepare("SELECT protocolo, nome FROM $tab WHERE id = ?");
+    $q->execute([$id]);
+    $p = $q->fetch();
+    if (!$p) pd_falha(404, 'Pedido não encontrado.');
+    $pdo->prepare("DELETE FROM $tab WHERE id = ?")->execute([$id]);
+    $pdo->prepare('DELETE FROM pd_notas WHERE origem = ? AND registro_id = ?')->execute([$fonte, $id]);
+    $pdo->prepare('DELETE FROM pd_historico_status WHERE origem = ? AND registro_id = ?')->execute([$fonte, $id]);
+    pd_auditar('pedido_excluir', (string)$p['protocolo'], 'Pedido de ' . $p['nome'] . ' excluído');
+    pd_json(['ok' => true]);
+}
 $validos = $fonte === 'contatos' ? PD_STATUS_CONTATO : PD_STATUS_SOLICITACAO;
 $status = $c['status'] ?? null;
 $categoria = $c['categoria'] ?? null;

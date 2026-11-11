@@ -180,6 +180,13 @@ with sync_playwright() as p:
     except Exception as e: print("pedido:",e)
     pg.click("[data-aba=solicitacoes]"); pg.wait_for_selector(".pd-admin-row"); pg.locator(".pd-admin-row", has_text="Cliente Longe").first.click()
     check("pedido além do limite marcado no painel", "REGIÃO NÃO ATENDIDA" in pg.inner_text(".pd-admin-detail"), pg.inner_text(".pd-admin-detail")[:200])
+    pg.click("[data-aba=resumo]"); pg.wait_for_selector(".pd-kpis")
+    pg.once("dialog",lambda d:d.accept()); pg.click("text=ZERAR CONTAGEM DE ACESSOS"); pg.wait_for_timeout(700)
+    check("contagem de acessos zerada", "Ainda sem acessos" in pg.inner_text("#app"), pg.inner_text("#app")[:300])
+    check("conversão não passa de 100%", "300" not in pg.inner_text(".pd-kpis"))
+    pg.click("[data-aba=contatos]"); pg.wait_for_selector(".pd-admin-row"); antes=pg.locator(".pd-admin-row").count()
+    pg.locator(".pd-admin-row", has_text="Carla").first.click(); pg.once("dialog",lambda d:d.accept()); pg.click("text=EXCLUIR PEDIDO"); pg.wait_for_timeout(700)
+    check("pedido excluído", pg.locator(".pd-admin-row").count()==antes-1 and "Carla" not in pg.inner_text("#app"))
     # sessão persiste no reload; logout
     pg.reload(); pg.wait_for_selector(".pd-admin-tabs"); check("sessão persiste", True)
     pg.click("text=SAIR"); pg.wait_for_selector("input[name=senha]"); check("logout", True)

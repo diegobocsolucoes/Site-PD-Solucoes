@@ -201,7 +201,7 @@
             kpi("Visitantes", numero(t.visitantes), "hoje: " + numero(t.hoje_visitantes)),
             kpi("Visualizações de página", numero(t.visualizacoes), "hoje: " + numero(t.hoje_visualizacoes)),
             kpi("Pedidos recebidos", numero(t.pedidos), "hoje: " + numero(t.hoje_pedidos)),
-            kpi("Conversão", String(t.conversao).replace(".", ",") + "%", "pedidos ÷ visitantes")),
+            kpi("Conversão", t.conversao === null ? "—" : String(t.conversao).replace(".", ",") + "%", t.conversao === null ? "poucos acessos para calcular" : "pedidos ÷ visitantes")),
           h("section", { class: "pd-card" }, h("h3", null, "Visualizações por dia"),
             sem ? h("p", { class: "pd-mudo" }, "Ainda sem acessos registrados. Eles aparecem aqui assim que o site (versão nova) receber visitas.") : graficoBarras(m.serie),
             h("p", { class: "pd-mudo" }, "Barras: visualizações. Ponto embaixo: dia com pedido recebido. Passe o dedo/mouse na barra para ver os números.")),
@@ -209,6 +209,10 @@
             lista("Páginas mais vistas", m.paginas, "Sem dados ainda."),
             lista("De onde vêm os visitantes", m.origens, "Sem dados ainda."),
             lista("Aparelhos", m.dispositivos.map((x) => ({ ...x, nome: { celular: "Celular", desktop: "Computador", tablet: "Tablet" }[x.nome] || x.nome })), "Sem dados ainda.")),
+          h("div", { class: "pd-zerar" }, h("button", { type: "button", class: "perigo", onclick: async () => {
+            if (!window.confirm("Apagar toda a contagem de acessos? Os pedidos não são afetados. Use para começar do zero depois dos testes.")) return;
+            try { await api("/api/admin/metricas", { metodo: "POST", corpo: { acao: "zerar_acessos" } }); carregar(); } catch (ex) { if (!(ex instanceof SessaoExpirada)) window.alert(ex.message); }
+          } }, "ZERAR CONTAGEM DE ACESSOS")),
           h("p", { class: "pd-mudo" }, "Contagem anônima: sem cookies, sem guardar IP, sem dados pessoais. Robôs e buscadores não entram. Celulares com aviso ativo: " + m.celulares + "."));
       } catch (ex) { if (!(ex instanceof SessaoExpirada)) raiz.replaceChildren(h("p", { class: "pd-admin-error" }, ex.message)); }
     }
@@ -470,7 +474,14 @@
             Object.entries(categorias).map(([v, t]) => h("option", { value: v, selected: v === atual.categoria }, t)))) : null,
           h("label", null, "STATUS", seletor),
           h("small", null, "Recebido em " + quando(atual.criado_em) + " • Aviso por e-mail: " + (Number(atual.aviso_enviado) ? "enviado" : "não enviado")),
-          blocoNotas(atual.id));
+          blocoNotas(atual.id),
+          h("button", { type: "button", class: "perigo pd-excluir-pedido", onclick: async () => {
+            if (!window.confirm("Excluir DEFINITIVAMENTE o pedido " + atual.protocolo + " (" + atual.nome + ")? Não dá para desfazer. Para só finalizar, use ENCERRAR CHAMADO.")) return;
+            erro = "";
+            try { await api("/api/admin/solicitacoes", { metodo: "DELETE", corpo: { id: atual.id, fonte } }); itens = itens.filter((x) => x.id !== atual.id); selecionado = ""; }
+            catch (ex) { if (ex instanceof SessaoExpirada) return; erro = ex.message; }
+            desenhar();
+          } }, "EXCLUIR PEDIDO"));
       }
       raiz.replaceChildren(...[
         erro ? h("p", { class: "pd-admin-error", role: "alert" }, erro) : null,

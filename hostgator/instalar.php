@@ -88,7 +88,11 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && $tudoOk) {
                 . '<li>Abra <b>/painel/</b> e entre com usuário, senha e o código de 6 dígitos.</li></ol>');
         } catch (Throwable $ex) {
             error_log('PD instalador: ' . $ex->getMessage());
-            $erro = 'Não foi possível concluir. Confira os dados do banco no config.php (nome, usuário e senha do MySQL) e tente de novo.';
+            $detalhe = $ex->getMessage();
+            $senhaBanco = (string)($cfg['db']['senha'] ?? '');
+            if ($senhaBanco !== '') $detalhe = str_replace($senhaBanco, '***', $detalhe);
+            $erro = 'Não foi possível concluir. Confira os dados do banco no config.php (nome, usuário e senha do MySQL) e tente de novo. '
+                  . 'Detalhe técnico: ' . mb_substr($detalhe, 0, 300);
         }
     }
 }

@@ -38,7 +38,7 @@ function pd_config(): array {
     foreach ($candidatos as $arquivo) {
         if (is_file($arquivo)) {
             $cfg = require $arquivo;
-            if (is_array($cfg)) return $cfg;
+            if (is_array($cfg)) { $GLOBALS['pd_config_arquivo'] = $arquivo; return $cfg; }
         }
     }
     pd_falha(503, 'Atendimento temporariamente indisponível.');

@@ -92,7 +92,11 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && $tudoOk) {
             $senhaBanco = (string)($cfg['db']['senha'] ?? '');
             if ($senhaBanco !== '') $detalhe = str_replace($senhaBanco, '***', $detalhe);
             $erro = 'Não foi possível concluir. Confira os dados do banco no config.php (nome, usuário e senha do MySQL) e tente de novo. '
-                  . 'Detalhe técnico: ' . mb_substr($detalhe, 0, 300);
+                  . 'Detalhe técnico: ' . mb_substr($detalhe, 0, 300)
+                  . ' | Arquivo lido: ' . ($GLOBALS['pd_config_arquivo'] ?? '?')
+                  . ' | Banco: ' . preg_replace('/^.*dbname=([^;]*).*$/', '$1', (string)($cfg['db']['dsn'] ?? ''))
+                  . ' | Usuário: ' . (string)($cfg['db']['usuario'] ?? '')
+                  . ' | Tamanho da senha: ' . strlen($senhaBanco) . ' caracteres';
         }
     }
 }

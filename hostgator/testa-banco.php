@@ -6,6 +6,20 @@ header('Content-Type: text/html; charset=utf-8');
 header('Cache-Control: no-store');
 header("Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'");
 $e = fn(string $s): string => htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
+
+/** Grava usuário, senha e hosts no config.php, com aspas seguras. Retorna mensagem de erro ou ''. */
+function pd_gravar_config(string $arquivo, string $u, string $s, string $host): string {
+    $t = @file_get_contents($arquivo);
+    if ($t === false || !is_writable($arquivo)) return 'Não foi possível ler/gravar o config.php.';
+    $q = fn(string $v): string => "'" . str_replace(["\\", "'"], ["\\\\", "\\'"], $v) . "'";
+    $n1 = $n2 = $n3 = 0;
+    $t = preg_replace_callback("/('usuario'\\s*=>\\s*)'(?:[^'\\\\]|\\\\.)*'/", fn($m) => $m[1] . $q($u), $t, 1, $n1);
+    $t = preg_replace_callback("/('senha'\\s*=>\\s*)'(?:[^'\\\\]|\\\\.)*'/", fn($m) => $m[1] . $q($s), $t, 1, $n2);
+    $dom = preg_replace('/^www\\./i', '', strtolower($host));
+    $t = preg_replace_callback("/('hosts'\\s*=>\\s*)\\[[^\\]]*\\]/", fn($m) => $m[1] . '[' . $q($dom) . ', ' . $q('www.' . $dom) . ']', $t, 1, $n3);
+    if ($n1 !== 1 || $n2 !== 1) return 'Não encontrei as linhas usuario/senha no config.php.';
+    return file_put_contents($arquivo, $t) === false ? 'Falha ao gravar o config.php.' : '';
+}
 $cfg = pd_config();
 $token = (string)($cfg['instalacao_token'] ?? '');
 $saida = '';
@@ -31,6 +45,19 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             }
         }
         $saida .= '</ul>';
+        $conectou = false;
+        try {
+            new PDO("mysql:host=localhost;dbname=$b;charset=utf8mb4", $u, $s, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_TIMEOUT => 5]);
+            $conectou = true;
+        } catch (Throwable $ex) { /* já mostrado acima */ }
+        if (!empty($_POST['gravar'])) {
+            if (!$conectou) $saida .= '<p class="err">Não gravei: a conexão com o banco não funcionou com esses dados.</p>';
+            else {
+                $falha = pd_gravar_config((string)($GLOBALS['pd_config_arquivo'] ?? ''), $u, $s, (string)($_SERVER['HTTP_HOST'] ?? ''));
+                $saida .= $falha === '' ? '<p class="ok"><b>✔ Gravado no config.php</b> (usuário, senha e domínios). Agora abra o instalar.php.</p>'
+                                        : '<p class="err">' . $e($falha) . '</p>';
+            }
+        }
     }
 }
 echo '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Teste do banco</title><style>'
@@ -41,5 +68,5 @@ echo '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="
    . '<form method="post" autocomplete="off"><label>Código de instalação</label><input name="token" type="password" required>'
    . '<label>Usuário do MySQL (ex.: pablo299_pdsite)</label><input name="usuario" required>'
    . '<label>Senha do MySQL (digite aqui, sem copiar do config.php)</label><input name="senha" type="text" required>'
-   . '<label>Nome do banco (ex.: pablo299_pd)</label><input name="banco" required><button>TESTAR</button></form>'
+   . '<label>Nome do banco (ex.: pablo299_pd)</label><input name="banco" required><label><input type="checkbox" name="gravar" value="1" style="width:auto"> Se conectar, gravar estes dados no config.php</label><button>TESTAR</button></form>'
    . '<p>Depois do teste, apague este arquivo (testa-banco.php).</p></main></body></html>';

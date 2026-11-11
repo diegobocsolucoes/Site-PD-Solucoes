@@ -149,3 +149,11 @@ textarea{min-height:110px}
 .field input,.field select{height:46px}
 .cep-box{cursor:text}
 .cep-box:hover{border-color:var(--a-green2)!important}
+
+/* Loja rápida: vitrine do topo sem sobreposição (cartões escuros, sem logo repetida, nota embaixo) */
+.product-float{background:linear-gradient(160deg,#10241a,#0a1510)!important;border-color:var(--a-line2)!important;padding:0!important}
+.product-float img{object-fit:cover!important}
+.hero-art .hero-logo{display:none!important}
+.hero-art .collage{inset:26px 28px 112px 28px!important}
+.hero-art .hero-art-note{left:28px!important;right:28px!important;bottom:20px!important;max-width:none!important}
+@media(max-width:480px){.hero-art .collage{inset:20px 16px 128px 16px!important}.hero-art .hero-art-note{left:16px!important;right:16px!important}}

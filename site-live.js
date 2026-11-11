@@ -137,7 +137,7 @@
     const grid=document.querySelector(".attendance-grid");
     if(grid){
       const label=document.createElement("label");
-      label.textContent="CEP para atendimento no endereço (a cobertura será confirmada)";
+      label.textContent="CEP para atendimento no endereço (vamos conferir se atendemos a sua região)";
       label.style.cssText="display:block;margin:12px 0;color:#b9e2c2;font:700 12px Arial,sans-serif";
       cepInput=document.createElement("input");
       cepInput.type="text";cepInput.inputMode="numeric";cepInput.maxLength=9;
@@ -153,7 +153,31 @@
         const d=cepInput.value.replace(/\D/g,"").slice(0,8);
         cepInput.value=d.length>5?d.slice(0,5)+"-"+d.slice(5):d;
         if(rotulo)rotulo.textContent=cepInput.value||"Digite seu CEP";
+        verificarArea(d);
       });
+      // Área de atendimento: o servidor diz se o CEP está dentro ou fora do raio presencial.
+      const aviso=document.createElement("p");
+      aviso.setAttribute("role","status");aviso.hidden=true;
+      aviso.style.cssText="margin:10px 0 0;padding:10px 12px;border-left:3px solid #58b978;color:#d7eadf;font:600 14px/1.45 Arial,sans-serif;max-width:520px";
+      label.after(aviso);
+      let regiaoFora=false;
+      let pedido=0;
+      window.__pdRegiaoFora=()=>regiaoFora;
+      const verificarArea=async(d)=>{
+        const n=++pedido;aviso.hidden=true;regiaoFora=false;
+        if(d.length!==8||!API_URL)return;
+        const textos={
+          dentro:["#58b978","Boa notícia: este CEP está dentro da nossa área de atendimento presencial."],
+          taxa:["#e6c777","Este CEP fica fora do nosso raio de atendimento sem taxa. Haverá cobrança de R$ TAXA de taxa de deslocamento. Você pode enviar o pedido e a PD confirma tudo pelo WhatsApp."],
+          longe:["#e58a8a","Infelizmente não atendemos presencialmente a sua região. Escolha entrega agendada ou fale com a PD pelo WhatsApp para avaliar outra forma de atendimento."],
+          indefinido:["#9fb3a7","Não conseguimos confirmar a área agora. Pode enviar o pedido: a PD confirma o atendimento pelo WhatsApp."]};
+        try{
+          const r=await fetch(API_URL.replace(/\/$/,"")+"/api/cobertura?cep="+d,{headers:{Accept:"application/json"}});
+          const j=await r.json();if(n!==pedido||!r.ok||!textos[j.status])return;
+          const [cor,txt0]=textos[j.status];const txt=txt0.replace("R$ TAXA","R$ "+((j.taxa_centavos||0)/100).toFixed(2).replace(".",","));regiaoFora=j.status==="longe";aviso.style.borderLeftColor=cor;
+          aviso.textContent=txt+(j.local&&j.status!=="indefinido"?" ("+j.local+")":"");aviso.hidden=false;
+        }catch(e){}
+      };
       if(caixa){
         caixa.style.cursor="text";
         caixa.addEventListener("click",()=>setTimeout(()=>{label.hidden=false;label.scrollIntoView({block:"center",behavior:"smooth"});cepInput.focus();},0));
@@ -187,6 +211,7 @@
       const presencial=norm(selected(".attendance.selected")).includes("no seu endereco");
       const cep=digits(cepInput?.value||"");
       if(!result.error&&presencial&&cep.length!==8){result.error="Informe um CEP válido com 8 números.";result.element=cepInput;}
+      if(!result.error&&presencial&&window.__pdRegiaoFora&&window.__pdRegiaoFora()){result.error="Não atendemos presencialmente a sua região. Escolha entrega agendada ou fale com a PD pelo WhatsApp.";result.element=cepInput;}
       const tipo=document.querySelector('[data-request-mode="quote"].selected')?"Orçamento particular":"Atendimento particular";
       result.endpoint="/api/solicitacoes";
       result.payload={tipo:tipo.startsWith("ORÇAMENTO")?"orcamento":"servico",nome,whatsapp:numero,

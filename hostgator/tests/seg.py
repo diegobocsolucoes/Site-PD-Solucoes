@@ -58,4 +58,8 @@ _n=lambda: _q.connect(S+"/teste.db").execute("select count(*) from pd_acessos").
 a=_n(); requests.post(B+"/api/metricas",data=json.dumps({"c":"/","r":""}),headers={"Content-Type":"application/json","Origin":"https://evil.example",**UA}); check("beacon com Origin falso não conta",_n()==a)
 requests.post(B+"/api/metricas",data=json.dumps({"c":"/../../etc/passwd","r":""}),headers={**H,**UA}); check("beacon com caminho malicioso não conta",_n()==a)
 requests.post(B+"/api/metricas",data=json.dumps({"c":"/","r":""}),headers={**H,**UA}); check("beacon válido conta",_n()==a+1)
+# ---- cobertura (área de atendimento)
+r=requests.get(B+"/api/cobertura?cep=32010000",headers={"Origin":"https://evil.example"}); check("cobertura recusa outro site",r.status_code==403,r.status_code)
+r=requests.get(B+"/api/cobertura?cep=abc",headers=H); check("cobertura valida CEP",r.status_code==422,r.status_code)
+r=requests.get(B+"/api/admin/cobertura"); check("admin/cobertura exige login",r.status_code==401,r.status_code)
 print(ok,"ok",bad,"falhas"); sys.exit(1 if bad else 0)

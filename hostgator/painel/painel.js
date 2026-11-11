@@ -118,9 +118,9 @@
   function mostrarApp() {
     const conteudo = h("div");
     const abas = [["resumo", "RESUMO"], ["solicitacoes", "SOLICITAÇÕES"], ["contatos", "OUTROS PEDIDOS"], ["produtos", "LOJA RÁPIDA"],
-      ["auditoria", "AUDITORIA"], ["logs", "LOGS"], ["avisos", "NOTIFICAÇÕES"]];
+      ["auditoria", "AUDITORIA"], ["logs", "LOGS"], ["avisos", "NOTIFICAÇÕES"], ["area", "ÁREA"]];
     const nav = h("nav", { class: "pd-admin-tabs", "aria-label": "Áreas do painel" });
-    const views = { resumo: viewResumo, produtos: viewProdutos, auditoria: viewAuditoria, logs: viewLogs, avisos: viewAvisos };
+    const views = { resumo: viewResumo, produtos: viewProdutos, auditoria: viewAuditoria, logs: viewLogs, avisos: viewAvisos, area: viewArea };
     const trocar = (nome) => {
       aba = nome;
       [...nav.children].forEach((b) => b.classList.toggle("ativa", b.dataset.aba === nome));
@@ -278,6 +278,44 @@
     return raiz;
   }
 
+  /* ---------- área de atendimento presencial ---------- */
+  function viewArea() {
+    const raiz = h("div", null, h("p", null, "Carregando…"));
+    let msg = "", ok = false;
+    async function carregar() {
+      try {
+        const d = await api("/api/admin/cobertura");
+        const cep = h("input", { inputMode: "numeric", maxLength: 9, placeholder: "00000-000", value: d.cep ? d.cep.replace(/^(\d{5})(\d{3})$/, "$1-$2") : "" });
+        const raio = h("input", { inputMode: "decimal", maxLength: 5, value: String(d.raio).replace(".", ",") });
+        const maximo = h("input", { inputMode: "decimal", maxLength: 5, value: String(d.raio_max).replace(".", ",") });
+        const taxa = h("input", { inputMode: "decimal", maxLength: 8, value: (d.taxa_centavos / 100).toFixed(2).replace(".", ",") });
+        const num = (v) => Number(String(v).replace(",", "."));
+        const botao = h("button", { class: "pd-primario" }, "Salvar área");
+        const form = h("form", { onsubmit: async (e) => {
+          e.preventDefault(); botao.disabled = true;
+          try {
+            await api("/api/admin/cobertura", { metodo: "POST", corpo: { cep: cep.value, raio: num(raio.value), raio_max: num(maximo.value), taxa_centavos: Math.round(num(taxa.value) * 100) } });
+            msg = "Área salva. O site já usa as novas regras."; ok = true;
+          } catch (ex) { if (ex instanceof SessaoExpirada) return; msg = ex.message; ok = false; }
+          carregar();
+        } },
+          h("label", null, "CEP-base (o ponto central do atendimento)", cep),
+          h("label", null, "Raio sem taxa (km)", raio),
+          h("label", null, "Limite máximo de atendimento (km)", maximo),
+          h("label", null, "Taxa de deslocamento entre o raio e o limite (R$)", taxa), botao);
+        raiz.replaceChildren(
+          h("section", { class: "pd-card" }, h("h3", null, "Área de atendimento presencial"),
+            h("p", null, "O site compara o CEP do cliente com este ponto. Até o raio: sem taxa. Entre o raio e o limite: avisa a taxa de deslocamento. Além do limite: avisa que não atende a região. O CEP-base e a distância nunca aparecem para o cliente."),
+            form,
+            msg ? h("p", { class: ok ? "pd-admin-ok" : "pd-admin-error", role: "status" }, msg) : null,
+            d.localizado ? h("p", { class: "pd-mudo" }, "Ponto central localizado em: " + (d.local || "—") + ".")
+              : h("p", { class: "pd-admin-error" }, d.cep ? "Não consegui localizar o CEP-base no mapa." : "Ainda não configurado: enquanto isso, o site diz que a cobertura será confirmada pelo WhatsApp.")));
+      } catch (ex) { if (!(ex instanceof SessaoExpirada)) raiz.replaceChildren(h("p", { class: "pd-admin-error" }, ex.message)); }
+    }
+    carregar();
+    return raiz;
+  }
+
   /* ---------- notificações no celular (PWA + Web Push) ---------- */
   const b64uParaBytes = (s) => Uint8Array.from(atob(s.replace(/-/g, "+").replace(/_/g, "/") + "=".repeat((4 - s.length % 4) % 4)), (c) => c.charCodeAt(0));
   function nomeAparelho() {
@@ -417,7 +455,8 @@
             ? [h("p", null, h("strong", null, atual.nome), " — ", ASSUNTOS[atual.assunto] || atual.assunto), h("div", { class: "pd-pre" }, atual.resumo)]
             : [h("p", null, h("strong", null, atual.nome), " — ", atual.equipamento.toUpperCase()),
                h("p", null, atual.tipo.toUpperCase() + " • " + atual.servico + " • " + atual.modalidade),
-               h("p", null, atual.descricao), h("p", null, "CEP: " + (atual.cep || "A COMBINAR"))],
+               h("p", null, atual.descricao), h("p", null, "CEP: " + (atual.cep || "A COMBINAR")),
+               atual.cobertura ? h("p", { class: "pd-area pd-area-" + atual.cobertura }, { dentro: "DENTRO DA ÁREA DE ATENDIMENTO", taxa: "FORA DO RAIO — COBRAR TAXA DE DESLOCAMENTO", longe: "ALÉM DO LIMITE — REGIÃO NÃO ATENDIDA", indefinido: "ÁREA NÃO CONFIRMADA — CONFIRME PELO WHATSAPP" }[atual.cobertura] || "") : null],
           h("a", { href: linkZap(atual.whatsapp), rel: "noopener noreferrer", target: "_blank" }, "CONTATAR PELO WHATSAPP ↗"),
           h("div", { class: "pd-encerrar" }, ENCERRADOS.includes(atual.status)
             ? h("button", { type: "button", class: "pd-reabrir", onclick: () => mudar(atual.id, contatos ? "em_andamento" : "em_atendimento") }, "REABRIR CHAMADO")

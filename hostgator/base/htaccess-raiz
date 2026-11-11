@@ -12,8 +12,8 @@ RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP:X-Forwarded-Proto} !https
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 # Endereços curtos da API
-RewriteRule ^api/(contatos|solicitacoes|produtos|metricas)$ api/$1.php [L,QSA]
-RewriteRule ^api/admin/(login|totp|sessao|sair|solicitacoes|produtos|foto|metricas|auditoria|logs|push|notas|exportar)$ api/admin/$1.php [L,QSA]
+RewriteRule ^api/(contatos|solicitacoes|produtos|metricas|cobertura)$ api/$1.php [L,QSA]
+RewriteRule ^api/admin/(login|totp|sessao|sair|solicitacoes|produtos|foto|metricas|auditoria|logs|push|notas|exportar|cobertura)$ api/admin/$1.php [L,QSA]
 </IfModule>
 
 ErrorDocument 404 /404.html

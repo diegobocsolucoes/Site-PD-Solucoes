@@ -40,6 +40,7 @@ function pd_schema(string $driver): array {
   servico VARCHAR(50) NOT NULL,
   modalidade VARCHAR(10) NOT NULL,
   cep CHAR(8) NULL,
+  cobertura VARCHAR(10) NULL,
   descricao TEXT NOT NULL,
   aviso_enviado TINYINT NOT NULL DEFAULT 0,
   criado_em DATETIME NOT NULL,
@@ -130,6 +131,14 @@ function pd_schema(string $driver): array {
   texto VARCHAR(1000) NOT NULL,
   criado_em DATETIME NOT NULL" . $k('pd_notas_idx', 'registro_id, criado_em') . "
 )$fim";
+    $sql[] = "CREATE TABLE IF NOT EXISTS pd_cep (
+  cep CHAR(8) NOT NULL PRIMARY KEY,
+  lat DOUBLE NOT NULL,
+  lon DOUBLE NOT NULL,
+  cidade VARCHAR(60) NOT NULL,
+  bairro VARCHAR(80) NOT NULL,
+  criado_em DATETIME NOT NULL
+)$fim";
     foreach ([['pd_limite', 'pd_limite_idx', 'chave, criado_em'], ['pd_solicitacoes', 'pd_solicitacoes_idx', 'criado_em'],
               ['pd_contatos', 'pd_contatos_idx', 'criado_em'], ['pd_historico_status', 'pd_historico_idx', 'registro_id, criado_em'],
               ['pd_produtos', 'pd_produtos_idx', 'ativo, destaque, ordem'],
@@ -147,7 +156,7 @@ function pd_criar_tabelas(PDO $pdo): void {
     if ((int)$existe === 0) $pdo->exec("INSERT INTO pd_contagem (chave, valor) VALUES ('protocolo', 0)");
 }
 
-const PD_SCHEMA_VERSAO = 2;
+const PD_SCHEMA_VERSAO = 3;
 
 /** Atualiza bancos já instalados (cria as tabelas novas uma única vez). Nunca derruba a página. */
 function pd_migrar(PDO $pdo): void {
@@ -157,6 +166,7 @@ function pd_migrar(PDO $pdo): void {
         $tem = $pdo->query("SELECT COUNT(*) FROM pd_contagem WHERE chave = 'protocolo'")->fetchColumn();
         if ((int)$tem === 0) return;                       // instalação ainda não concluída
         pd_criar_tabelas($pdo);
+        try { $pdo->exec('ALTER TABLE pd_solicitacoes ADD COLUMN cobertura VARCHAR(10) NULL'); } catch (Throwable $e) { /* já existe */ }
         if ($v === false) $pdo->exec("INSERT INTO pd_contagem (chave, valor) VALUES ('schema', " . PD_SCHEMA_VERSAO . ")");
         else $pdo->exec("UPDATE pd_contagem SET valor = " . PD_SCHEMA_VERSAO . " WHERE chave = 'schema'");
     } catch (Throwable $e) {

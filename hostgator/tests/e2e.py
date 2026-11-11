@@ -30,7 +30,7 @@ with sync_playwright() as p:
     pg.fill("input[autocomplete=one-time-code]","000000"); pg.click("form button"); pg.wait_for_selector(".pd-admin-error:not([hidden])")
     check("TOTP errado rejeitado", True)
     pg.fill("input[autocomplete=one-time-code]",totp(segredo)); pg.click("form button"); pg.wait_for_selector(".pd-admin-tabs")
-    check("login completo com TOTP", pg.locator(".pd-admin-tabs button").count()==7)
+    check("login completo com TOTP", pg.locator(".pd-admin-tabs button").count()==8)
     # produto
     pg.click("[data-aba=produtos]"); pg.click("text=NOVO PRODUTO")
     pg.fill("form input[required]:nth-of-type(1)","") if False else None
@@ -132,6 +132,25 @@ with sync_playwright() as p:
     check("push: endpoint de outro domínio recusado", pushpost(ruim)==422)
     boa={"acao":"inscrever","inscricao":{"endpoint":"https://web.push.apple.com/"+"Q"*60,"keys":{"p256dh":b64(pub),"auth":b64(b"a"*16)}},"agente":"iPhone • Safari"}
     check("push: inscrição Apple aceita", pushpost(boa)==201)
+    pg.click("[data-aba=area]"); pg.wait_for_selector("text=Salvar área")
+    pg.fill("input[placeholder='00000-000']","32000-000"); pg.fill(".pd-card form label:nth-of-type(2) input","5"); pg.fill(".pd-card form label:nth-of-type(3) input","10"); pg.fill(".pd-card form label:nth-of-type(4) input","3,25"); pg.click("text=Salvar área"); pg.wait_for_selector(".pd-admin-ok")
+    check("área salva e localizada", "Contagem" in pg.inner_text("#app"), pg.inner_text("#app")[:300])
+    cob=lambda c: requests_get("/api/cobertura?cep="+c)
+    import urllib.request as _u
+    def requests_get(path):
+        rq=_u.Request(BASE+path,headers={"Origin":BASE}); return json.load(_u.urlopen(rq))
+    check("CEP perto = dentro", cob("32010000")["status"]=="dentro")
+    x=cob("30110000"); check("CEP além de 10 km = longe", x["status"]=="longe")
+    check("CEP entre 5 e 10 km cobra taxa", cob("32050000")["status"]=="taxa" and cob("32050000")["taxa_centavos"]==325)
+    check("CEP desconhecido = indefinido", cob("99999999")["status"]=="indefinido")
+    check("resposta não vaza distância/coordenadas", set(cob("32010000").keys())=={"status","local"})
+    # pedido presencial fora da área aparece marcado no painel
+    pe=ctx.new_page(); pe.goto(BASE+"/screens/02-atendimento-v5/"); pe.wait_for_timeout(300)
+    rq=_u.Request(BASE+"/api/solicitacoes",data=json.dumps({"nome":"Cliente Longe","whatsapp":"31977776666","equipamento":"notebook","tipo":"servico","servico":"formatacao","modalidade":"presencial","descricao":"Notebook muito lento","cep":"30110000","site_url":""}).encode(),method="POST",headers={"Content-Type":"application/json","Origin":BASE})
+    try: _u.urlopen(rq)
+    except Exception as e: print("pedido:",e)
+    pg.click("[data-aba=solicitacoes]"); pg.wait_for_selector(".pd-admin-row"); pg.locator(".pd-admin-row", has_text="Cliente Longe").first.click()
+    check("pedido além do limite marcado no painel", "REGIÃO NÃO ATENDIDA" in pg.inner_text(".pd-admin-detail"), pg.inner_text(".pd-admin-detail")[:200])
     # sessão persiste no reload; logout
     pg.reload(); pg.wait_for_selector(".pd-admin-tabs"); check("sessão persiste", True)
     pg.click("text=SAIR"); pg.wait_for_selector("input[name=senha]"); check("logout", True)

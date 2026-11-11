@@ -13,6 +13,9 @@ import sys,re
 p,S=sys.argv[1:]; t=open(p).read()
 t=re.sub(r"'dsn'\s*=>\s*'[^']*'", f"'dsn' => 'sqlite:{S}/teste.db'", t)
 t=t.replace("'modo' => 'arquivo',", f"'modo' => 'arquivo', 'arquivo' => '{S}/mail.txt',")
+cob="\n  'cobertura_teste' => ['32000000' => ['lat' => -19.93, 'lon' => -44.05, 'cidade' => 'Contagem', 'bairro' => 'Centro'], '32010000' => ['lat' => -19.94, 'lon' => -44.06, 'cidade' => 'Contagem', 'bairro' => 'Perto'], '32050000' => ['lat' => -19.9750, 'lon' => -44.0500, 'cidade' => 'Contagem', 'bairro' => 'Médio'], '30110000' => ['lat' => -19.92, 'lon' => -43.94, 'cidade' => 'Belo Horizonte', 'bairro' => 'Longe']],"
+assert "return [" in t
+t=t.replace("return [","return ["+cob,1)
 open(p,'w').write(t)
 E
 cp "$AQUI/router.php" "$S/router.php"

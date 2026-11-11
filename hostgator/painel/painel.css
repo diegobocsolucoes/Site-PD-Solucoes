@@ -189,3 +189,10 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,syste
 .pd-admin-detail .pd-reabrir{background:transparent;border:1px solid var(--warn);color:var(--warn)}
 .pd-linha-log .pd-mini{margin-left:10px;min-height:32px;padding:0 12px;border-radius:8px;border:1px solid var(--line-2);background:transparent;color:var(--green-2);font-weight:600;font-size:13px;cursor:pointer}
 .pd-admin>div>.pd-admin-tools{align-items:center}
+.pd-area{display:inline-block;margin:0;padding:6px 0 6px 12px;border-left:3px solid var(--green);font-weight:700;font-size:13px;letter-spacing:.04em}
+.pd-area-fora{border-left-color:var(--warn);color:var(--warn)}
+.pd-area-indefinido{border-left-color:#9fb3a7;color:var(--muted)}
+.pd-area-dentro{color:var(--green-2)}
+.pd-card form{display:grid;gap:4px;max-width:420px}
+.pd-card form label{display:grid;gap:7px;margin:10px 0;color:var(--muted);font-size:13px;font-weight:600}
+.pd-card form input{min-height:46px;padding:0 14px;background:#0e1812;color:var(--ink);border:1px solid var(--line-2);border-radius:10px;font-size:15px;width:100%}

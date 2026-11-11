@@ -72,6 +72,8 @@ with sync_playwright() as p:
     s.goto(BASE+"/screens/02-atendimento-v5/"); 
     check("02 abre sem erro JS", True)
     # painel: contatos e solicitações
+    pg.click("[data-aba=solicitacoes]"); pg.wait_for_timeout(500)
+    check("painel sem texto 'null' solto", "null" not in pg.inner_text("#app").lower(), pg.inner_text("#app")[:200])
     pg.click("[data-aba=contatos]"); pg.wait_for_selector(".pd-admin-row")
     check("painel lista contato", pg.locator(".pd-admin-row").count()>=1 and "PD-CT" in pg.inner_text(".pd-admin-row"))
     check("detalhe com WhatsApp", pg.locator("a[href^='https://wa.me/55']").count()==1)

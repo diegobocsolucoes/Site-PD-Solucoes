@@ -178,7 +178,7 @@
           h("label", null, "STATUS", seletor),
           h("small", null, "Recebido em " + quando(atual.criado_em) + " • Aviso por e-mail: " + (Number(atual.aviso_enviado) ? "enviado" : "não enviado")));
       }
-      raiz.replaceChildren(
+      raiz.replaceChildren(...[
         erro ? h("p", { class: "pd-admin-error", role: "alert" }, erro) : null,
         h("div", { class: "pd-admin-cols" },
           h("section", null,
@@ -186,7 +186,8 @@
               h("label", { class: "pd-busca" }, "BUSCAR POR PROTOCOLO, NOME OU WHATSAPP", pesquisa),
               h("button", { type: "button", onclick: carregar }, "ATUALIZAR FILA")),
             lista),
-          h("aside", { class: "pd-admin-detail" }, detalhe)));
+          h("aside", { class: "pd-admin-detail" }, detalhe)),
+      ].filter(Boolean));
     }
     carregar();
     return raiz;

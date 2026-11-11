@@ -125,3 +125,12 @@ textarea{min-height:110px}
 .whatsapp-badge{border:0!important;background:none!important;padding:0!important}
 .mini strong,.info-tags strong,.hero-tags strong{color:inherit!important;font-weight:inherit!important}
 .choice-art img,.hero-art img[src$=".svg"]{object-fit:contain!important;object-position:center!important;background:transparent!important;filter:none!important;padding:14px}
+
+/* etapas do formulário: sem caixas, só o número em círculo */
+.stepper .step,.stepper .step.active,.stepper .step.muted{border:0!important;background:none!important;box-shadow:none!important;border-radius:0!important}
+.stepper .step>span{border-radius:50%!important;width:44px!important;height:44px!important;display:grid!important;place-items:center}
+.stepper .step.muted{opacity:.55}
+.stepper .step b{font-weight:600!important}
+.selected-mode-line,.selected-mode-line *{border:0!important;background:none!important;box-shadow:none!important;padding-left:0;padding-right:0}
+.selected-mode-line{color:var(--a-muted)!important}
+.selected-mode-line strong,.selected-mode-line span:last-child{color:var(--a-green2)!important}

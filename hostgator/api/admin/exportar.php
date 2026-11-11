@@ -5,11 +5,13 @@ require dirname(__DIR__) . '/inc/admin.php';
 
 pd_exigir_metodo('GET');
 pd_exigir_admin(false);
-$fonte = ($_GET['fonte'] ?? '') === 'contatos' ? 'contatos' : 'solicitacoes';
-$tabela = $fonte === 'contatos' ? 'pd_contatos' : 'pd_solicitacoes';
-$campos = $fonte === 'contatos'
+$fonte = in_array($_GET['fonte'] ?? '', ['contatos', 'auditoria'], true) ? $_GET['fonte'] : 'solicitacoes';
+$tabela = ['contatos' => 'pd_contatos', 'auditoria' => 'pd_auditoria'][$fonte] ?? 'pd_solicitacoes';
+$campos = $fonte === 'auditoria'
+    ? ['criado_em', 'usuario', 'acao', 'alvo', 'detalhe']
+    : ($fonte === 'contatos'
     ? ['protocolo', 'assunto', 'status', 'nome', 'whatsapp', 'resumo', 'criado_em', 'atualizado_em']
-    : ['protocolo', 'tipo', 'status', 'nome', 'whatsapp', 'equipamento', 'servico', 'modalidade', 'cep', 'descricao', 'criado_em', 'atualizado_em'];
+    : ['protocolo', 'tipo', 'status', 'nome', 'whatsapp', 'equipamento', 'servico', 'modalidade', 'cep', 'descricao', 'criado_em', 'atualizado_em']);
 $linhas = pd_db()->query('SELECT ' . implode(', ', $campos) . " FROM $tabela ORDER BY criado_em DESC LIMIT 5000")->fetchAll();
 pd_auditar('exportar', $fonte, count($linhas) . ' registros exportados (CSV)');
 header('Content-Type: text/csv; charset=utf-8');

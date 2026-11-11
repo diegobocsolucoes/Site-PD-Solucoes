@@ -181,3 +181,11 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,syste
  .pd-admin-cols>section>.pd-admin-tools button,.pd-admin-cols>section>.pd-admin-tools .pd-botao-link{flex:1 1 100%;justify-content:center;text-align:center}
  .pd-admin-cols>section [role=table]>p,.pd-admin-cols>section>p{padding:14px}
 }
+
+/* encerrar / reabrir chamado */
+.pd-admin-detail .pd-encerrar{margin:16px 0 4px}
+.pd-admin-detail .pd-encerrar button{width:100%;min-height:48px;border-radius:10px;font-weight:700;cursor:pointer}
+.pd-admin-detail .pd-fechar{background:var(--green);border:1px solid var(--green);color:var(--dark)}
+.pd-admin-detail .pd-reabrir{background:transparent;border:1px solid var(--warn);color:var(--warn)}
+.pd-linha-log .pd-mini{margin-left:10px;min-height:32px;padding:0 12px;border-radius:8px;border:1px solid var(--line-2);background:transparent;color:var(--green-2);font-weight:600;font-size:13px;cursor:pointer}
+.pd-admin>div>.pd-admin-tools{align-items:center}

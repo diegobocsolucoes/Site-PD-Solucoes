@@ -13,4 +13,16 @@ $q = pd_db()->prepare("SELECT acao, usuario, alvo, detalhe, ip_hash, criado_em F
 $q->execute($acao !== '' ? [$acao] : []);
 $total = pd_db()->prepare("SELECT COUNT(*) FROM pd_auditoria$onde");
 $total->execute($acao !== '' ? [$acao] : []);
-pd_json(['registros' => $q->fetchAll(), 'total' => (int)$total->fetchColumn(), 'pagina' => $pagina, 'limite' => $limite]);
+$regs = $q->fetchAll();
+$busca = ['solicitacoes' => pd_db()->prepare('SELECT id, status FROM pd_solicitacoes WHERE protocolo = ?'),
+          'contatos' => pd_db()->prepare('SELECT id, status FROM pd_contatos WHERE protocolo = ?')];
+foreach ($regs as &$r) {
+    $r['pedido'] = null;
+    if ($r['acao'] !== 'status') continue;
+    foreach ($busca as $fonte => $st) {
+        $st->execute([$r['alvo']]);
+        if ($l = $st->fetch()) { $r['pedido'] = ['fonte' => $fonte, 'id' => $l['id'], 'status' => $l['status']]; break; }
+    }
+}
+unset($r);
+pd_json(['registros' => $regs, 'total' => (int)$total->fetchColumn(), 'pagina' => $pagina, 'limite' => $limite]);

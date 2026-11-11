@@ -10,6 +10,7 @@
   const ASSUNTOS = {"orcamento-empresarial":"ORÇAMENTO EMPRESARIAL","chamado-empresarial":"CHAMADO EMPRESARIAL",
     "parceria":"PARCERIA","loja-rapida":"LOJA RÁPIDA"};
   const ROTULO_PROD = {disponivel:"DISPONÍVEL",poucas_unidades:"POUCAS UNIDADES",indisponivel:"INDISPONÍVEL"};
+  const ENCERRADOS = ["concluido", "cancelado", "nao_convertido"];
   const FOTO_MAX = 2 * 1024 * 1024;
 
   const app = document.getElementById("app");
@@ -221,17 +222,32 @@
     produto_excluir: "Excluiu produto", foto_enviar: "Enviou foto", foto_remover: "Removeu foto", push_ativar: "Ativou avisos no celular", push_remover: "Removeu celular", push_teste: "Testou notificação" };
   function viewAuditoria() {
     const raiz = h("div", null, h("p", null, "Carregando…"));
-    let pagina = 0;
+    let pagina = 0, erroAcao = "";
+    async function alternar(pd) {
+      const reabrir = ENCERRADOS.includes(pd.status);
+      if (!reabrir && !window.confirm("Encerrar este chamado?")) return;
+      erroAcao = "";
+      try {
+        await api("/api/admin/solicitacoes", { metodo: "PATCH", corpo: { id: pd.id, fonte: pd.fonte,
+          status: reabrir ? (pd.fonte === "contatos" ? "em_andamento" : "em_atendimento") : "concluido" } });
+      } catch (ex) { if (ex instanceof SessaoExpirada) return; erroAcao = ex.message; }
+      carregar();
+    }
     async function carregar() {
       try {
         const r = await api("/api/admin/auditoria?pagina=" + pagina);
         const ultima = Math.max(0, Math.ceil(r.total / r.limite) - 1);
         raiz.replaceChildren(
-          h("p", { class: "pd-mudo" }, "Registro de tudo o que foi feito no painel: quem, o quê e quando. Não pode ser editado nem apagado pelo painel."),
+          h("div", { class: "pd-admin-tools" }, h("p", { class: "pd-mudo" }, "Registro de tudo o que foi feito no painel: quem, o quê e quando. Não pode ser editado nem apagado pelo painel."),
+            h("a", { class: "pd-botao-link", href: "/api/admin/exportar?fonte=auditoria", download: "" }, "BAIXAR AUDITORIA (CSV)")),
+          erroAcao ? h("p", { class: "pd-admin-error", role: "alert" }, erroAcao) : null,
           r.registros.length === 0 ? h("p", null, "Nada registrado ainda.") : h("div", { class: "pd-tabela", role: "table" },
             r.registros.map((x) => h("div", { role: "row", class: "pd-linha-log" },
               h("time", null, quando(x.criado_em)), h("strong", null, ACOES[x.acao] || x.acao),
-              h("span", null, [x.alvo, x.detalhe].filter(Boolean).join(" — ")), h("small", null, (x.usuario || "—") + " • " + String(x.ip_hash || "").slice(0, 8))))),
+              h("span", null, [x.alvo, x.detalhe].filter(Boolean).join(" — "),
+                x.pedido ? h("button", { type: "button", class: "pd-mini", onclick: () => alternar(x.pedido) },
+                  ENCERRADOS.includes(x.pedido.status) ? "Reabrir chamado" : "Encerrar chamado") : null),
+              h("small", null, (x.usuario || "—") + " • " + String(x.ip_hash || "").slice(0, 8))))),
           h("div", { class: "pd-periodo" },
             h("button", { type: "button", disabled: pagina === 0, onclick: () => { pagina--; carregar(); } }, "‹ Mais recentes"),
             h("span", { class: "pd-mudo" }, "Página " + (pagina + 1) + " de " + (ultima + 1)),
@@ -403,6 +419,9 @@
                h("p", null, atual.tipo.toUpperCase() + " • " + atual.servico + " • " + atual.modalidade),
                h("p", null, atual.descricao), h("p", null, "CEP: " + (atual.cep || "A COMBINAR"))],
           h("a", { href: linkZap(atual.whatsapp), rel: "noopener noreferrer", target: "_blank" }, "CONTATAR PELO WHATSAPP ↗"),
+          h("div", { class: "pd-encerrar" }, ENCERRADOS.includes(atual.status)
+            ? h("button", { type: "button", class: "pd-reabrir", onclick: () => mudar(atual.id, contatos ? "em_andamento" : "em_atendimento") }, "REABRIR CHAMADO")
+            : h("button", { type: "button", class: "pd-fechar", onclick: () => { if (window.confirm("Encerrar o chamado " + atual.protocolo + "?")) mudar(atual.id, "concluido"); } }, "ENCERRAR CHAMADO")),
           h("label", null, "STATUS", seletor),
           h("small", null, "Recebido em " + quando(atual.criado_em) + " • Aviso por e-mail: " + (Number(atual.aviso_enviado) ? "enviado" : "não enviado")),
           blocoNotas(atual.id));

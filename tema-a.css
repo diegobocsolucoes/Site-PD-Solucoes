@@ -1,0 +1,105 @@
+/* PD Soluções Digitais — Tema A (grafite e verde) para as telas internas.
+   Carregado por último em cada tela: troca tipografia, caixas e controles sem mexer em estrutura nem em scripts. */
+@font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:swap;src:url("assets/fonts/inter-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Inter";font-weight:500;font-style:normal;font-display:swap;src:url("assets/fonts/inter-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Inter";font-weight:600;font-style:normal;font-display:swap;src:url("assets/fonts/inter-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Space Grotesk";font-weight:700;font-style:normal;font-display:swap;src:url("assets/fonts/space-grotesk-latin-700-normal.woff2") format("woff2")}
+:root{--a-bg:#060a07;--a-surface:#0c140f;--a-surface2:#101c15;--a-line:rgba(121,212,151,.16);--a-line2:rgba(121,212,151,.32);
+ --a-green:#58b978;--a-green2:#79d497;--a-ink:#04100a;--a-text:#eef4f0;--a-muted:#b0bdb5;--a-head:"Space Grotesk",Inter,system-ui,sans-serif;--a-body:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+
+/* base */
+html,body{background:var(--a-bg)!important}
+body{font-family:var(--a-body)!important;color:var(--a-text)!important;line-height:1.55!important;-webkit-font-smoothing:antialiased}
+body:before{background:radial-gradient(60% 40% at 80% 0%,rgba(88,185,120,.13),transparent 70%),linear-gradient(180deg,#060a07,#07100b 60%,#060a07)!important}
+body:after{display:none!important}
+body,body *{text-transform:none!important;letter-spacing:normal!important}
+body *{font-family:inherit}
+h1,h2,h3,.calls,.price,.info-num,.av-price{font-family:var(--a-head)!important;font-weight:700!important;letter-spacing:-.015em!important}
+h1 em,h2 em{font-style:normal;color:var(--a-green2)}
+:focus-visible{outline:2px solid var(--a-green2)!important;outline-offset:2px}
+
+/* rótulos curtos continuam em caixa alta, com respiro */
+.tag,.crumb,.foot h4,.footer-col h4,.k,.plan-label,.price-label,.section-tag,.card-kicker,.info-kicker,.info-tag,.eyebrow,.choice-badge,.block-head span{
+ text-transform:uppercase!important;letter-spacing:.12em!important;font-size:12px!important;font-weight:600!important}
+
+/* tamanhos mínimos legíveis */
+.hero p,.panel>p,.section-title p,.info-copy p,.form-head p,.choice-body p,.choose-head p,.access-head p,.intro p,.rules-head p,.head p,.catalog-head p,.card p,.price-note p,.after-card p,.info-highlight p,.box p,.callout p,.delivery-card p,.analysis-card p,.receive-card p,.info-band p,.catalog-empty p,.benefit p,.step p,.info-card p,.foot-brand p,.product-desc,.warning,.disclaimer,.scope-note,.notice-box,.form-note,.help,.review,.toast,.notice span,.rule span,.how span,.info-point span,.include span,.deliver span,.compare span,.r span,.tier span,.tier small,.benefit span,.rulebox span,.choice small,.subpath span,.stage span,.hero-art-note span,.hero-note span,.side-note small,.av-price small,.after-card b,.calls small,.status,.type-card,.quick-item small,.compare-card li,.features li,.filter,.reserve,.price span,.catalog-empty-cta,.info-strip{font-size:14px!important;line-height:1.6!important}
+.hero p,.access-head p,.choose-head p,.intro p,.section-title p,.info-copy p,.catalog-head p,.head p{font-size:16px!important;color:var(--a-muted)!important}
+.mini,.trust-item,.trust-item strong,.trust strong,.links,.foot a,.foot span,.foot-bottom,.foot-brand p,.small-btn,.go,.option,.choice,.choice b,.how b,.info-point b,.notice b,.rule b,.include b,.deliver b,.r b,.tier b,.hero-art-note b,.hero-note b,.side-note strong,.callout b,.delivery-card b,.compare b,.subpath b,.stage b,.rulebox b,.field label,.card .bullets span,.step h3,.analysis-card h3,.compare-card h3,.benefit h3,.service b,.benefit,.receive-card h3,.side-title h3,.type-card,.info-band strong{font-size:14px!important}
+.field input,.field select,.field textarea,.filebox input{font-size:16px!important}
+.submit{font-size:15px!important}
+
+/* topo */
+.topbar{background:rgba(6,10,7,.88)!important;border-bottom:1px solid var(--a-line)!important;backdrop-filter:blur(14px)}
+.links{gap:22px!important;color:#c9d6ce!important;font-weight:500!important}
+.links a{border-bottom-width:2px!important;padding:30px 0 26px!important}
+.links a:hover,.links a.active{color:var(--a-green2)!important;border-bottom-color:var(--a-green2)!important}
+.brand img{width:150px!important;filter:none!important}
+.small-btn,.talk-btn,.whatsapp-top{min-height:44px!important;border-radius:999px!important;border:1px solid var(--a-line2)!important;background:transparent!important;color:var(--a-green2)!important;font-weight:600!important;padding:0 18px!important}
+.small-btn:hover,.talk-btn:hover{background:rgba(88,185,120,.1)!important;border-color:var(--a-green2)!important}
+
+/* hero */
+.hero-shell,.hero-box{border:1px solid var(--a-line)!important;border-radius:22px!important;background:linear-gradient(135deg,#0d1a12,#080e0a)!important;box-shadow:none!important}
+.hero h1{font-size:clamp(32px,4vw,52px)!important;line-height:1.08!important;letter-spacing:-.025em!important}
+.tag{border:0!important;background:none!important;padding:0!important;color:var(--a-green2)!important}
+.tag:before{content:"";display:inline-block;width:28px;height:1px;background:var(--a-green2);vertical-align:middle;margin-right:12px}
+.crumb{color:#8fa398!important}
+.mini,.info-tag{border:1px solid var(--a-line)!important;background:rgba(88,185,120,.07)!important;border-radius:999px!important;padding:6px 12px!important;color:#cfe0d5!important;font-weight:500!important}
+.hero-art-note,.hero-note{border:1px solid var(--a-line2)!important;background:rgba(6,12,8,.82)!important;border-radius:14px!important}
+.hero-art-note b,.hero-note b{color:var(--a-green2)!important;font-size:14px!important}
+
+/* caixas de frase com contorno viram texto limpo */
+.phrase,.card h3 span,.phrase-box{border:0!important;background:none!important;padding:0!important;border-radius:0!important;box-shadow:none!important}
+
+/* cartões e painéis */
+.card,.panel,.side-card,.after-card,.choice,.option,.info-card,.benefit,.plan,.tier,.type-card,.analysis-card,.compare-card,.step,.problem,.select-card,.receive-card,.rulebox,.box,.callout,.delivery-card,.info-point,.info-highlight,.service,.review,.filebox{
+ border-radius:16px!important;border:1px solid var(--a-line)!important;background:var(--a-surface)!important;box-shadow:none!important}
+.card:after,.card:before{display:none!important}
+.card:hover,.choice:hover,.option:hover,.problem:hover,.select-card:hover{border-color:var(--a-line2)!important;background:var(--a-surface2)!important}
+.card h3,.panel h2,.choice-body h3,.plan h3{color:var(--a-text)!important;line-height:1.2!important}
+.card h3{font-size:20px!important;font-weight:700!important}
+.card p,.panel>p,.choice-body p,.step p,.benefit p{color:var(--a-muted)!important}
+.ico,.side-icon,.problem-icon,.receive-icon,.trust-icon{border:0!important;background:rgba(88,185,120,.14)!important;border-radius:14px!important;color:var(--a-green2)!important}
+.ico svg,.side-icon svg,.trust-icon svg{stroke:var(--a-green2)!important}
+.selected,.active.select-card,.choice.selected,.option.selected,.problem.selected,.select-card.selected{border-color:var(--a-green)!important;background:rgba(88,185,120,.12)!important}
+.num,.step-no,.step-num,.stage-no,.block-no,.how-no,.info-step{font-family:var(--a-head)!important;color:var(--a-green2)!important}
+.trust,.info-strip,.info-band{border-radius:16px!important}
+.trust-item strong{color:var(--a-text)!important}
+
+/* botões e formulários */
+.submit,.go,.catalog-empty-cta,.reserve,.footer-whatsapp-cta{min-height:48px;border-radius:12px!important;border:0!important;background:var(--a-green)!important;color:var(--a-ink)!important;font-weight:700!important;box-shadow:none!important}
+.submit:hover,.go:hover,.reserve:hover{background:var(--a-green2)!important}
+.field label{color:var(--a-muted)!important;font-weight:600!important}
+.field input,.field select,.field textarea,.filebox input,input[type=text],input[type=tel],input[type=email],select,textarea{
+ min-height:46px;background:#0e1812!important;color:var(--a-text)!important;border:1px solid var(--a-line2)!important;border-radius:10px!important}
+textarea{min-height:110px}
+.field input::placeholder,textarea::placeholder{color:#6f857a!important}
+.warning,.notice-box,.disclaimer{border-radius:12px!important}
+.toast{border-radius:12px!important}
+
+/* rodapé */
+.foot,footer{border-top:1px solid var(--a-line)!important;background:#050805!important}
+.foot a,.foot span,.foot-brand p,.footer-col a,.footer-col span{color:#9fb3a7!important}
+.foot a:hover{color:var(--a-green2)!important}
+.foot h4,.footer-col h4{color:var(--a-text)!important}
+
+@media(max-width:760px){
+ .hero h1{font-size:clamp(28px,8vw,36px)!important}
+ .links{gap:16px!important}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* títulos e rodapés sem caixa */
+:is(h1,h2,h3,h4) :is(span,b,strong),h4{border:0!important;background:none!important;padding:0!important;box-shadow:none!important;border-radius:0!important}
+.section-title h2{font-size:clamp(22px,2.4vw,30px)!important;margin-top:4px!important}
+.section-title{text-align:left!important}
+.boxed-label,.mode-kicker,.review-kicker,.question-title,.eyebrow{border:0!important;background:none!important;padding:0!important}
+.check-option,.option,.choice{border-radius:12px!important}
+.field label,.field>span,label>span.label,.value-label,.price-label{border:0!important;background:none!important;padding:0!important}
+.field label{display:block;margin-bottom:6px}
+@media(max-width:760px){
+ .stepper{gap:2px!important;overflow:hidden}
+ .stepper .step{min-width:0!important;padding:6px 4px!important}
+ .stepper .step b{font-size:10.5px!important}
+ .stepper .line{flex:1 1 6px!important;min-width:6px!important}
+}

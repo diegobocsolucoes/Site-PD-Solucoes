@@ -71,7 +71,7 @@
   // Não divulgar preços ou disponibilidade meramente ilustrativos.
   if(slug==="08-loja-rapida-v2"&&API_URL){
     // Catálogo vivo: lê os produtos publicados no Painel PD (somente campos públicos).
-    const ROT={disponivel:["ok","DISPONÍVEL"],poucas_unidades:["low","POUCAS UNIDADES"],indisponivel:["off","INDISPONÍVEL"]};
+    const ROT={disponivel:["ok","Disponível"],poucas_unidades:["low","Poucas unidades"],indisponivel:["off","Indisponível"]};
     const grid=document.getElementById("products"),filtros=document.getElementById("filters");
     const sel=document.getElementById("productSelect"),vazio=document.getElementById("catalogEmpty");
     const dinheiro=c=>c===null||c===undefined?"A CONFIRMAR":new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(c/100);
@@ -90,8 +90,8 @@
           if(p.foto_url){const i=document.createElement("img");i.src=new URL(p.foto_url,API_URL).href;i.alt=p.nome;i.loading="lazy";img.append(i);}
           const body=el("div","product-body");
           const linha=el("div","price-row"),bloco=document.createElement("div");
-          bloco.append(el("span","price-label","VALOR ATUAL"),el("span","price",dinheiro(p.preco_centavos)));
-          const b=el("button","reserve","CONSULTAR →");b.type="button";
+          bloco.append(el("span","price-label","Valor atual"),el("span","price",dinheiro(p.preco_centavos)));
+          const b=el("button","reserve","Consultar →");b.type="button";
           if(p.status==="indisponivel")b.disabled=true;
           b.addEventListener("click",()=>{if(sel){sel.value=p.nome;}document.getElementById("reserva")?.scrollIntoView({behavior:"smooth",block:"start"});});
           linha.append(bloco,b);
@@ -99,11 +99,11 @@
           card.append(img,body);grid.append(card);cards.push(card);
           if(sel){const o=document.createElement("option");o.value=p.nome;o.textContent=p.nome;sel.insertBefore(o,sel.options[sel.options.length-1]);}
         });
-        document.querySelectorAll(".catalog-head p").forEach(x=>{x.textContent="VALORES E DISPONIBILIDADE SÃO CONFIRMADOS PELO WHATSAPP. NÃO HÁ RESERVA OU PAGAMENTO AUTOMÁTICO.";});
+        document.querySelectorAll(".catalog-head p").forEach(x=>{x.textContent="Valores e disponibilidade são confirmados pelo WhatsApp. Não há reserva ou pagamento automático.";});
         if(filtros){
           const cats=[...new Set(produtos.map(p=>p.categoria))].sort((a,b)=>a.localeCompare(b,"pt-BR"));
           if(cats.length>1)["TODOS",...cats].forEach((c,i)=>{
-            const f=el("button","filter"+(i?"":" active"),c.toUpperCase());f.type="button";
+            const f=el("button","filter"+(i?"":" active"),c);f.type="button";
             f.addEventListener("click",()=>{filtros.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));f.classList.add("active");
               cards.forEach(k=>{k.style.display=(i===0||k.dataset.cat===c)?"flex":"none";});});
             filtros.append(f);
@@ -111,12 +111,12 @@
         }
       }).catch(()=>{/* mantém "catálogo em montagem" */});
   }else if(slug==="08-loja-rapida-v2"){
-    document.querySelectorAll(".product .status").forEach(el=>el.textContent="SOB CONSULTA");
-    document.querySelectorAll(".product .price").forEach(el=>el.textContent="A CONFIRMAR");
-    document.querySelectorAll(".product .price-label").forEach(el=>el.textContent="VALOR ATUAL");
-    document.querySelectorAll(".product .reserve").forEach(el=>el.textContent="CONSULTAR →");
+    document.querySelectorAll(".product .status").forEach(el=>el.textContent="Sob consulta");
+    document.querySelectorAll(".product .price").forEach(el=>el.textContent="A confirmar");
+    document.querySelectorAll(".product .price-label").forEach(el=>el.textContent="Valor atual");
+    document.querySelectorAll(".product .reserve").forEach(el=>el.textContent="Consultar →");
     document.querySelectorAll(".catalog-head p").forEach(el=>{
-      el.textContent="CATÁLOGO EM MONTAGEM. CONSULTE ITENS, VALORES E DISPONIBILIDADE PELO WHATSAPP. NÃO HÁ RESERVA OU PAGAMENTO AUTOMÁTICO.";
+      el.textContent="Catálogo em montagem. Consulte itens, valores e disponibilidade pelo WhatsApp. Não há reserva ou pagamento automático.";
     });
   }
 
@@ -127,7 +127,7 @@
     const grid=document.querySelector(".attendance-grid");
     if(grid){
       const label=document.createElement("label");
-      label.textContent="CEP PARA ATENDIMENTO NO ENDEREÇO (A COBERTURA SERÁ CONFIRMADA)";
+      label.textContent="CEP para atendimento no endereço (a cobertura será confirmada)";
       label.style.cssText="display:block;margin:12px 0;color:#b9e2c2;font:700 12px Arial,sans-serif";
       cepInput=document.createElement("input");
       cepInput.type="text";cepInput.inputMode="numeric";cepInput.maxLength=9;
@@ -136,7 +136,7 @@
         +"background:#0b1910;border:1px solid #79d497;border-radius:6px;color:#f4fff5;font:15px Arial";
       label.append(cepInput);
       grid.after(label);
-      const refresh=()=>label.hidden=!document.querySelector(".attendance.selected")?.textContent?.includes("NO SEU ENDEREÇO");
+      const refresh=()=>label.hidden=!document.querySelector(".attendance.selected")?.textContent?.toLowerCase().includes("no seu endereço");
       document.querySelectorAll(".attendance").forEach(btn=>btn.addEventListener("click",refresh));
       refresh();
     }
@@ -156,72 +156,72 @@
       return digits(value);
     };
     if(slug==="02-atendimento-v5"){
-      const nome=required('input[placeholder="DIGITE SEU NOME COMPLETO"]',"seu nome");
+      const nome=required('input[placeholder="Digite seu nome completo"]',"seu nome");
       const numero=number('input[placeholder="(31) 9 0000-0000"]');
       const service=document.querySelector(".problem.selected");
       if(!result.error&&!service){result.error="Selecione um serviço.";result.element=document.querySelector(".problem");}
       const descricao=required("textarea","a descrição do problema (mínimo 10 caracteres)",10);
-      const equip=selected('[data-group="equip"].selected b')||"A CONFIRMAR";
+      const equip=selected('[data-group="equip"].selected b')||"A confirmar";
       const presencial=norm(selected(".attendance.selected")).includes("no seu endereco");
       const cep=digits(cepInput?.value||"");
       if(!result.error&&presencial&&cep.length!==8){result.error="Informe um CEP válido com 8 números.";result.element=cepInput;}
-      const tipo=document.querySelector('[data-request-mode="quote"].selected')?"ORÇAMENTO PARTICULAR":"ATENDIMENTO PARTICULAR";
+      const tipo=document.querySelector('[data-request-mode="quote"].selected')?"Orçamento particular":"Atendimento particular";
       result.endpoint="/api/solicitacoes";
       result.payload={tipo:tipo.startsWith("ORÇAMENTO")?"orcamento":"servico",nome,whatsapp:numero,
         equipamento:norm(equip),servico:service?.dataset.service||"",
         modalidade:presencial?"presencial":"entrega",descricao,cep};
       result.lines=[tipo,"Nome: "+nome,"Meu WhatsApp: "+numero,"Equipamento: "+equip,
-        "Serviço: "+(service?.dataset.service||"A CONFIRMAR"),
-        "Problema: "+descricao,"Modalidade: "+(presencial?"ATENDIMENTO NO ENDEREÇO":"ENTREGA AGENDADA"),
+        "Serviço: "+(service?.dataset.service||"A confirmar"),
+        "Problema: "+descricao,"Modalidade: "+(presencial?"Atendimento no endereço":"Entrega agendada"),
         ...(presencial?["CEP: "+cep]:[])];
     }else if(slug==="07-orcamento-empresarial-v2"){
-      const empresa=required('input[placeholder="NOME DA EMPRESA"]',"o nome da empresa");
-      const responsavel=required('input[placeholder="SEU NOME"]',"o nome do responsável");
-      const numero=number('input[placeholder="(31) 9XXXX-XXXX"]');
-      const local=required('input[placeholder="INFORME A LOCALIZAÇÃO DA EMPRESA"]',"a localização da empresa");
+      const empresa=required('input[placeholder="Nome da empresa"]',"o nome da empresa");
+      const responsavel=required('input[placeholder="Seu nome"]',"o nome do responsável");
+      const numero=number('input[placeholder="(31) 9xxxx-xxxx"]');
+      const local=required('input[placeholder="Informe a localização da empresa"]',"a localização da empresa");
       const descricao=required("textarea","a descrição da necessidade (mínimo 10 caracteres)",10);
       const areas=[...document.querySelectorAll(".choice.active")].map(el=>tidy(el.textContent,70));
       result.endpoint="/api/contatos";result.payload={assunto:"orcamento-empresarial",nome:responsavel,whatsapp:numero};
-      result.lines=["ORÇAMENTO EMPRESARIAL","Empresa: "+empresa,"Responsável: "+responsavel,
+      result.lines=["Orçamento empresarial","Empresa: "+empresa,"Responsável: "+responsavel,
         "Meu WhatsApp: "+numero,"Localização: "+local,
-        "Áreas: "+(areas.join("; ")||"A CONFIRMAR"),"Necessidade: "+descricao];
+        "Áreas: "+(areas.join("; ")||"A confirmar"),"Necessidade: "+descricao];
     }else if(slug==="09-parcerias-v2"){
-      const empresa=required('input[placeholder="NOME DA EMPRESA"]',"o nome da empresa");
-      const responsavel=required('input[placeholder="NOME DO RESPONSÁVEL"]',"o responsável");
-      const numero=number('input[placeholder="(31) 9XXXX-XXXX"]');
+      const empresa=required('input[placeholder="Nome da empresa"]',"o nome da empresa");
+      const responsavel=required('input[placeholder="Nome do responsável"]',"o responsável");
+      const numero=number('input[placeholder="(31) 9xxxx-xxxx"]');
       const email=required('input[placeholder="SEU@EMAIL.COM"]',"o e-mail de contato",5);
       const select=document.querySelector(".field-grid select");
       result.endpoint="/api/contatos";result.payload={assunto:"parceria",nome:responsavel,whatsapp:numero};
-      result.lines=["PROPOSTA DE PARCERIA (SUJEITA À ANÁLISE)",
+      result.lines=["Proposta de parceria (sujeita à análise)",
         "Empresa: "+empresa,"Responsável: "+responsavel,"Meu WhatsApp: "+numero,
-        "E-mail: "+email,"Segmento: "+(select?.value||"A CONFIRMAR"),
-        "Descrição: "+(val("textarea")||"A COMBINAR")];
+        "E-mail: "+email,"Segmento: "+(select?.value||"A confirmar"),
+        "Descrição: "+(val("textarea")||"A combinar")];
     }else if(slug==="08-loja-rapida-v2"){
-      const nome=required('input[placeholder="SEU NOME"]',"seu nome");
-      const numero=number('input[placeholder="(31) 9XXXX-XXXX"]');
+      const nome=required('input[placeholder="Seu nome"]',"seu nome");
+      const numero=number('input[placeholder="(31) 9xxxx-xxxx"]');
       const produto=val("#productSelect");
       if(!result.error&&!produto){result.error="Selecione um produto.";result.element=document.getElementById("productSelect");}
       const selects=[...document.querySelectorAll(".field-grid select")];
       result.endpoint="/api/contatos";result.payload={assunto:"loja-rapida",nome,whatsapp:numero};
-      result.lines=["CONSULTA DE PRODUTO (NÃO É RESERVA CONFIRMADA)",
+      result.lines=["Consulta de produto (não é reserva confirmada)",
         "Nome: "+nome,"Meu WhatsApp: "+numero,"Produto: "+produto,
-        "Quantidade: "+(selects[1]?.value||"A CONFIRMAR"),
-        "Recebimento: "+(selects[2]?.value||"A COMBINAR"),
-        "Localização: "+(val('input[placeholder="INFORME SUA LOCALIZAÇÃO"]')||"A COMBINAR"),
+        "Quantidade: "+(selects[1]?.value||"A confirmar"),
+        "Recebimento: "+(selects[2]?.value||"A combinar"),
+        "Localização: "+(val('input[placeholder="Informe sua localização"]')||"A combinar"),
         "Observações: "+(val("textarea")||"NENHUMA")];
     }else if(slug==="13-chamado-empresarial-v2"){
-      const empresa=required('input[placeholder="NOME DA EMPRESA"]',"a empresa");
-      const responsavel=required('input[placeholder="NOME DO RESPONSÁVEL"]',"o responsável");
+      const empresa=required('input[placeholder="Nome da empresa"]',"a empresa");
+      const responsavel=required('input[placeholder="Nome do responsável"]',"o responsável");
       const numero=number('input[placeholder="(31) 9 0000-0000"]');
       const servico=document.querySelector('[data-choice-group="service"] .selected');
       if(!result.error&&!servico){result.error="Selecione o serviço desejado.";result.element=document.querySelector('[data-choice-group="service"] button');}
       const descricao=required("textarea","a descrição do problema (mínimo 10 caracteres)",10);
       const groups=["plan","equip","service","impact","mode"];
       result.endpoint="/api/contatos";result.payload={assunto:"chamado-empresarial",nome:responsavel,whatsapp:numero};
-      result.lines=["CHAMADO EMPRESARIAL (SUJEITO À CONFIRMAÇÃO)",
+      result.lines=["Chamado empresarial (sujeito à confirmação)",
         "Empresa: "+empresa,"Responsável: "+responsavel,"Meu WhatsApp: "+numero,
         ...groups.map(k=>k.toUpperCase()+": "+(
-          document.querySelector('[data-choice-group="'+k+'"] .selected')?.dataset.value||"A CONFIRMAR")),
+          document.querySelector('[data-choice-group="'+k+'"] .selected')?.dataset.value||"A confirmar")),
         "Problema: "+descricao];
     }else{
       const values=[...document.querySelectorAll("main input,main select,main textarea")]
@@ -251,7 +251,7 @@
       +"border:1px solid #79d497;border-radius:9px;background:#101a13;color:#f2fff5;"
       +"padding:28px;box-shadow:0 25px 70px #000c;font:14px/1.6 Arial,sans-serif";
     const heading=document.createElement("h2");
-    heading.textContent="REVISE SUA MENSAGEM";heading.style.cssText="font-size:22px;color:#9be5ae";
+    heading.textContent="Revise sua mensagem";heading.style.cssText="font-size:22px;color:#9be5ae";
     const note=document.createElement("p");
     note.textContent="O Portal ainda não registra pedidos automáticos. Esta mensagem só será enviada quando você confirmar no WhatsApp. Serviços, estoque, valores e agendamentos dependem do retorno da PD.";
     const summary=document.createElement("pre");
@@ -260,11 +260,11 @@
       +"padding:15px;font:13px/1.65 Arial,sans-serif";
     const link=document.createElement("a");
     link.href=wa(greeting+"\n\n"+lines.join("\n"));link.target="_blank";
-    link.rel="noopener noreferrer";link.textContent="ABRIR MENSAGEM NO WHATSAPP →";
+    link.rel="noopener noreferrer";link.textContent="Abrir mensagem no WhatsApp →";
     link.style.cssText="display:block;margin:18px 0;padding:14px;background:#21603a;"
       +"color:#fff;text-align:center;border-radius:5px;text-decoration:none;font-weight:bold";
     const close=document.createElement("button");
-    close.type="button";close.textContent="EDITAR DADOS";
+    close.type="button";close.textContent="Editar dados";
     close.style.cssText="padding:10px 0;color:#f2fff5;text-decoration:underline;cursor:pointer;"
       +"background:transparent;border:0";
     close.addEventListener("click",()=>dialog.close());
@@ -352,7 +352,7 @@
 
   const floating=document.createElement("a");
   floating.href=contact;floating.target="_blank";floating.rel="noopener noreferrer";
-  floating.textContent="FALAR COM A PD ↗";floating.setAttribute("aria-label","Falar com a PD pelo WhatsApp");
+  floating.textContent="Falar com a PD ↗";floating.setAttribute("aria-label","Falar com a PD pelo WhatsApp");
   floating.style.cssText="position:fixed;z-index:1000;bottom:16px;right:16px;padding:14px 17px;"
     +"color:#f2fff5;background:#174629;border:1px solid #79d497;border-radius:8px;"
     +"font:700 12px Arial,sans-serif;letter-spacing:.04em;text-decoration:none;"

@@ -62,7 +62,7 @@ with sync_playwright() as p:
     check("Loja preenche seletor", pub.locator("#productSelect option").count()==4)
     pub.locator(".reserve").first.click()
     # formulário da loja
-    pub.fill('input[placeholder="SEU NOME"]',"Maria Cliente"); pub.fill('input[placeholder="(31) 9XXXX-XXXX"]',"(31) 98888-7777")
+    pub.fill('input[placeholder="Seu nome"]',"Maria Cliente"); pub.fill('input[placeholder="(31) 9xxxx-xxxx"]',"(31) 98888-7777")
     pub.locator("#productSelect").select_option(index=1); 
     with pub.expect_response(lambda r:"/api/contatos" in r.url) as ri: pub.click("#reviewBtn")
     resp=ri.value; check("POST /api/contatos 201", resp.status in (200,201), resp.status)
@@ -85,7 +85,7 @@ with sync_playwright() as p:
     pg.locator("text=OCULTAR").first.click(); pg.wait_for_selector(".pd-admin-ok")
     j=json.load(urllib.request.urlopen(BASE+"/api/produtos")); check("produto oculto some da loja", len(j["produtos"])==1)
     pg.once("dialog",lambda d:d.accept()); pg.locator("text=EXCLUIR").first.click(); pg.wait_for_selector(".pd-admin-ok")
-    check("excluir funciona", pg.locator(".pd-prod-row:not(.pd-admin-head)").count()==1)
+    pg.wait_for_timeout(500); check("excluir funciona", pg.locator(".pd-prod-row:not(.pd-admin-head)").count()==1)
     # sessão persiste no reload; logout
     pg.reload(); pg.wait_for_selector(".pd-admin-tabs"); check("sessão persiste", True)
     pg.click("text=SAIR"); pg.wait_for_selector("input[name=senha]"); check("logout", True)

@@ -321,7 +321,7 @@
   }
 
   /* ---------- destaques da home (carrossel) ---------- */
-  const DESTINOS = [["screens/07-orcamento-empresarial-v2/index.html", "Orçamento empresarial"], ["screens/02-atendimento-v5/index.html", "Atendimento (particular)"],
+  const DESTINOS = [["screens/16-servico-dashboard/index.html", "Página: Dashboard sob medida"], ["screens/17-servico-formatacao/index.html", "Página: Formatação"], ["screens/18-servico-consultoria/index.html", "Página: Consultoria de TI"], ["screens/19-servico-windows/index.html", "Página: Ativação de Windows"], ["screens/20-servico-sites/index.html", "Página: Criação de sites"], ["screens/07-orcamento-empresarial-v2/index.html", "Orçamento empresarial"], ["screens/02-atendimento-v5/index.html", "Atendimento (particular)"],
     ["screens/05-consultoria-ti-v2/index.html", "Consultoria de TI"], ["screens/06-seguranca-eletronica-v2/index.html", "Segurança eletrônica"],
     ["screens/04-planos-chamados-v2/index.html", "Planos de chamados"], ["screens/13-chamado-empresarial-v2/index.html", "Chamado empresarial"],
     ["screens/14-orcamento-entrada-v2/index.html", "Orçamento (entrada)"], ["screens/08-loja-rapida-v2/index.html", "Loja Rápida"],

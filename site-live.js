@@ -16,11 +16,11 @@
     const raiz=document.querySelector("#destaques .dest-root");
     if(raiz){
       const PADRAO=[
-        {arte:"dashboard",titulo:"Dashboard sob medida para a sua empresa",texto:"Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.",preco:"A partir de R$ 2.500",botao:"Pedir orçamento",destino:"screens/07-orcamento-empresarial-v2/index.html"},
-        {arte:"formatacao",titulo:"Formatação de computador e notebook",texto:"Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.",preco:"",botao:"Solicitar atendimento",destino:"screens/02-atendimento-v5/index.html"},
-        {arte:"consultoria",titulo:"Consultoria de TI para empresas",texto:"Diagnóstico da estrutura, plano de melhorias e prioridades de investimento para o seu negócio.",preco:"",botao:"Solicitar consultoria",destino:"screens/05-consultoria-ti-v2/index.html"},
-        {arte:"windows",titulo:"Ativação de Windows",texto:"Ativação com licença original, de forma rápida e segura.",preco:"",botao:"Pedir orçamento",destino:"screens/14-orcamento-entrada-v2/index.html"},
-        {arte:"site",titulo:"Criação de sites",texto:"Site profissional para a sua empresa, rápido no celular e preparado para a busca.",preco:"Sob orçamento",botao:"Pedir orçamento",destino:"screens/07-orcamento-empresarial-v2/index.html"}];
+        {arte:"dashboard",titulo:"Dashboard sob medida para a sua empresa",texto:"Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.",preco:"A partir de R$ 2.500",botao:"Saiba mais",destino:"screens/16-servico-dashboard/index.html"},
+        {arte:"formatacao",titulo:"Formatação de computador e notebook",texto:"Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.",preco:"",botao:"Saiba mais",destino:"screens/17-servico-formatacao/index.html"},
+        {arte:"consultoria",titulo:"Consultoria de TI para empresas",texto:"Diagnóstico da estrutura, plano de melhorias e prioridades de investimento para o seu negócio.",preco:"",botao:"Saiba mais",destino:"screens/18-servico-consultoria/index.html"},
+        {arte:"windows",titulo:"Ativação de Windows",texto:"Ativação com licença original, de forma rápida e segura.",preco:"",botao:"Saiba mais",destino:"screens/19-servico-windows/index.html"},
+        {arte:"site",titulo:"Criação de sites",texto:"Site profissional para a sua empresa, rápido no celular e preparado para a busca.",preco:"Sob orçamento",botao:"Saiba mais",destino:"screens/20-servico-sites/index.html"}];
       let timer=0,indice=0,cards=[],bolinhas=[],track;
       const reduzido=matchMedia("(prefers-reduced-motion: reduce)").matches;
       const ir=(i)=>{indice=(i+cards.length)%cards.length;track.scrollTo({left:cards[indice].offsetLeft-track.offsetLeft,behavior:reduzido?"auto":"smooth"});marcar();};
@@ -47,7 +47,9 @@
           const arte=document.createElement("img");arte.className="dest-arte";arte.alt="";arte.decoding="async";
           arte.src=new URL("assets/destaque-"+(["dashboard","formatacao","consultoria","windows","site"].includes(d.arte)?d.arte:"generico")+".svg",base).href;
           if(i>0)arte.loading="lazy";
-          c.append(texto,arte);track.append(c);return c;});
+          c.append(texto,arte);
+          if(!a.target){c.classList.add("dest-clicavel");c.addEventListener("click",(ev)=>{if(ev.target.closest("a"))return;location.assign(a.href);});}
+          track.append(c);return c;});
         const nav=document.createElement("div");nav.className="dest-nav";
         const dots=document.createElement("div");dots.className="dest-dots";
         bolinhas=cards.map((_,k)=>{const b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Ir para o destaque "+(k+1));b.addEventListener("click",()=>{ir(k);iniciar();});dots.append(b);return b;});

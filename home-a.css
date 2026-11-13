@@ -197,3 +197,5 @@ img{max-width:100%}
 .dest-card .dest-arte{width:270px;max-width:42%}
 .dest-card .dest-texto{flex:1 1 0}
 @media(max-width:820px){.dest-card .dest-arte{width:100%;max-width:170px}.dest-card .dest-botao{padding:8px 14px}}
+
+.dest-clicavel{cursor:pointer}

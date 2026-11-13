@@ -176,11 +176,11 @@ function pd_slides_semear(PDO $pdo): void {
     try {
         if ((int)$pdo->query('SELECT COUNT(*) FROM pd_slides')->fetchColumn() > 0) return;
         $padrao = [
-            ['Dashboard sob medida para a sua empresa', 'Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.', 'A partir de R$ 2.500', 'Pedir orçamento', 'screens/07-orcamento-empresarial-v2/index.html', 'dashboard'],
-            ['Formatação de computador e notebook', 'Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.', null, 'Solicitar atendimento', 'screens/02-atendimento-v5/index.html', 'formatacao'],
-            ['Consultoria de TI para empresas', 'Diagnóstico da estrutura, plano de melhorias e prioridades de investimento para o seu negócio.', null, 'Solicitar consultoria', 'screens/05-consultoria-ti-v2/index.html', 'consultoria'],
-            ['Ativação de Windows', 'Ativação com licença original, de forma rápida e segura.', null, 'Pedir orçamento', 'screens/14-orcamento-entrada-v2/index.html', 'windows'],
-            ['Criação de sites', 'Site profissional para a sua empresa, rápido no celular e preparado para a busca.', 'Sob orçamento', 'Pedir orçamento', 'screens/07-orcamento-empresarial-v2/index.html', 'site'],
+            ['Dashboard sob medida para a sua empresa', 'Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.', 'A partir de R$ 2.500', 'Saiba mais', 'screens/16-servico-dashboard/index.html', 'dashboard'],
+            ['Formatação de computador e notebook', 'Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.', null, 'Saiba mais', 'screens/17-servico-formatacao/index.html', 'formatacao'],
+            ['Consultoria de TI para empresas', 'Diagnóstico da estrutura, plano de melhorias e prioridades de investimento para o seu negócio.', null, 'Saiba mais', 'screens/18-servico-consultoria/index.html', 'consultoria'],
+            ['Ativação de Windows', 'Ativação com licença original, de forma rápida e segura.', null, 'Saiba mais', 'screens/19-servico-windows/index.html', 'windows'],
+            ['Criação de sites', 'Site profissional para a sua empresa, rápido no celular e preparado para a busca.', 'Sob orçamento', 'Saiba mais', 'screens/20-servico-sites/index.html', 'site'],
         ];
         $agora = gmdate('Y-m-d H:i:s');
         $ins = $pdo->prepare('INSERT INTO pd_slides (id, ordem, titulo, texto, preco, botao, destino, arte, ativo, criado_em, atualizado_em) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)');
@@ -192,7 +192,7 @@ function pd_slides_semear(PDO $pdo): void {
     } catch (Throwable $e) { error_log('PD: slides padrão: ' . $e->getMessage()); }
 }
 
-const PD_SCHEMA_VERSAO = 6;
+const PD_SCHEMA_VERSAO = 7;
 
 /** Atualiza bancos já instalados (cria as tabelas novas uma única vez). Nunca derruba a página. */
 function pd_migrar(PDO $pdo): void {
@@ -207,6 +207,10 @@ function pd_migrar(PDO $pdo): void {
         try { $pdo->exec("ALTER TABLE pd_slides ADD COLUMN arte VARCHAR(20) NOT NULL DEFAULT 'generico'"); } catch (Throwable $e) { /* já existe */ }
         foreach (['Dashboard sob medida para a sua empresa' => 'dashboard', 'Formatação de computador e notebook' => 'formatacao', 'Consultoria de TI para empresas' => 'consultoria', 'Ativação de Windows' => 'windows', 'Criação de sites' => 'site'] as $t => $a) {
             try { $pdo->prepare("UPDATE pd_slides SET arte = ? WHERE titulo = ? AND arte = 'generico'")->execute([$a, $t]); } catch (Throwable $e) { /* segue */ }
+        }
+        // v7: cada destaque abre a sua própria página (só troca os que ainda estão com o destino antigo)
+        foreach (['Dashboard sob medida para a sua empresa' => '16-servico-dashboard', 'Formatação de computador e notebook' => '17-servico-formatacao', 'Consultoria de TI para empresas' => '18-servico-consultoria', 'Ativação de Windows' => '19-servico-windows', 'Criação de sites' => '20-servico-sites'] as $t => $sl) {
+            try { $pdo->prepare("UPDATE pd_slides SET destino = ?, botao = 'Saiba mais' WHERE titulo = ? AND destino LIKE 'screens/%-%' AND destino NOT LIKE 'screens/%-servico-%' AND botao IN ('Pedir orçamento', 'Solicitar atendimento', 'Solicitar consultoria')")->execute(['screens/' . $sl . '/index.html', $t]); } catch (Throwable $e) { /* segue */ }
         }
         if ($v === false) $pdo->exec("INSERT INTO pd_contagem (chave, valor) VALUES ('schema', " . PD_SCHEMA_VERSAO . ")");
         else $pdo->exec("UPDATE pd_contagem SET valor = " . PD_SCHEMA_VERSAO . " WHERE chave = 'schema'");

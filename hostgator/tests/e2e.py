@@ -196,7 +196,7 @@ with sync_playwright() as p:
     check("cada destaque tem ilustração própria", ho.locator(".dest-card img.dest-arte").count()==5 and len(set(ho.eval_on_selector_all(".dest-arte","e=>e.map(x=>x.src)")))==5)
     pos0=ho.evaluate("document.querySelector('.dest-track').scrollLeft"); ho.wait_for_timeout(3600)
     pos1=ho.evaluate("document.querySelector('.dest-track').scrollLeft"); check("carrossel avança sozinho em ~3 s", pos1!=pos0, f"{pos0}->{pos1}")
-    ho.locator(".dest-card .dest-botao").first.click(); ho.wait_for_load_state(); check("botão do destaque leva ao orçamento empresarial", "07-orcamento-empresarial" in ho.url, ho.url)
+    ho.locator(".dest-card .dest-botao").first.click(); ho.wait_for_load_state(); check("botão do destaque leva à página do serviço", "16-servico-dashboard" in ho.url, ho.url)
     pg.click("[data-aba=slides]"); pg.wait_for_selector(".pd-slide-linha"); check("painel lista 5 destaques", pg.locator(".pd-slide-linha").count()==5)
     pg.locator(".pd-slide-linha").nth(3).locator("text=DESLIGAR").click(); pg.wait_for_timeout(600)
     api2=json.load(urllib.request.urlopen(BASE+"/api/slides"))["slides"]

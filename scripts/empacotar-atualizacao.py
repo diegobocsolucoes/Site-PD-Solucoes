@@ -16,9 +16,13 @@ with zipfile.ZipFile(saida, "w", zipfile.ZIP_DEFLATED) as z:
             if rel == "site-live.js":
                 t, n = re.subn(r'const API_URL="";', f'const API_URL="{origem}";', t)
                 assert n == 1, "API_URL não encontrada"
-            z.writestr(rel, t)
+            zi = zipfile.ZipInfo(rel, date_time=__import__('time').localtime()[:6]); zi.compress_type = zipfile.ZIP_DEFLATED
+            zi.external_attr = 0o644 << 16   # legível pelo servidor web (sem isso a HostGator responde 403)
+            z.writestr(zi, t)
         elif rel.startswith("hostgator/api/") or rel.startswith("hostgator/painel/"):
-            z.write(p, rel.removeprefix("hostgator/"))
+            zi = zipfile.ZipInfo.from_file(p, rel.removeprefix("hostgator/")); zi.external_attr = 0o644 << 16; zi.compress_type = zipfile.ZIP_DEFLATED
+            z.writestr(zi, p.read_bytes())
         else:
-            z.write(p, rel)
+            zi = zipfile.ZipInfo.from_file(p, rel); zi.external_attr = 0o644 << 16; zi.compress_type = zipfile.ZIP_DEFLATED
+            z.writestr(zi, p.read_bytes())
 print(saida, len(arqs), "arquivos")

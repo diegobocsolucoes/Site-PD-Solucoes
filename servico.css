@@ -65,3 +65,4 @@
 .sv-preco-faixa{margin:16px 0 0}
 .sv-enviar>p[role=alert]{flex:1 1 100%;order:-1;margin:0!important}
 .sv-enviar>p[role=alert]:empty{display:none}
+[hidden]{display:none!important}

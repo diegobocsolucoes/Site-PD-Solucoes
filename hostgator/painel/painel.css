@@ -210,3 +210,15 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,syste
 .pd-zerar{margin:6px 0 10px}
 .pd-zerar button,.pd-admin-detail .pd-excluir-pedido{min-height:40px;padding:0 14px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;border:1px solid rgba(217,138,138,.6);color:#ffd4d4;background:rgba(120,40,40,.25)}
 .pd-admin-detail .pd-excluir-pedido{margin-top:22px;width:100%}
+
+/* destaques */
+.pd-slide-linha{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;border-bottom:1px solid rgba(121,212,151,.1)}
+.pd-slide-linha.desligado .pd-slide-info{opacity:.55}
+.pd-slide-info{display:grid;gap:3px;min-width:0}
+.pd-slide-info strong{font-weight:600}
+.pd-slide-info small{color:var(--muted);font-size:13px}
+.pd-slide-acoes{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.pd-slide-acoes button{min-height:36px;min-width:36px;padding:0 10px;border-radius:8px;border:1px solid var(--line-2);background:transparent;color:#c9d6ce;font-weight:600;font-size:13px;cursor:pointer}
+.pd-slide-acoes button:disabled{opacity:.35;cursor:not-allowed}
+.pd-admin-detail form label{display:grid;gap:7px}
+@media(max-width:760px){.pd-slide-linha{flex-direction:column;align-items:flex-start;padding:14px}}

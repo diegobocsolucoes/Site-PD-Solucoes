@@ -30,7 +30,7 @@ with sync_playwright() as p:
     pg.fill("input[autocomplete=one-time-code]","000000"); pg.click("form button"); pg.wait_for_selector(".pd-admin-error:not([hidden])")
     check("TOTP errado rejeitado", True)
     pg.fill("input[autocomplete=one-time-code]",totp(segredo)); pg.click("form button"); pg.wait_for_selector(".pd-admin-tabs")
-    check("login completo com TOTP", pg.locator(".pd-admin-tabs button").count()==8)
+    check("login completo com TOTP", pg.locator(".pd-admin-tabs button").count()==9)
     # produto
     pg.click("[data-aba=produtos]"); pg.click("text=NOVO PRODUTO")
     pg.fill("form input[required]:nth-of-type(1)","") if False else None
@@ -187,6 +187,25 @@ with sync_playwright() as p:
     pg.click("[data-aba=contatos]"); pg.wait_for_selector(".pd-admin-row"); antes=pg.locator(".pd-admin-row").count()
     pg.locator(".pd-admin-row", has_text="Carla").first.click(); pg.once("dialog",lambda d:d.accept()); pg.click("text=EXCLUIR PEDIDO"); pg.wait_for_timeout(700)
     check("pedido excluído", pg.locator(".pd-admin-row").count()==antes-1 and "Carla" not in pg.inner_text("#app"))
+    # ---- destaques da home
+    api_sl=json.load(urllib.request.urlopen(BASE+"/api/slides"))["slides"]
+    check("API pública traz os 5 destaques", len(api_sl)==5 and api_sl[0]["titulo"].startswith("Dashboard") and api_sl[0]["preco"]=="A partir de R$ 2.500", api_sl[:1])
+    check("destaque de Windows sem 'Server'", any(x["titulo"]=="Ativação de Windows" and "Server" not in x["texto"] for x in api_sl))
+    ho=ctx.new_page(); ho.goto(BASE+"/"); ho.wait_for_selector(".dest-card"); ho.wait_for_timeout(600)
+    check("home mostra o carrossel com 5 destaques", ho.locator(".dest-card").count()==5 and ho.locator(".dest-dots button").count()==5)
+    ho.locator(".dest-card .dest-botao").first.click(); ho.wait_for_load_state(); check("botão do destaque leva ao orçamento empresarial", "07-orcamento-empresarial" in ho.url, ho.url)
+    pg.click("[data-aba=slides]"); pg.wait_for_selector(".pd-slide-linha"); check("painel lista 5 destaques", pg.locator(".pd-slide-linha").count()==5)
+    pg.locator(".pd-slide-linha").nth(3).locator("text=DESLIGAR").click(); pg.wait_for_timeout(600)
+    api2=json.load(urllib.request.urlopen(BASE+"/api/slides"))["slides"]
+    check("desligar destaque tira do site", len(api2)==4 and all(x["titulo"]!="Ativação de Windows" for x in api2))
+    pg.locator(".pd-slide-linha").nth(3).locator("text=LIGAR").click(); pg.wait_for_timeout(600)
+    pg.locator(".pd-slide-linha").first.locator("text=EDITAR").click(); pg.fill("input[maxlength='60']","A partir de R$ 2.800"); pg.click("form >> text=SALVAR"); pg.wait_for_timeout(700)
+    check("editar preço aparece na API", json.load(urllib.request.urlopen(BASE+"/api/slides"))["slides"][0]["preco"]=="A partir de R$ 2.800")
+    pg.locator(".pd-slide-linha").nth(1).locator("button[aria-label=Subir]").click(); pg.wait_for_timeout(900)
+    check("subir destaque muda a ordem", json.load(urllib.request.urlopen(BASE+"/api/slides"))["slides"][0]["titulo"].startswith("Formatação"))
+    rq=urllib.request.Request(BASE+"/api/admin/slides",data=b"{}",method="POST",headers={"Content-Type":"application/json","Origin":BASE})
+    try: urllib.request.urlopen(rq); check("slides POST sem login recusado", False)
+    except Exception as e: check("slides POST sem login recusado", "40" in str(e))
     # sessão persiste no reload; logout
     pg.reload(); pg.wait_for_selector(".pd-admin-tabs"); check("sessão persiste", True)
     pg.click("text=SAIR"); pg.wait_for_selector("input[name=senha]"); check("logout", True)

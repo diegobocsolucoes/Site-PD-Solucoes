@@ -140,6 +140,18 @@ function pd_schema(string $driver): array {
   bairro VARCHAR(80) NOT NULL,
   criado_em DATETIME NOT NULL
 )$fim";
+    $sql[] = "CREATE TABLE IF NOT EXISTS pd_slides (
+  id CHAR(36) NOT NULL PRIMARY KEY,
+  ordem INT NOT NULL DEFAULT 0,
+  titulo VARCHAR(80) NOT NULL,
+  texto VARCHAR(240) NOT NULL,
+  preco VARCHAR(60) NULL,
+  botao VARCHAR(40) NOT NULL,
+  destino VARCHAR(120) NOT NULL,
+  ativo TINYINT NOT NULL DEFAULT 1,
+  criado_em DATETIME NOT NULL,
+  atualizado_em DATETIME NOT NULL
+)$fim";
     foreach ([['pd_limite', 'pd_limite_idx', 'chave, criado_em'], ['pd_solicitacoes', 'pd_solicitacoes_idx', 'criado_em'],
               ['pd_contatos', 'pd_contatos_idx', 'criado_em'], ['pd_historico_status', 'pd_historico_idx', 'registro_id, criado_em'],
               ['pd_produtos', 'pd_produtos_idx', 'ativo, destaque, ordem'],
@@ -155,9 +167,31 @@ function pd_criar_tabelas(PDO $pdo): void {
     foreach (pd_schema($driver === 'mysql' ? 'mysql' : 'sqlite') as $s) $pdo->exec($s);
     $existe = $pdo->query("SELECT COUNT(*) FROM pd_contagem WHERE chave = 'protocolo'")->fetchColumn();
     if ((int)$existe === 0) $pdo->exec("INSERT INTO pd_contagem (chave, valor) VALUES ('protocolo', 0)");
+    pd_slides_semear($pdo);
 }
 
-const PD_SCHEMA_VERSAO = 4;
+/** Cria os destaques da home na primeira vez (depois, tudo é editado pelo painel). */
+function pd_slides_semear(PDO $pdo): void {
+    try {
+        if ((int)$pdo->query('SELECT COUNT(*) FROM pd_slides')->fetchColumn() > 0) return;
+        $padrao = [
+            ['Dashboard sob medida para a sua empresa', 'Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.', 'A partir de R$ 2.500', 'Pedir orçamento', 'screens/07-orcamento-empresarial-v2/index.html'],
+            ['Formatação de computador e notebook', 'Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.', null, 'Solicitar atendimento', 'screens/02-atendimento-v5/index.html'],
+            ['Consultoria de TI para empresas', 'Diagnóstico da estrutura, plano de melhorias e prioridades de investimento para o seu negócio.', null, 'Solicitar consultoria', 'screens/05-consultoria-ti-v2/index.html'],
+            ['Ativação de Windows', 'Ativação com licença original, de forma rápida e segura.', null, 'Pedir orçamento', 'screens/14-orcamento-entrada-v2/index.html'],
+            ['Criação de sites', 'Site profissional para a sua empresa, rápido no celular e preparado para a busca.', 'Sob orçamento', 'Pedir orçamento', 'screens/07-orcamento-empresarial-v2/index.html'],
+        ];
+        $agora = gmdate('Y-m-d H:i:s');
+        $ins = $pdo->prepare('INSERT INTO pd_slides (id, ordem, titulo, texto, preco, botao, destino, ativo, criado_em, atualizado_em) VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?)');
+        foreach ($padrao as $i => [$t, $x, $p, $b, $d]) {
+            $b16 = bin2hex(random_bytes(16));
+            $id = substr($b16, 0, 8) . '-' . substr($b16, 8, 4) . '-4' . substr($b16, 13, 3) . '-a' . substr($b16, 17, 3) . '-' . substr($b16, 20, 12);
+            $ins->execute([$id, ($i + 1) * 10, $t, $x, $p, $b, $d, $agora, $agora]);
+        }
+    } catch (Throwable $e) { error_log('PD: slides padrão: ' . $e->getMessage()); }
+}
+
+const PD_SCHEMA_VERSAO = 5;
 
 /** Atualiza bancos já instalados (cria as tabelas novas uma única vez). Nunca derruba a página. */
 function pd_migrar(PDO $pdo): void {

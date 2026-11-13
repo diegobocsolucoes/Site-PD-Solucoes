@@ -118,9 +118,9 @@
   function mostrarApp() {
     const conteudo = h("div");
     const abas = [["resumo", "RESUMO"], ["solicitacoes", "SOLICITAÇÕES"], ["contatos", "OUTROS PEDIDOS"], ["produtos", "LOJA RÁPIDA"],
-      ["auditoria", "AUDITORIA"], ["logs", "LOGS"], ["avisos", "NOTIFICAÇÕES"], ["area", "ÁREA"]];
+      ["auditoria", "AUDITORIA"], ["logs", "LOGS"], ["avisos", "NOTIFICAÇÕES"], ["area", "ÁREA"], ["slides", "DESTAQUES"]];
     const nav = h("nav", { class: "pd-admin-tabs", "aria-label": "Áreas do painel" });
-    const views = { resumo: viewResumo, produtos: viewProdutos, auditoria: viewAuditoria, logs: viewLogs, avisos: viewAvisos, area: viewArea };
+    const views = { resumo: viewResumo, produtos: viewProdutos, auditoria: viewAuditoria, logs: viewLogs, avisos: viewAvisos, area: viewArea, slides: viewSlides };
     const trocar = (nome) => {
       aba = nome;
       [...nav.children].forEach((b) => b.classList.toggle("ativa", b.dataset.aba === nome));
@@ -315,6 +315,76 @@
             d.localizado ? h("p", { class: "pd-mudo" }, "Ponto central localizado em: " + (d.local || "—") + ".")
               : h("p", { class: "pd-admin-error" }, d.cep ? "Não consegui localizar o CEP-base no mapa." : "Ainda não configurado: enquanto isso, o site diz que a cobertura será confirmada pelo WhatsApp.")));
       } catch (ex) { if (!(ex instanceof SessaoExpirada)) raiz.replaceChildren(h("p", { class: "pd-admin-error" }, ex.message)); }
+    }
+    carregar();
+    return raiz;
+  }
+
+  /* ---------- destaques da home (carrossel) ---------- */
+  const DESTINOS = [["screens/07-orcamento-empresarial-v2/index.html", "Orçamento empresarial"], ["screens/02-atendimento-v5/index.html", "Atendimento (particular)"],
+    ["screens/05-consultoria-ti-v2/index.html", "Consultoria de TI"], ["screens/06-seguranca-eletronica-v2/index.html", "Segurança eletrônica"],
+    ["screens/04-planos-chamados-v2/index.html", "Planos de chamados"], ["screens/13-chamado-empresarial-v2/index.html", "Chamado empresarial"],
+    ["screens/14-orcamento-entrada-v2/index.html", "Orçamento (entrada)"], ["screens/08-loja-rapida-v2/index.html", "Loja Rápida"],
+    ["screens/09-parcerias-v2/index.html", "Parcerias"], ["screens/03-area-empresas-v3/index.html", "Área para empresas"],
+    ["screens/10-consultoria-entrada-v2/index.html", "Consultoria"]];
+  function viewSlides() {
+    const raiz = h("div", null, h("p", null, "Carregando…"));
+    let slides = [], editando = "", form = null, msg = "", ok = false;
+    const vazio = () => ({ titulo: "", texto: "", preco: "", botao: "Pedir orçamento", destino: DESTINOS[0][0], ativo: true });
+    async function chamar(metodo, corpo) {
+      try { slides = (await api("/api/admin/slides", { metodo, corpo })).slides; return true; }
+      catch (ex) { if (ex instanceof SessaoExpirada) return false; msg = ex.message; ok = false; return false; }
+    }
+    async function carregar() {
+      try { slides = (await api("/api/admin/slides")).slides; } catch (ex) { if (!(ex instanceof SessaoExpirada)) msg = ex.message; }
+      desenhar();
+    }
+    async function mover(i, d) {
+      const j = i + d; if (j < 0 || j >= slides.length) return;
+      const a = slides[i], b = slides[j];
+      await chamar("PATCH", { id: a.id, ordem: b.ordem === a.ordem ? b.ordem + d : b.ordem });
+      await chamar("PATCH", { id: b.id, ordem: a.ordem === b.ordem ? a.ordem - d : a.ordem });
+      desenhar();
+    }
+    function desenhar() {
+      const lista = slides.map((x, i) => h("div", { class: "pd-slide-linha" + (x.ativo ? "" : " desligado") },
+        h("span", { class: "pd-slide-info" }, h("strong", null, x.titulo), h("small", null, (x.preco ? x.preco + " • " : "") + x.botao + (x.ativo ? "" : " • DESLIGADO"))),
+        h("span", { class: "pd-slide-acoes" },
+          h("button", { type: "button", "aria-label": "Subir", disabled: i === 0, onclick: () => mover(i, -1) }, "↑"),
+          h("button", { type: "button", "aria-label": "Descer", disabled: i === slides.length - 1, onclick: () => mover(i, 1) }, "↓"),
+          h("button", { type: "button", onclick: async () => { msg = ""; if (await chamar("PATCH", { id: x.id, ativo: !x.ativo })) { msg = x.ativo ? "Destaque desligado." : "Destaque ligado."; ok = true; } desenhar(); } }, x.ativo ? "DESLIGAR" : "LIGAR"),
+          h("button", { type: "button", onclick: () => { editando = x.id; form = { ...x, preco: x.preco || "" }; msg = ""; desenhar(); } }, "EDITAR"))));
+      let painel;
+      if (!form) painel = h("p", { class: "pd-mudo" }, "Escolha um destaque para editar ou crie um novo.");
+      else {
+        const campo = (rot, k, extra) => h("label", null, rot, h("input", { value: form[k], oninput: (e) => { form[k] = e.target.value; }, ...extra }));
+        painel = h("form", { onsubmit: async (e) => {
+          e.preventDefault(); msg = "";
+          const dados = { titulo: form.titulo, texto: form.texto, preco: form.preco, botao: form.botao, destino: form.destino };
+          const feito = editando === "novo" ? await chamar("POST", { ...dados, ativo: form.ativo }) : await chamar("PATCH", { id: editando, ...dados });
+          if (feito) { ok = true; msg = "Salvo. O site já mostra a alteração em até 1 minuto."; form = null; editando = ""; }
+          desenhar();
+        } },
+          h("h2", null, editando === "novo" ? "NOVO DESTAQUE" : "EDITAR DESTAQUE"),
+          campo("Título *", "titulo", { required: true, minLength: 3, maxLength: 80 }),
+          h("label", null, "Texto *", h("textarea", { rows: 3, maxLength: 240, required: true, value: form.texto, oninput: (e) => { form.texto = e.target.value; } })),
+          campo("Preço ou chamada (opcional)", "preco", { maxLength: 60, placeholder: "Ex.: A partir de R$ 2.500" }),
+          campo("Texto do botão *", "botao", { required: true, minLength: 2, maxLength: 40 }),
+          h("label", null, "Para onde o botão leva *", h("select", { onchange: (e) => { form.destino = e.target.value; } },
+            DESTINOS.map(([v, t]) => h("option", { value: v, selected: v === form.destino }, t)),
+            DESTINOS.some(([v]) => v === form.destino) ? null : h("option", { value: form.destino, selected: true }, form.destino))),
+          h("div", { class: "pd-prod-botoes" }, h("button", null, "SALVAR"), h("button", { type: "button", onclick: () => { form = null; editando = ""; desenhar(); } }, "CANCELAR"),
+            editando !== "novo" ? h("button", { type: "button", class: "perigo", onclick: async () => {
+              if (!window.confirm("Excluir este destaque? Para só tirar do site, use DESLIGAR.")) return;
+              if (await chamar("DELETE", { id: editando })) { form = null; editando = ""; ok = true; msg = "Destaque excluído."; } desenhar(); } }, "EXCLUIR") : null));
+      }
+      raiz.replaceChildren(h("div", { class: "pd-admin-cols" },
+        h("section", null,
+          h("div", { class: "pd-admin-tools" }, h("p", { class: "pd-mudo" }, "Os destaques aparecem em carrossel na página inicial do site. Ordem de cima para baixo."),
+            h("button", { type: "button", onclick: () => { editando = "novo"; form = vazio(); msg = ""; desenhar(); } }, "NOVO DESTAQUE")),
+          msg ? h("p", { class: ok ? "pd-admin-ok" : "pd-admin-error", role: "status" }, msg) : null,
+          h("div", { role: "table", "aria-label": "Destaques da página inicial" }, lista)),
+        h("aside", { class: "pd-admin-detail" }, painel)));
     }
     carregar();
     return raiz;

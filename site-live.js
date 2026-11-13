@@ -10,6 +10,62 @@
   // Chave pública do Cloudflare Turnstile (antirrobô). Obrigatória no servidor em produção.
   const TURNSTILE_KEY="";
   const slug=location.pathname.match(/\/screens\/([^/]+)\//)?.[1]||"01-home-v15";
+
+  // Destaques da home: carrossel que troca sozinho, desliza no celular e é editado pelo painel.
+  if(slug==="01-home-v15"){
+    const raiz=document.querySelector("#destaques .dest-root");
+    if(raiz){
+      const PADRAO=[
+        {titulo:"Dashboard sob medida para a sua empresa",texto:"Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.",preco:"A partir de R$ 2.500",botao:"Pedir orçamento",destino:"screens/07-orcamento-empresarial-v2/index.html"},
+        {titulo:"Formatação de computador e notebook",texto:"Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.",preco:"",botao:"Solicitar atendimento",destino:"screens/02-atendimento-v5/index.html"},
+        {titulo:"Consultoria de TI para empresas",texto:"Diagnóstico da estrutura, plano de melhorias e prioridades de investimento para o seu negócio.",preco:"",botao:"Solicitar consultoria",destino:"screens/05-consultoria-ti-v2/index.html"},
+        {titulo:"Ativação de Windows",texto:"Ativação com licença original, de forma rápida e segura.",preco:"",botao:"Pedir orçamento",destino:"screens/14-orcamento-entrada-v2/index.html"},
+        {titulo:"Criação de sites",texto:"Site profissional para a sua empresa, rápido no celular e preparado para a busca.",preco:"Sob orçamento",botao:"Pedir orçamento",destino:"screens/07-orcamento-empresarial-v2/index.html"}];
+      let timer=0,indice=0,cards=[],bolinhas=[],track;
+      const reduzido=matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const ir=(i)=>{indice=(i+cards.length)%cards.length;track.scrollTo({left:cards[indice].offsetLeft-track.offsetLeft,behavior:reduzido?"auto":"smooth"});marcar();};
+      const marcar=()=>bolinhas.forEach((b,k)=>b.setAttribute("aria-current",String(k===indice)));
+      const parar=()=>{clearInterval(timer);timer=0;};
+      const iniciar=()=>{parar();if(!reduzido&&cards.length>1)timer=setInterval(()=>ir(indice+1),6500);};
+      const montar=(lista)=>{
+        parar();raiz.replaceChildren();
+        if(!lista.length){raiz.parentElement.parentElement.hidden=true;return;}
+        track=document.createElement("div");track.className="dest-track";
+        track.setAttribute("role","group");track.setAttribute("aria-roledescription","carrossel");track.setAttribute("aria-label","Destaques");track.tabIndex=0;
+        cards=lista.map((d,i)=>{
+          const c=document.createElement("article");c.className="dest-card";c.setAttribute("role","group");c.setAttribute("aria-roledescription","slide");c.setAttribute("aria-label",(i+1)+" de "+lista.length);
+          const tag=document.createElement("span");tag.className="dest-tag";tag.textContent="Novidade";
+          const h=document.createElement("h3");h.textContent=d.titulo;
+          const p=document.createElement("p");p.textContent=d.texto;
+          c.append(tag,h,p);
+          if(d.preco){const pr=document.createElement("span");pr.className="dest-preco";pr.textContent=d.preco;c.append(pr);}
+          const a=document.createElement("a");a.className="dest-botao";a.textContent=d.botao+" →";
+          a.href=/^https:\/\/wa\.me\//.test(d.destino)?d.destino:new URL(d.destino,base).href;
+          if(/^https:/.test(a.href)&&a.href.includes("wa.me")){a.target="_blank";a.rel="noopener noreferrer";}
+          c.append(a);track.append(c);return c;});
+        const nav=document.createElement("div");nav.className="dest-nav";
+        const dots=document.createElement("div");dots.className="dest-dots";
+        bolinhas=cards.map((_,k)=>{const b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Ir para o destaque "+(k+1));b.addEventListener("click",()=>{ir(k);iniciar();});dots.append(b);return b;});
+        const setas=document.createElement("div");setas.className="dest-setas";
+        [["‹","Destaque anterior",-1],["›","Próximo destaque",1]].forEach(([t,r,d])=>{const b=document.createElement("button");b.type="button";b.textContent=t;b.setAttribute("aria-label",r);b.addEventListener("click",()=>{ir(indice+d);iniciar();});setas.append(b);});
+        nav.append(dots,setas);raiz.append(track,nav);
+        raiz.parentElement.parentElement.hidden=false;
+        let esperando=0;
+        track.addEventListener("scroll",()=>{clearTimeout(esperando);esperando=setTimeout(()=>{
+          const k=cards.findIndex(c=>Math.abs(c.offsetLeft-track.offsetLeft-track.scrollLeft)<track.clientWidth/2);if(k>=0&&k!==indice){indice=k;marcar();}},80);},{passive:true});
+        ["pointerenter","focusin","touchstart"].forEach(e=>raiz.addEventListener(e,parar,{passive:true}));
+        ["pointerleave","focusout","touchend"].forEach(e=>raiz.addEventListener(e,iniciar,{passive:true}));
+        document.addEventListener("visibilitychange",()=>document.hidden?parar():iniciar());
+        indice=0;marcar();iniciar();
+      };
+      montar(PADRAO);
+      if(API_URL){
+        fetch(API_URL.replace(/\/$/,"")+"/api/slides",{headers:{Accept:"application/json"}}).then(r=>r.ok?r.json():null).then(j=>{
+          if(j&&Array.isArray(j.slides)&&j.slides.every(x=>x&&typeof x.titulo==="string"&&typeof x.destino==="string"))montar(j.slides);
+        }).catch(()=>{});
+      }
+    }
+  }
   // Números da área de atendimento (raio, limite e taxa) vêm do painel; o texto da página já traz os valores padrão.
   if(API_URL&&document.querySelector("[data-cob]")){
     fetch(API_URL.replace(/\/$/,"")+"/api/cobertura",{headers:{Accept:"application/json"}}).then(r=>r.ok?r.json():null).then(j=>{

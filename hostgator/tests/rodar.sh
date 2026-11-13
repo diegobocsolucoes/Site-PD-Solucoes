@@ -23,4 +23,5 @@ cp "$AQUI/router.php" "$S/router.php"
 sleep 1
 trap 'pkill -f "php -S 127.0.0.1:8099" || true' EXIT
 python3 "$AQUI/e2e.py"
+python3 -c "import sqlite3;c=sqlite3.connect('$S/teste.db');c.execute('DELETE FROM pd_limite');c.commit()"
 python3 "$AQUI/seg.py"

@@ -14,7 +14,7 @@ if ($metodo === 'GET') {
     $fonte = ($_GET['fonte'] ?? 'solicitacoes') === 'contatos' ? 'contatos' : 'solicitacoes';
     $limite = max(1, min(100, (int)($_GET['limite'] ?? 50)));
     $campos = $fonte === 'contatos'
-        ? 'id, protocolo, assunto, categoria, status, nome, whatsapp, resumo, aviso_enviado, criado_em, atualizado_em'
+        ? 'id, protocolo, assunto, categoria, status, nome, whatsapp, email, retorno, resumo, aviso_enviado, criado_em, atualizado_em'
         : 'id, protocolo, tipo, status, nome, whatsapp, equipamento, servico, modalidade, cep, cobertura, descricao, aviso_enviado, criado_em, atualizado_em';
     $tabela = $fonte === 'contatos' ? 'pd_contatos' : 'pd_solicitacoes';
     $linhas = $pdo->query("SELECT $campos FROM $tabela ORDER BY criado_em DESC LIMIT $limite")->fetchAll();

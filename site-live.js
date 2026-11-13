@@ -16,11 +16,11 @@
     const raiz=document.querySelector("#destaques .dest-root");
     if(raiz){
       const PADRAO=[
-        {arte:"dashboard",titulo:"Dashboard sob medida para a sua empresa",texto:"Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.",preco:"A partir de R$ 2.500",botao:"Saiba mais",destino:"screens/16-servico-dashboard/index.html"},
-        {arte:"formatacao",titulo:"Formatação de computador e notebook",texto:"Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.",preco:"",botao:"Saiba mais",destino:"screens/17-servico-formatacao/index.html"},
-        {arte:"consultoria",titulo:"Consultoria de TI para empresas",texto:"Diagnóstico da estrutura, plano de melhorias e prioridades de investimento para o seu negócio.",preco:"",botao:"Saiba mais",destino:"screens/18-servico-consultoria/index.html"},
-        {arte:"windows",titulo:"Ativação de Windows",texto:"Ativação com licença original, de forma rápida e segura.",preco:"",botao:"Saiba mais",destino:"screens/19-servico-windows/index.html"},
-        {arte:"site",titulo:"Criação de sites",texto:"Site profissional para a sua empresa, rápido no celular e preparado para a busca.",preco:"Sob orçamento",botao:"Saiba mais",destino:"screens/20-servico-sites/index.html"}];
+        {arte:"dashboard",titulo:"Dashboard sob medida para a sua empresa",texto:"Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.",preco:"A partir de R$ 2.500",botao:"Solicitar orçamento empresarial",destino:"screens/07-orcamento-empresarial-v2/index.html"},
+        {arte:"formatacao",titulo:"Formatação de computador e notebook",texto:"Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.",preco:"",botao:"Solicitar atendimento",destino:"screens/02-atendimento-v5/index.html"},
+        {arte:"consultoria",titulo:"Consultoria de TI para empresas",texto:"Diagnóstico da estrutura, plano de melhorias e prioridades de investimento para o seu negócio.",preco:"",botao:"Solicitar consultoria",destino:"screens/05-consultoria-ti-v2/index.html"},
+        {arte:"windows",titulo:"Ativação de Windows",texto:"Ativação com licença original, de forma rápida e segura.",preco:"",botao:"Solicitar orçamento",destino:"screens/14-orcamento-entrada-v2/index.html"},
+        {arte:"site",titulo:"Criação de sites",texto:"Site profissional para a sua empresa, rápido no celular e preparado para a busca.",preco:"Sob orçamento",botao:"Solicitar orçamento empresarial",destino:"screens/07-orcamento-empresarial-v2/index.html"}];
       let timer=0,indice=0,cards=[],bolinhas=[],track;
       const reduzido=matchMedia("(prefers-reduced-motion: reduce)").matches;
       const ir=(i)=>{indice=(i+cards.length)%cards.length;track.scrollTo({left:cards[indice].offsetLeft-track.offsetLeft,behavior:reduzido?"auto":"smooth"});marcar();};
@@ -296,13 +296,25 @@
     }else if(slug==="07-orcamento-empresarial-v2"){
       const empresa=required('input[placeholder="Nome da empresa"]',"o nome da empresa");
       const responsavel=required('input[placeholder="Seu nome"]',"o nome do responsável");
-      const numero=number('input[placeholder="(31) 9xxxx-xxxx"]');
+      const porEmail=document.querySelector('input[name="retorno"]:checked')?.value==="email";
+      const mailEl=document.querySelector("#campoMail");const mail=(mailEl?.value||"").trim();
+      const zapEl=document.querySelector("#campoZap");
+      let numero="";
+      if(porEmail){
+        if(!result.error&&!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)){result.error="Informe um e-mail válido.";result.element=mailEl;}
+        if(!result.error&&(zapEl?.value||"").trim()&&!phoneValid(zapEl.value)){result.error="Confira o WhatsApp informado ou deixe o campo em branco.";result.element=zapEl;}
+        numero=digits(zapEl?.value||"");
+      }else{
+        if(!result.error&&!phoneValid(zapEl?.value||"")){result.error="Informe um WhatsApp válido com DDD.";result.element=zapEl;}
+        numero=digits(zapEl?.value||"");
+        if(!result.error&&mail&&!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)){result.error="Confira o e-mail informado.";result.element=mailEl;}
+      }
       const local=required('input[placeholder="Informe a localização da empresa"]',"a localização da empresa");
       const descricao=required("textarea","a descrição da necessidade (mínimo 10 caracteres)",10);
       const areas=[...document.querySelectorAll(".choice.active")].map(el=>tidy(el.textContent,70));
-      result.endpoint="/api/contatos";result.payload={assunto:"orcamento-empresarial",nome:responsavel,whatsapp:numero};
+      result.endpoint="/api/contatos";result.payload={assunto:"orcamento-empresarial",nome:responsavel,whatsapp:numero,email:mail,retorno:porEmail?"email":"whatsapp"};
       result.lines=["Orçamento empresarial","Empresa: "+empresa,"Responsável: "+responsavel,
-        "Meu WhatsApp: "+numero,"Localização: "+local,
+        "Retorno por: "+(porEmail?"E-mail":"WhatsApp"),...(numero?["Meu WhatsApp: "+numero]:[]),...(mail?["E-mail: "+mail]:[]),"Localização: "+local,
         "Áreas: "+(areas.join("; ")||"A confirmar"),"Necessidade: "+descricao];
     }else if(slug==="09-parcerias-v2"){
       const empresa=required('input[placeholder="Nome da empresa"]',"o nome da empresa");
@@ -460,7 +472,7 @@
     const h=document.createElement("h2");h.textContent="SOLICITAÇÃO RECEBIDA";h.style.cssText="font-size:22px;color:#9be5ae";
     const proto=document.createElement("p");proto.textContent="PROTOCOLO: "+protocolo;proto.style.cssText="font-weight:bold;font-size:17px";
     const msg=document.createElement("p");
-    msg.textContent="A PD recebeu o seu pedido e retorna pelo WhatsApp informado para confirmar valores, disponibilidade e agendamento. Guarde o protocolo.";
+    msg.textContent="A PD recebeu o seu pedido e retorna pelo contato informado (WhatsApp ou e-mail) para confirmar valores, disponibilidade e agendamento. Guarde o protocolo.";
     const ok=document.createElement("button");ok.type="button";ok.textContent="FECHAR";
     ok.style.cssText="margin-top:14px;padding:13px 22px;background:#21603a;color:#fff;border:0;border-radius:5px;font-weight:bold;cursor:pointer";
     ok.addEventListener("click",()=>{dialog.close();location.assign(new URL("index.html",base).href);});
@@ -476,6 +488,12 @@
       const alvo=document.getElementById("solicitar-plano");alvo?.scrollIntoView({behavior:"smooth",block:"start"});
       setTimeout(()=>document.getElementById("prEmpresa")?.focus({preventScroll:true}),400);
     },true));
+  }
+  if(slug==="07-orcamento-empresarial-v2"){
+    const aplicar=()=>{const e=document.querySelector('input[name="retorno"]:checked')?.value==="email";
+      const z=document.querySelector("#zapRot"),m=document.querySelector("#mailRot");
+      if(z)z.textContent=e?"WhatsApp (opcional)":"WhatsApp *";if(m)m.textContent=e?"E-mail *":"E-mail (opcional)";};
+    document.querySelectorAll('input[name="retorno"]').forEach(r=>r.addEventListener("change",aplicar));aplicar();
   }
   let enviando=false;
   async function enviar(r){

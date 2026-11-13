@@ -11,7 +11,7 @@ $tabela = ['contatos' => 'pd_contatos', 'auditoria' => 'pd_auditoria'][$fonte] ?
 $campos = $fonte === 'auditoria'
     ? ['criado_em', 'usuario', 'acao', 'alvo', 'detalhe']
     : ($fonte === 'contatos'
-    ? ['protocolo', 'assunto', 'categoria', 'status', 'nome', 'whatsapp', 'resumo', 'criado_em', 'atualizado_em']
+    ? ['protocolo', 'assunto', 'categoria', 'status', 'nome', 'whatsapp', 'email', 'retorno', 'resumo', 'criado_em', 'atualizado_em']
     : ['protocolo', 'tipo', 'status', 'nome', 'whatsapp', 'equipamento', 'servico', 'modalidade', 'cep', 'cobertura', 'descricao', 'criado_em', 'atualizado_em']);
 $linhas = pd_db()->query('SELECT ' . implode(', ', $campos) . " FROM $tabela ORDER BY criado_em DESC LIMIT 5000")->fetchAll();
 pd_auditar('exportar', $fonte, count($linhas) . ' registros exportados (CSV)');

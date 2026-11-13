@@ -16,22 +16,24 @@ try {
     $id = pd_uuid();
     $protocolo = pd_proximo_protocolo('PD-CT');
     $agora = pd_agora();
-    $pdo->prepare('INSERT INTO pd_contatos (id, protocolo, assunto, categoria, status, nome, whatsapp, resumo, aviso_enviado, criado_em, atualizado_em)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)')
-        ->execute([$id, $protocolo, $d['assunto'], pd_categoria_padrao($d['assunto']), 'novo', $d['nome'], $d['whatsapp'], $d['resumo'], $agora, $agora]);
+    $pdo->prepare('INSERT INTO pd_contatos (id, protocolo, assunto, categoria, status, nome, whatsapp, email, retorno, resumo, aviso_enviado, criado_em, atualizado_em)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)')
+        ->execute([$id, $protocolo, $d['assunto'], pd_categoria_padrao($d['assunto']), 'novo', $d['nome'], $d['whatsapp'], $d['email'] !== '' ? $d['email'] : null, $d['retorno'], $d['resumo'], $agora, $agora]);
 } catch (Throwable $e) {
     error_log('PD: falha ao salvar contato: ' . $e->getMessage());
     pd_falha(503, 'Serviço indisponível. Nenhum protocolo foi confirmado.');
 }
 
 $titulo = PD_ASSUNTOS[$d['assunto']];
-$texto = "Nova solicitação pelo site — $titulo\nProtocolo: $protocolo\nCliente: {$d['nome']}\nWhatsApp: {$d['whatsapp']}\n"
-       . "Responder no WhatsApp: " . pd_link_whatsapp($d['whatsapp']) . "\n\nDADOS DO PEDIDO\n{$d['resumo']}\n\n"
+$canal = $d['retorno'] === 'email' ? "O cliente prefere retorno por E-MAIL.\nE-mail: {$d['email']}\n" : "O cliente prefere retorno por WhatsApp.\n"
+       . ($d['email'] !== '' ? "E-mail: {$d['email']}\n" : '');
+$zapLinha = $d['whatsapp'] !== '' ? "WhatsApp: {$d['whatsapp']}\nResponder no WhatsApp: " . pd_link_whatsapp($d['whatsapp']) . "\n" : '';
+$texto = "Nova solicitação pelo site — $titulo\nProtocolo: $protocolo\nCliente: {$d['nome']}\n$canal$zapLinha\nDADOS DO PEDIDO\n{$d['resumo']}\n\n"
        . "Esta mensagem é automática. O pedido também está salvo no Painel PD.";
 if (pd_enviar_aviso("[PD] $titulo — {$d['nome']} ($protocolo)", $texto)) {
     $pdo->prepare('UPDATE pd_contatos SET aviso_enviado = 1 WHERE id = ?')->execute([$id]);
 }
 pd_responder_e_continuar(['protocolo' => $protocolo,
-         'aviso' => 'Recebemos a sua solicitação. A PD retorna pelo WhatsApp informado para confirmar.'], 201);
+         'aviso' => 'Recebemos a sua solicitação. A PD retorna pelo contato informado para confirmar.'], 201);
 pd_log('info', 'pedido', "Novo pedido $protocolo ($titulo).");
 pd_push_avisar('Novo pedido — ' . $titulo . ' (' . PD_CATEGORIAS[pd_categoria_padrao($d['assunto'])] . ')', $d['nome'] . " ($protocolo)", '/painel/', 'pedido-' . $protocolo);

@@ -321,7 +321,7 @@
   }
 
   /* ---------- destaques da home (carrossel) ---------- */
-  const DESTINOS = [["screens/16-servico-dashboard/index.html", "Página: Dashboard sob medida"], ["screens/17-servico-formatacao/index.html", "Página: Formatação"], ["screens/18-servico-consultoria/index.html", "Página: Consultoria de TI"], ["screens/19-servico-windows/index.html", "Página: Ativação de Windows"], ["screens/20-servico-sites/index.html", "Página: Criação de sites"], ["screens/07-orcamento-empresarial-v2/index.html", "Orçamento empresarial"], ["screens/02-atendimento-v5/index.html", "Atendimento (particular)"],
+  const DESTINOS = [["screens/07-orcamento-empresarial-v2/index.html", "Orçamento empresarial"], ["screens/02-atendimento-v5/index.html", "Atendimento (particular)"],
     ["screens/05-consultoria-ti-v2/index.html", "Consultoria de TI"], ["screens/06-seguranca-eletronica-v2/index.html", "Segurança eletrônica"],
     ["screens/04-planos-chamados-v2/index.html", "Planos de chamados"], ["screens/13-chamado-empresarial-v2/index.html", "Chamado empresarial"],
     ["screens/14-orcamento-entrada-v2/index.html", "Orçamento (entrada)"], ["screens/08-loja-rapida-v2/index.html", "Loja Rápida"],
@@ -511,7 +511,7 @@
     }
     function desenhar() {
       const q = busca.trim().toLowerCase();
-      const filtrados = itens.filter((x) => (!filtro || x.status === filtro) && (!filtroCat || x.categoria === filtroCat) && (!q || [x.protocolo, x.nome, x.whatsapp, x.servico || x.assunto, x.status]
+      const filtrados = itens.filter((x) => (!filtro || x.status === filtro) && (!filtroCat || x.categoria === filtroCat) && (!q || [x.protocolo, x.nome, x.whatsapp, x.email, x.servico || x.assunto, x.status]
         .some((v) => String(v || "").toLowerCase().includes(q))));
       const atual = filtrados.find((x) => x.id === selecionado);
       const pesquisa = h("input", { value: busca, oninput: (e) => { busca = e.target.value; desenhar(); const i = raiz.querySelector(".pd-busca input"); i && (i.focus(), i.setSelectionRange(busca.length, busca.length)); } });
@@ -539,7 +539,9 @@
                h("p", null, atual.tipo.toUpperCase() + " • " + atual.servico + " • " + atual.modalidade),
                h("p", null, atual.descricao), h("p", null, "CEP: " + (atual.cep || "A COMBINAR")),
                atual.cobertura ? h("p", { class: "pd-area pd-area-" + atual.cobertura }, { dentro: "DENTRO DA ÁREA DE ATENDIMENTO", taxa: "FORA DO RAIO — COBRAR TAXA DE DESLOCAMENTO", longe: "ALÉM DO LIMITE — REGIÃO NÃO ATENDIDA", indefinido: "ÁREA NÃO CONFIRMADA — CONFIRME PELO WHATSAPP" }[atual.cobertura] || "") : null],
-          h("a", { href: linkZap(atual.whatsapp), rel: "noopener noreferrer", target: "_blank" }, "CONTATAR PELO WHATSAPP ↗"),
+          contatos && atual.retorno === "email" ? h("p", { class: "pd-area pd-area-dentro" }, "O CLIENTE PREFERE RETORNO POR E-MAIL") : null,
+          atual.whatsapp ? h("a", { href: linkZap(atual.whatsapp), rel: "noopener noreferrer", target: "_blank" }, "CONTATAR PELO WHATSAPP ↗") : null,
+          atual.email ? h("a", { class: "pd-link-email", href: "mailto:" + atual.email + "?subject=" + encodeURIComponent("PD Soluções Digitais — " + atual.protocolo), target: "_blank" }, "RESPONDER POR E-MAIL (" + atual.email + ") ↗") : null,
           h("div", { class: "pd-encerrar" }, ENCERRADOS.includes(atual.status)
             ? h("button", { type: "button", class: "pd-reabrir", onclick: () => mudar(atual.id, contatos ? "em_andamento" : "em_atendimento") }, "REABRIR CHAMADO")
             : h("button", { type: "button", class: "pd-fechar", onclick: () => { if (window.confirm("Encerrar o chamado " + atual.protocolo + "?")) mudar(atual.id, "concluido"); } }, "ENCERRAR CHAMADO")),

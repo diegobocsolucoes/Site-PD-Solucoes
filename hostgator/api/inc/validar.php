@@ -65,8 +65,16 @@ function pd_validar_contato(array $r): array {
     if (!array_key_exists($assunto, PD_ASSUNTOS)) return [null, 'Assunto inválido.'];
     $nome = pd_limpar(pd_txt($r['nome'] ?? ''));
     if (pd_len($nome) < 2 || pd_len($nome) > 100) return [null, 'Informe o nome (2 a 100 caracteres).'];
-    $zap = pd_whatsapp_valido(pd_txt($r['whatsapp'] ?? ''));
-    if ($zap === null) return [null, 'Informe um WhatsApp válido com DDD.'];
+    $retorno = pd_txt($r['retorno'] ?? '') === 'email' ? 'email' : 'whatsapp';
+    $email = mb_strtolower(trim(pd_txt($r['email'] ?? '')), 'UTF-8');
+    if ($email !== '' && (pd_len($email) > 120 || filter_var($email, FILTER_VALIDATE_EMAIL) === false)) return [null, 'Informe um e-mail válido.'];
+    if ($retorno === 'email' && $email === '') return [null, 'Informe um e-mail válido.'];
+    $zapTxt = pd_txt($r['whatsapp'] ?? '');
+    if ($retorno === 'email' && trim($zapTxt) === '') $zap = '';
+    else {
+        $zap = pd_whatsapp_valido($zapTxt);
+        if ($zap === null) return [null, 'Informe um WhatsApp válido com DDD.'];
+    }
     $linhas = $r['linhas'] ?? null;
     if (!is_array($linhas) || count($linhas) < 1 || count($linhas) > 25) return [null, 'Dados do pedido ausentes.'];
     $limpas = [];
@@ -76,7 +84,7 @@ function pd_validar_contato(array $r): array {
     }
     $resumo = implode("\n", $limpas);
     if (pd_len($resumo) < 10 || pd_len($resumo) > 2500) return [null, 'Dados do pedido inválidos.'];
-    return [['assunto' => $assunto, 'nome' => $nome, 'whatsapp' => $zap, 'linhas' => $limpas, 'resumo' => $resumo,
+    return [['assunto' => $assunto, 'nome' => $nome, 'whatsapp' => $zap, 'email' => $email, 'retorno' => $retorno, 'linhas' => $limpas, 'resumo' => $resumo,
              'turnstile' => pd_txt($r['turnstileToken'] ?? '')], null];
 }
 

@@ -178,11 +178,11 @@ function pd_slides_semear(PDO $pdo): void {
     try {
         if ((int)$pdo->query('SELECT COUNT(*) FROM pd_slides')->fetchColumn() > 0) return;
         $padrao = [
-            ['Dashboard sob medida para a sua empresa', 'Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.', 'A partir de R$ 2.500', 'Solicitar orçamento empresarial', 'screens/07-orcamento-empresarial-v2/index.html', 'dashboard'],
-            ['Formatação de computador e notebook', 'Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.', null, 'Solicitar atendimento', 'screens/02-atendimento-v5/index.html', 'formatacao'],
+            ['Dashboard sob medida para a sua empresa', 'Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.', 'A partir de R$ 2.500', 'Solicitar orçamento', 'screens/16-solicitar-dashboard/index.html', 'dashboard'],
+            ['Formatação de computador e notebook', 'Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.', null, 'Solicitar atendimento', 'screens/17-solicitar-formatacao/index.html', 'formatacao'],
             ['Consultoria de TI para empresas', 'Diagnóstico da estrutura, plano de melhorias e prioridades de investimento para o seu negócio.', null, 'Solicitar consultoria', 'screens/05-consultoria-ti-v2/index.html', 'consultoria'],
-            ['Ativação de Windows', 'Ativação com licença original, de forma rápida e segura.', null, 'Solicitar orçamento', 'screens/14-orcamento-entrada-v2/index.html', 'windows'],
-            ['Criação de sites', 'Site profissional para a sua empresa, rápido no celular e preparado para a busca.', 'Sob orçamento', 'Solicitar orçamento empresarial', 'screens/07-orcamento-empresarial-v2/index.html', 'site'],
+            ['Ativação de Windows', 'Ativação com licença original, de forma rápida e segura.', null, 'Solicitar orçamento', 'screens/18-solicitar-windows/index.html', 'windows'],
+            ['Criação de sites', 'Site profissional para a sua empresa, rápido no celular e preparado para a busca.', 'Sob orçamento', 'Solicitar orçamento', 'screens/19-solicitar-site/index.html', 'site'],
         ];
         $agora = gmdate('Y-m-d H:i:s');
         $ins = $pdo->prepare('INSERT INTO pd_slides (id, ordem, titulo, texto, preco, botao, destino, arte, ativo, criado_em, atualizado_em) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)');
@@ -212,9 +212,9 @@ function pd_migrar(PDO $pdo): void {
         foreach (['Dashboard sob medida para a sua empresa' => 'dashboard', 'Formatação de computador e notebook' => 'formatacao', 'Consultoria de TI para empresas' => 'consultoria', 'Ativação de Windows' => 'windows', 'Criação de sites' => 'site'] as $t => $a) {
             try { $pdo->prepare("UPDATE pd_slides SET arte = ? WHERE titulo = ? AND arte = 'generico'")->execute([$a, $t]); } catch (Throwable $e) { /* segue */ }
         }
-        // v8: os destaques abrem direto a página de solicitação de cada serviço
-        foreach (['Dashboard sob medida para a sua empresa' => ['screens/07-orcamento-empresarial-v2/index.html', 'Solicitar orçamento empresarial'], 'Formatação de computador e notebook' => ['screens/02-atendimento-v5/index.html', 'Solicitar atendimento'], 'Consultoria de TI para empresas' => ['screens/05-consultoria-ti-v2/index.html', 'Solicitar consultoria'], 'Ativação de Windows' => ['screens/14-orcamento-entrada-v2/index.html', 'Solicitar orçamento'], 'Criação de sites' => ['screens/07-orcamento-empresarial-v2/index.html', 'Solicitar orçamento empresarial']] as $t => [$d, $b]) {
-            try { $pdo->prepare("UPDATE pd_slides SET destino = ?, botao = ? WHERE titulo = ? AND (destino LIKE 'screens/%-servico-%' OR botao = 'Saiba mais')")->execute([$d, $b, $t]); } catch (Throwable $e) { /* segue */ }
+        // v8: cada destaque abre a sua própria página de solicitação (só troca os que ainda apontam para as páginas genéricas)
+        foreach (['Dashboard sob medida para a sua empresa' => ['screens/16-solicitar-dashboard/index.html', 'Solicitar orçamento'], 'Formatação de computador e notebook' => ['screens/17-solicitar-formatacao/index.html', 'Solicitar atendimento'], 'Ativação de Windows' => ['screens/18-solicitar-windows/index.html', 'Solicitar orçamento'], 'Criação de sites' => ['screens/19-solicitar-site/index.html', 'Solicitar orçamento']] as $t => [$d, $b]) {
+            try { $pdo->prepare("UPDATE pd_slides SET destino = ?, botao = CASE WHEN botao IN ('Saiba mais', 'Solicitar orçamento empresarial') THEN ? ELSE botao END WHERE titulo = ? AND (destino LIKE 'screens/%-servico-%' OR destino IN ('screens/07-orcamento-empresarial-v2/index.html', 'screens/02-atendimento-v5/index.html', 'screens/14-orcamento-entrada-v2/index.html'))")->execute([$d, $b, $t]); } catch (Throwable $e) { /* segue */ }
         }
         if ($v === false) $pdo->exec("INSERT INTO pd_contagem (chave, valor) VALUES ('schema', " . PD_SCHEMA_VERSAO . ")");
         else $pdo->exec("UPDATE pd_contagem SET valor = " . PD_SCHEMA_VERSAO . " WHERE chave = 'schema'");

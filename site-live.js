@@ -16,11 +16,11 @@
     const raiz=document.querySelector("#destaques .dest-root");
     if(raiz){
       const PADRAO=[
-        {arte:"dashboard",titulo:"Dashboard sob medida para a sua empresa",texto:"Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.",preco:"A partir de R$ 2.500",botao:"Solicitar orçamento empresarial",destino:"screens/07-orcamento-empresarial-v2/index.html"},
-        {arte:"formatacao",titulo:"Formatação de computador e notebook",texto:"Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.",preco:"",botao:"Solicitar atendimento",destino:"screens/02-atendimento-v5/index.html"},
+        {arte:"dashboard",titulo:"Dashboard sob medida para a sua empresa",texto:"Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.",preco:"A partir de R$ 2.500",botao:"Solicitar orçamento",destino:"screens/16-solicitar-dashboard/index.html"},
+        {arte:"formatacao",titulo:"Formatação de computador e notebook",texto:"Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.",preco:"",botao:"Solicitar atendimento",destino:"screens/17-solicitar-formatacao/index.html"},
         {arte:"consultoria",titulo:"Consultoria de TI para empresas",texto:"Diagnóstico da estrutura, plano de melhorias e prioridades de investimento para o seu negócio.",preco:"",botao:"Solicitar consultoria",destino:"screens/05-consultoria-ti-v2/index.html"},
-        {arte:"windows",titulo:"Ativação de Windows",texto:"Ativação com licença original, de forma rápida e segura.",preco:"",botao:"Solicitar orçamento",destino:"screens/14-orcamento-entrada-v2/index.html"},
-        {arte:"site",titulo:"Criação de sites",texto:"Site profissional para a sua empresa, rápido no celular e preparado para a busca.",preco:"Sob orçamento",botao:"Solicitar orçamento empresarial",destino:"screens/07-orcamento-empresarial-v2/index.html"}];
+        {arte:"windows",titulo:"Ativação de Windows",texto:"Ativação com licença original, de forma rápida e segura.",preco:"",botao:"Solicitar orçamento",destino:"screens/18-solicitar-windows/index.html"},
+        {arte:"site",titulo:"Criação de sites",texto:"Site profissional para a sua empresa, rápido no celular e preparado para a busca.",preco:"Sob orçamento",botao:"Solicitar orçamento",destino:"screens/19-solicitar-site/index.html"}];
       let timer=0,indice=0,cards=[],bolinhas=[],track;
       const reduzido=matchMedia("(prefers-reduced-motion: reduce)").matches;
       const ir=(i)=>{indice=(i+cards.length)%cards.length;track.scrollTo({left:cards[indice].offsetLeft-track.offsetLeft,behavior:reduzido?"auto":"smooth"});marcar();};
@@ -109,7 +109,9 @@
     "11-consultoria-domestica-v2":"consultoria doméstica",
     "12-consultoria-setup-v2":"consultoria de setup",
     "13-chamado-empresarial-v2":"um chamado empresarial",
-    "14-orcamento-entrada-v2":"solicitar orçamento"
+    "14-orcamento-entrada-v2":"solicitar orçamento",
+    "16-solicitar-dashboard":"um dashboard sob medida","17-solicitar-formatacao":"formatação de computador ou notebook",
+    "18-solicitar-windows":"ativação de Windows","19-solicitar-site":"a criação de um site"
   };
   const greeting="Olá! Vim pelo site oficial da PD Soluções Digitais e gostaria de ";
   const contact=wa(greeting+(topics[slug]||"atendimento")+".");
@@ -260,6 +262,35 @@
     }
   }
 
+  if(slug==="17-solicitar-formatacao"||slug==="18-solicitar-windows"){
+    const campo=document.querySelector("#campoCep"),caixa=document.querySelector("#boxCep"),aviso=document.querySelector("#avisoCep");
+    let regiaoFora=false,pedido=0;
+    window.__pdRegiaoFora=()=>regiaoFora;
+    const modo=()=>document.querySelector('input[name="modalidade"]:checked')?.value;
+    const textos={
+      dentro:["#58b978","Boa notícia: este CEP está dentro da nossa área de atendimento presencial."],
+      taxa:["#e6c777","Este CEP fica fora do nosso raio sem taxa. Haverá cobrança de R$ TAXA de taxa de deslocamento. Você pode enviar o pedido e a PD confirma tudo pelo WhatsApp."],
+      longe:["#e58a8a","Infelizmente não atendemos presencialmente a sua região. Escolha entrega agendada ou fale com a PD pelo WhatsApp."],
+      indefinido:["#9fb3a7","Não conseguimos confirmar a área agora. Pode enviar o pedido: a PD confirma o atendimento pelo WhatsApp."]};
+    const verificar=async()=>{
+      const d=digits(campo?.value||"");const n=++pedido;
+      if(aviso)aviso.hidden=true;regiaoFora=false;
+      if(modo()!=="presencial"||d.length!==8||!API_URL||!aviso)return;
+      try{
+        const r=await fetch(API_URL.replace(/\/$/,"")+"/api/cobertura?cep="+d,{headers:{Accept:"application/json"}});
+        const j=await r.json();if(n!==pedido||!r.ok||!textos[j.status])return;
+        const [cor,t0]=textos[j.status];regiaoFora=j.status==="longe";
+        aviso.style.borderLeftColor=cor;
+        aviso.textContent=t0.replace("R$ TAXA","R$ "+((j.taxa_centavos||0)/100).toFixed(2).replace(".",","))+(j.local&&j.status!=="indefinido"?" ("+j.local+")":"");
+        aviso.hidden=false;
+      }catch(e){}
+    };
+    const alternar=()=>{if(caixa)caixa.hidden=modo()!=="presencial";verificar();};
+    campo?.addEventListener("input",()=>{const d=campo.value.replace(/\D/g,"").slice(0,8);campo.value=d.length>5?d.slice(0,5)+"-"+d.slice(5):d;verificar();});
+    document.querySelectorAll('input[name="modalidade"]').forEach(r=>r.addEventListener("change",alternar));
+    alternar();
+  }
+
   function review(){
     const result={error:"",element:null,lines:[]};
     const required=(selector,label,min=2)=>{
@@ -272,6 +303,20 @@
       const element=document.querySelector(selector);const value=element?.value||"";
       if(!result.error&&!phoneValid(value)){result.error="Informe um WhatsApp válido com DDD.";result.element=element;}
       return digits(value);
+    };
+    const retornoEmail=()=>{
+      const porEmail=document.querySelector('input[name="retorno"]:checked')?.value==="email";
+      const mailEl=document.querySelector("#campoMail");const mail=(mailEl?.value||"").trim();
+      const zapEl=document.querySelector("#campoZap");
+      const mailOk=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail);
+      if(porEmail){
+        if(!result.error&&!mailOk){result.error="Informe um e-mail válido.";result.element=mailEl;}
+        if(!result.error&&(zapEl?.value||"").trim()&&!phoneValid(zapEl.value)){result.error="Confira o WhatsApp informado ou deixe o campo em branco.";result.element=zapEl;}
+      }else{
+        if(!result.error&&!phoneValid(zapEl?.value||"")){result.error="Informe um WhatsApp válido com DDD.";result.element=zapEl;}
+        if(!result.error&&mail&&!mailOk){result.error="Confira o e-mail informado.";result.element=mailEl;}
+      }
+      return {porEmail,mail,numero:digits(zapEl?.value||"")};
     };
     if(slug==="02-atendimento-v5"){
       const nome=required('input[placeholder="Digite seu nome completo"]',"seu nome");
@@ -296,19 +341,7 @@
     }else if(slug==="07-orcamento-empresarial-v2"){
       const empresa=required('input[placeholder="Nome da empresa"]',"o nome da empresa");
       const responsavel=required('input[placeholder="Seu nome"]',"o nome do responsável");
-      const porEmail=document.querySelector('input[name="retorno"]:checked')?.value==="email";
-      const mailEl=document.querySelector("#campoMail");const mail=(mailEl?.value||"").trim();
-      const zapEl=document.querySelector("#campoZap");
-      let numero="";
-      if(porEmail){
-        if(!result.error&&!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)){result.error="Informe um e-mail válido.";result.element=mailEl;}
-        if(!result.error&&(zapEl?.value||"").trim()&&!phoneValid(zapEl.value)){result.error="Confira o WhatsApp informado ou deixe o campo em branco.";result.element=zapEl;}
-        numero=digits(zapEl?.value||"");
-      }else{
-        if(!result.error&&!phoneValid(zapEl?.value||"")){result.error="Informe um WhatsApp válido com DDD.";result.element=zapEl;}
-        numero=digits(zapEl?.value||"");
-        if(!result.error&&mail&&!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)){result.error="Confira o e-mail informado.";result.element=mailEl;}
-      }
+      const {porEmail,mail,numero}=retornoEmail();
       const local=required('input[placeholder="Informe a localização da empresa"]',"a localização da empresa");
       const descricao=required("textarea","a descrição da necessidade (mínimo 10 caracteres)",10);
       const areas=[...document.querySelectorAll(".choice.active")].map(el=>tidy(el.textContent,70));
@@ -316,6 +349,42 @@
       result.lines=["Orçamento empresarial","Empresa: "+empresa,"Responsável: "+responsavel,
         "Retorno por: "+(porEmail?"E-mail":"WhatsApp"),...(numero?["Meu WhatsApp: "+numero]:[]),...(mail?["E-mail: "+mail]:[]),"Localização: "+local,
         "Áreas: "+(areas.join("; ")||"A confirmar"),"Necessidade: "+descricao];
+    }else if(slug==="16-solicitar-dashboard"||slug==="19-solicitar-site"){
+      const dash=slug==="16-solicitar-dashboard";
+      const empresa=required("#campoEmpresa","o nome da empresa");
+      const responsavel=required("#campoResp","o nome do responsável");
+      const {porEmail,mail,numero}=retornoEmail();
+      const local=required("#campoLocal","a cidade ou o bairro da empresa");
+      const descricao=required("#campoDesc",dash?"o que você quer acompanhar (mínimo 10 caracteres)":"o que o site precisa ter (mínimo 10 caracteres)",10);
+      const ramo=val("#campoRamo"),prazo=val("#campoPrazo");
+      const fontes=[...document.querySelectorAll('input[name="fonte"]:checked')].map(x=>tidy(x.value,60)).join("; ");
+      result.endpoint="/api/contatos";
+      result.payload={assunto:dash?"dashboard":"criacao-sites",nome:responsavel,whatsapp:numero,email:mail,retorno:porEmail?"email":"whatsapp"};
+      result.lines=[dash?"Dashboard sob medida":"Criação de sites","Empresa: "+empresa,"Responsável: "+responsavel,
+        ...(ramo?["Ramo: "+tidy(ramo,120)]:[]),"Retorno por: "+(porEmail?"E-mail":"WhatsApp"),
+        ...(numero?["Meu WhatsApp: "+numero]:[]),...(mail?["E-mail: "+mail]:[]),"Localização: "+local,
+        ...(dash?["Dados vêm de: "+(fontes||"A confirmar")]:["Tipo de site: "+val("#campoTipo"),
+          "Já tem site: "+(document.querySelector('input[name="temsite"]:checked')?.value==="sim"?"Sim":"Não"),
+          ...(val("#campoUrl")?["Site atual: "+tidy(val("#campoUrl"),120)]:[])]),
+        "Prazo: "+prazo,(dash?"Necessidade: ":"O que o site precisa ter: ")+descricao];
+    }else if(slug==="17-solicitar-formatacao"||slug==="18-solicitar-windows"){
+      const form=slug==="17-solicitar-formatacao";
+      const nome=required("#campoNome","seu nome");
+      const numero=number("#campoZap");
+      const equip=document.querySelector('input[name="equip"]:checked')?.value==="notebook"?"notebook":"desktop";
+      const presencial=document.querySelector('input[name="modalidade"]:checked')?.value==="presencial";
+      const cep=digits(val("#campoCep"));
+      const cepEl=document.querySelector("#campoCep");
+      if(!result.error&&presencial&&cep.length!==8){result.error="Informe um CEP válido com 8 números.";result.element=cepEl;}
+      if(!result.error&&presencial&&window.__pdRegiaoFora&&window.__pdRegiaoFora()){result.error="Não atendemos presencialmente a sua região. Escolha entrega agendada ou fale com a PD pelo WhatsApp.";result.element=cepEl;}
+      const partes=form?["Sistema desejado: "+val("#campoSistema"),...(document.querySelector('input[name="backup"]:checked')?["Preciso salvar os arquivos antes."]:[])]
+        :["Versão do Windows: "+val("#campoVersao")];
+      const descricao=tidy([...partes,val("#campoDesc")].filter(Boolean).join(". "),500);
+      result.endpoint="/api/solicitacoes";
+      result.payload={tipo:form?"servico":"orcamento",nome,whatsapp:numero,equipamento:equip,servico:form?"formatacao":"windows",
+        modalidade:presencial?"presencial":"entrega",descricao,cep:presencial?cep:""};
+      result.lines=[form?"Atendimento: formatação":"Orçamento: ativação de Windows","Nome: "+nome,"Meu WhatsApp: "+numero,
+        "Equipamento: "+equip,"Modalidade: "+(presencial?"Atendimento no endereço":"Entrega agendada"),...(presencial?["CEP: "+cep]:[]),"Detalhes: "+descricao];
     }else if(slug==="09-parcerias-v2"){
       const empresa=required('input[placeholder="Nome da empresa"]',"o nome da empresa");
       const responsavel=required('input[placeholder="Nome do responsável"]',"o responsável");
@@ -437,7 +506,7 @@
   }
 
   const finalButtons=slug==="02-atendimento-v5"?"#submitButton":
-    ["07-orcamento-empresarial-v2","08-loja-rapida-v2","09-parcerias-v2"].includes(slug)?"#reviewBtn":
+    ["07-orcamento-empresarial-v2","08-loja-rapida-v2","09-parcerias-v2","16-solicitar-dashboard","17-solicitar-formatacao","18-solicitar-windows","19-solicitar-site"].includes(slug)?"#reviewBtn":
     slug==="13-chamado-empresarial-v2"?".primary":
     slug==="04-planos-chamados-v2"?"#planoBtn":
     ["05-consultoria-ti-v2","06-seguranca-eletronica-v2"].includes(slug)?"button.submit":"";
@@ -489,9 +558,9 @@
       setTimeout(()=>document.getElementById("prEmpresa")?.focus({preventScroll:true}),400);
     },true));
   }
-  if(slug==="07-orcamento-empresarial-v2"){
+  if(["07-orcamento-empresarial-v2","16-solicitar-dashboard","19-solicitar-site"].includes(slug)){
     const aplicar=()=>{const e=document.querySelector('input[name="retorno"]:checked')?.value==="email";
-      const z=document.querySelector("#zapRot"),m=document.querySelector("#mailRot");
+      const z=document.querySelector("#zapRot,#campoZapRot"),m=document.querySelector("#mailRot,#campoMailRot");
       if(z)z.textContent=e?"WhatsApp (opcional)":"WhatsApp *";if(m)m.textContent=e?"E-mail *":"E-mail (opcional)";};
     document.querySelectorAll('input[name="retorno"]').forEach(r=>r.addEventListener("change",aplicar));aplicar();
   }

@@ -8,7 +8,7 @@
   const STATUS_CT = [["novo","NOVO"],["contatado","CONTATADO"],["em_andamento","EM ANDAMENTO"],
     ["concluido","CONCLUÍDO"],["cancelado","CANCELADO"]];
   const ASSUNTOS = {"orcamento-empresarial":"ORÇAMENTO EMPRESARIAL","chamado-empresarial":"CHAMADO EMPRESARIAL",
-    "parceria":"PARCERIA","loja-rapida":"LOJA RÁPIDA","plano-chamados":"PLANO DE CHAMADOS","consultoria-ti":"CONSULTORIA DE TI","seguranca-eletronica":"SEGURANÇA ELETRÔNICA"};
+    "parceria":"PARCERIA","loja-rapida":"LOJA RÁPIDA","plano-chamados":"PLANO DE CHAMADOS","consultoria-ti":"CONSULTORIA DE TI","seguranca-eletronica":"SEGURANÇA ELETRÔNICA","dashboard":"DASHBOARD SOB MEDIDA","criacao-sites":"CRIAÇÃO DE SITES"};
   const ROTULO_PROD = {disponivel:"DISPONÍVEL",poucas_unidades:"POUCAS UNIDADES",indisponivel:"INDISPONÍVEL"};
   const ENCERRADOS = ["concluido", "cancelado", "nao_convertido"];
   const FOTO_MAX = 2 * 1024 * 1024;
@@ -321,7 +321,7 @@
   }
 
   /* ---------- destaques da home (carrossel) ---------- */
-  const DESTINOS = [["screens/07-orcamento-empresarial-v2/index.html", "Orçamento empresarial"], ["screens/02-atendimento-v5/index.html", "Atendimento (particular)"],
+  const DESTINOS = [["screens/16-solicitar-dashboard/index.html", "Solicitar: Dashboard sob medida"], ["screens/17-solicitar-formatacao/index.html", "Solicitar: Formatação"], ["screens/18-solicitar-windows/index.html", "Solicitar: Ativação de Windows"], ["screens/19-solicitar-site/index.html", "Solicitar: Criação de sites"], ["screens/07-orcamento-empresarial-v2/index.html", "Orçamento empresarial"], ["screens/02-atendimento-v5/index.html", "Atendimento (particular)"],
     ["screens/05-consultoria-ti-v2/index.html", "Consultoria de TI"], ["screens/06-seguranca-eletronica-v2/index.html", "Segurança eletrônica"],
     ["screens/04-planos-chamados-v2/index.html", "Planos de chamados"], ["screens/13-chamado-empresarial-v2/index.html", "Chamado empresarial"],
     ["screens/14-orcamento-entrada-v2/index.html", "Orçamento (entrada)"], ["screens/08-loja-rapida-v2/index.html", "Loja Rápida"],

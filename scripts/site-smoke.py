@@ -11,7 +11,7 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path(__file__).resolve().parents[1]
 SCREENS = ROOT / "screens"
-ALLOWED = [f"{i:02d}-" for i in range(1, 16)]
+ALLOWED = [f"{i:02d}-" for i in range(1, 20)]
 
 def require(condition: bool, message: str) -> None:
     if not condition:
@@ -23,7 +23,7 @@ require((ROOT / "privacidade.html").is_file(), "Página de privacidade ausente")
 require((ROOT / "preview/index.html").is_file(), "Redirecionamento antigo da prévia ausente")
 require("página principal" in (ROOT / "preview/index.html").read_text(), "Prévia não redireciona")
 dirs = sorted(x for x in SCREENS.iterdir() if x.is_dir())
-require(len(dirs) == 15, f"Esperadas 15 páginas públicas, encontradas {len(dirs)}")
+require(len(dirs) == 19, f"Esperadas 19 páginas públicas, encontradas {len(dirs)}")
 require(all(any(x.name.startswith(prefix) for prefix in ALLOWED) for x in dirs),
         "Pasta administrativa ou desconhecida exposta publicamente")
 require(not (SCREENS / "16-admin-dashboard-v2").exists(), "Dashboard privado foi publicado")

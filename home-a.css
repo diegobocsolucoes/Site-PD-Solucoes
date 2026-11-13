@@ -199,3 +199,5 @@ img{max-width:100%}
 @media(max-width:820px){.dest-card .dest-arte{width:100%;max-width:170px}.dest-card .dest-botao{padding:8px 14px}}
 
 .dest-clicavel{cursor:pointer}
+
+.footer-google{display:inline-flex;margin:14px 0 14px;color:var(--green-2);font-weight:600;font-size:15px}.footer-google:hover{text-decoration:underline}

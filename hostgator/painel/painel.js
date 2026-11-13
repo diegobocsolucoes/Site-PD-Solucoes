@@ -330,7 +330,7 @@
   function viewSlides() {
     const raiz = h("div", null, h("p", null, "Carregando…"));
     let slides = [], editando = "", form = null, msg = "", ok = false;
-    const vazio = () => ({ titulo: "", texto: "", preco: "", botao: "Pedir orçamento", destino: DESTINOS[0][0], ativo: true });
+    const vazio = () => ({ titulo: "", texto: "", preco: "", botao: "Pedir orçamento", destino: DESTINOS[0][0], arte: "generico", ativo: true });
     async function chamar(metodo, corpo) {
       try { slides = (await api("/api/admin/slides", { metodo, corpo })).slides; return true; }
       catch (ex) { if (ex instanceof SessaoExpirada) return false; msg = ex.message; ok = false; return false; }
@@ -360,7 +360,7 @@
         const campo = (rot, k, extra) => h("label", null, rot, h("input", { value: form[k], oninput: (e) => { form[k] = e.target.value; }, ...extra }));
         painel = h("form", { onsubmit: async (e) => {
           e.preventDefault(); msg = "";
-          const dados = { titulo: form.titulo, texto: form.texto, preco: form.preco, botao: form.botao, destino: form.destino };
+          const dados = { titulo: form.titulo, texto: form.texto, preco: form.preco, botao: form.botao, destino: form.destino, arte: form.arte };
           const feito = editando === "novo" ? await chamar("POST", { ...dados, ativo: form.ativo }) : await chamar("PATCH", { id: editando, ...dados });
           if (feito) { ok = true; msg = "Salvo. O site já mostra a alteração em até 1 minuto."; form = null; editando = ""; }
           desenhar();
@@ -370,6 +370,9 @@
           h("label", null, "Texto *", h("textarea", { rows: 3, maxLength: 240, required: true, value: form.texto, oninput: (e) => { form.texto = e.target.value; } })),
           campo("Preço ou chamada (opcional)", "preco", { maxLength: 60, placeholder: "Ex.: A partir de R$ 2.500" }),
           campo("Texto do botão *", "botao", { required: true, minLength: 2, maxLength: 40 }),
+          h("label", null, "Ilustração do destaque", h("select", { onchange: (e) => { form.arte = e.target.value; } },
+            [["dashboard", "Dashboard com API"], ["formatacao", "Formatação / computador"], ["consultoria", "Consultoria de TI"], ["windows", "Ativação de sistema"], ["site", "Criação de sites"], ["generico", "Genérica"]]
+              .map(([v, t]) => h("option", { value: v, selected: v === form.arte }, t)))),
           h("label", null, "Para onde o botão leva *", h("select", { onchange: (e) => { form.destino = e.target.value; } },
             DESTINOS.map(([v, t]) => h("option", { value: v, selected: v === form.destino }, t)),
             DESTINOS.some(([v]) => v === form.destino) ? null : h("option", { value: form.destino, selected: true }, form.destino))),
@@ -380,7 +383,7 @@
       }
       raiz.replaceChildren(h("div", { class: "pd-admin-cols" },
         h("section", null,
-          h("div", { class: "pd-admin-tools" }, h("p", { class: "pd-mudo" }, "Os destaques aparecem em carrossel na página inicial do site. Ordem de cima para baixo."),
+          h("div", { class: "pd-admin-tools" }, h("p", { class: "pd-mudo" }, "Os destaques aparecem em carrossel na página inicial do site. Ordem de cima para baixo. Troca automática a cada 3 segundos."),
             h("button", { type: "button", onclick: () => { editando = "novo"; form = vazio(); msg = ""; desenhar(); } }, "NOVO DESTAQUE")),
           msg ? h("p", { class: ok ? "pd-admin-ok" : "pd-admin-error", role: "status" }, msg) : null,
           h("div", { role: "table", "aria-label": "Destaques da página inicial" }, lista)),

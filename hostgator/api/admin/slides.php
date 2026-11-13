@@ -12,7 +12,7 @@ $pdo = pd_db();
 
 function pd_slides_lista(PDO $pdo): array {
     return array_map(function ($l) { $l['ativo'] = (int)$l['ativo'] === 1; $l['ordem'] = (int)$l['ordem']; return $l; },
-        $pdo->query('SELECT id, ordem, titulo, texto, preco, botao, destino, ativo FROM pd_slides ORDER BY ordem ASC, criado_em ASC LIMIT 50')->fetchAll());
+        $pdo->query('SELECT id, ordem, titulo, texto, preco, botao, destino, arte, ativo FROM pd_slides ORDER BY ordem ASC, criado_em ASC LIMIT 50')->fetchAll());
 }
 function pd_slide_validar(array $c, bool $parcial): array {
     $d = [];
@@ -33,6 +33,11 @@ function pd_slide_validar(array $c, bool $parcial): array {
         if (!preg_match('#^(screens/[a-z0-9-]{3,40}/index\.html|index\.html|privacidade\.html|https://wa\.me/\d{10,15}(\?[A-Za-z0-9%._~&=+-]{0,300})?)$#', $v)) return [null, 'Destino inválido. Escolha uma tela do site ou um link do WhatsApp.'];
         $d['destino'] = $v;
     }
+    if (!$parcial || array_key_exists('arte', $c)) {
+        $v = is_string($c['arte'] ?? null) ? $c['arte'] : 'generico';
+        if (!in_array($v, ['dashboard', 'formatacao', 'consultoria', 'windows', 'site', 'generico'], true)) return [null, 'Arte inválida.'];
+        $d['arte'] = $v;
+    }
     if (array_key_exists('ordem', $c)) {
         if (!is_int($c['ordem']) || $c['ordem'] < 0 || $c['ordem'] > 10000) return [null, 'Ordem inválida.'];
         $d['ordem'] = $c['ordem'];
@@ -50,8 +55,8 @@ if ($metodo === 'POST') {
     if ((int)$pdo->query('SELECT COUNT(*) FROM pd_slides')->fetchColumn() >= 12) pd_falha(422, 'Limite de 12 destaques.');
     $d += ['ordem' => ((int)$pdo->query('SELECT COALESCE(MAX(ordem), 0) FROM pd_slides')->fetchColumn()) + 10, 'ativo' => 1];
     $agora = pd_agora();
-    $pdo->prepare('INSERT INTO pd_slides (id, ordem, titulo, texto, preco, botao, destino, ativo, criado_em, atualizado_em) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
-        ->execute([pd_uuid(), $d['ordem'], $d['titulo'], $d['texto'], $d['preco'], $d['botao'], $d['destino'], $d['ativo'], $agora, $agora]);
+    $pdo->prepare('INSERT INTO pd_slides (id, ordem, titulo, texto, preco, botao, destino, arte, ativo, criado_em, atualizado_em) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+        ->execute([pd_uuid(), $d['ordem'], $d['titulo'], $d['texto'], $d['preco'], $d['botao'], $d['destino'], $d['arte'], $d['ativo'], $agora, $agora]);
     pd_auditar('slide_criar', $d['titulo'], 'Destaque criado');
     pd_json(['slides' => pd_slides_lista($pdo)], 201);
 }
@@ -68,7 +73,7 @@ unset($c['id']);
 [$d, $erro] = pd_slide_validar($c, true);
 if ($erro !== null) pd_falha(422, $erro);
 if (!$d) pd_falha(422, 'Nada para atualizar.');
-$ok = ['ordem', 'titulo', 'texto', 'preco', 'botao', 'destino', 'ativo'];
+$ok = ['ordem', 'titulo', 'texto', 'preco', 'botao', 'destino', 'arte', 'ativo'];
 $sets = []; $vals = [];
 foreach ($d as $k => $v) { if (in_array($k, $ok, true)) { $sets[] = "$k = ?"; $vals[] = $v; } }
 $sets[] = 'atualizado_em = ?'; $vals[] = pd_agora(); $vals[] = $id;

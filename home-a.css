@@ -174,3 +174,10 @@ img{max-width:100%}
 .dest-setas button:hover{border-color:#79d497;color:#fff}
 @media(max-width:700px){.dest-card{padding:28px 22px;min-height:300px;border-radius:20px}.dest-card p{font-size:16px}.dest-setas{display:none}}
 @media(prefers-reduced-motion:reduce){.dest-track{scroll-behavior:auto}}
+
+/* destaques com ilustração */
+.dest-card{flex-direction:row;align-items:center;justify-content:space-between;gap:24px;padding:32px 40px}
+.dest-texto{display:flex;flex-direction:column;gap:12px;flex:1 1 52%;min-width:0;position:relative}
+.dest-arte{flex:0 1 44%;width:44%;max-width:520px;height:auto;position:relative;pointer-events:none;user-select:none}
+.dest-card{min-height:340px}
+@media(max-width:820px){.dest-card{flex-direction:column-reverse;align-items:stretch;padding:22px 20px;min-height:0;gap:6px}.dest-arte{width:100%;max-width:300px;max-height:170px;align-self:center;object-fit:contain}.dest-texto{gap:10px}}

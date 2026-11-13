@@ -148,6 +148,7 @@ function pd_schema(string $driver): array {
   preco VARCHAR(60) NULL,
   botao VARCHAR(40) NOT NULL,
   destino VARCHAR(120) NOT NULL,
+  arte VARCHAR(20) NOT NULL DEFAULT 'generico',
   ativo TINYINT NOT NULL DEFAULT 1,
   criado_em DATETIME NOT NULL,
   atualizado_em DATETIME NOT NULL
@@ -175,23 +176,23 @@ function pd_slides_semear(PDO $pdo): void {
     try {
         if ((int)$pdo->query('SELECT COUNT(*) FROM pd_slides')->fetchColumn() > 0) return;
         $padrao = [
-            ['Dashboard sob medida para a sua empresa', 'Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.', 'A partir de R$ 2.500', 'Pedir orçamento', 'screens/07-orcamento-empresarial-v2/index.html'],
-            ['Formatação de computador e notebook', 'Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.', null, 'Solicitar atendimento', 'screens/02-atendimento-v5/index.html'],
-            ['Consultoria de TI para empresas', 'Diagnóstico da estrutura, plano de melhorias e prioridades de investimento para o seu negócio.', null, 'Solicitar consultoria', 'screens/05-consultoria-ti-v2/index.html'],
-            ['Ativação de Windows', 'Ativação com licença original, de forma rápida e segura.', null, 'Pedir orçamento', 'screens/14-orcamento-entrada-v2/index.html'],
-            ['Criação de sites', 'Site profissional para a sua empresa, rápido no celular e preparado para a busca.', 'Sob orçamento', 'Pedir orçamento', 'screens/07-orcamento-empresarial-v2/index.html'],
+            ['Dashboard sob medida para a sua empresa', 'Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.', 'A partir de R$ 2.500', 'Pedir orçamento', 'screens/07-orcamento-empresarial-v2/index.html', 'dashboard'],
+            ['Formatação de computador e notebook', 'Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.', null, 'Solicitar atendimento', 'screens/02-atendimento-v5/index.html', 'formatacao'],
+            ['Consultoria de TI para empresas', 'Diagnóstico da estrutura, plano de melhorias e prioridades de investimento para o seu negócio.', null, 'Solicitar consultoria', 'screens/05-consultoria-ti-v2/index.html', 'consultoria'],
+            ['Ativação de Windows', 'Ativação com licença original, de forma rápida e segura.', null, 'Pedir orçamento', 'screens/14-orcamento-entrada-v2/index.html', 'windows'],
+            ['Criação de sites', 'Site profissional para a sua empresa, rápido no celular e preparado para a busca.', 'Sob orçamento', 'Pedir orçamento', 'screens/07-orcamento-empresarial-v2/index.html', 'site'],
         ];
         $agora = gmdate('Y-m-d H:i:s');
-        $ins = $pdo->prepare('INSERT INTO pd_slides (id, ordem, titulo, texto, preco, botao, destino, ativo, criado_em, atualizado_em) VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?)');
-        foreach ($padrao as $i => [$t, $x, $p, $b, $d]) {
+        $ins = $pdo->prepare('INSERT INTO pd_slides (id, ordem, titulo, texto, preco, botao, destino, arte, ativo, criado_em, atualizado_em) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)');
+        foreach ($padrao as $i => [$t, $x, $p, $b, $d, $ar]) {
             $b16 = bin2hex(random_bytes(16));
             $id = substr($b16, 0, 8) . '-' . substr($b16, 8, 4) . '-4' . substr($b16, 13, 3) . '-a' . substr($b16, 17, 3) . '-' . substr($b16, 20, 12);
-            $ins->execute([$id, ($i + 1) * 10, $t, $x, $p, $b, $d, $agora, $agora]);
+            $ins->execute([$id, ($i + 1) * 10, $t, $x, $p, $b, $d, $ar, $agora, $agora]);
         }
     } catch (Throwable $e) { error_log('PD: slides padrão: ' . $e->getMessage()); }
 }
 
-const PD_SCHEMA_VERSAO = 5;
+const PD_SCHEMA_VERSAO = 6;
 
 /** Atualiza bancos já instalados (cria as tabelas novas uma única vez). Nunca derruba a página. */
 function pd_migrar(PDO $pdo): void {
@@ -203,6 +204,10 @@ function pd_migrar(PDO $pdo): void {
         pd_criar_tabelas($pdo);
         try { $pdo->exec('ALTER TABLE pd_solicitacoes ADD COLUMN cobertura VARCHAR(10) NULL'); } catch (Throwable $e) { /* já existe */ }
         try { $pdo->exec('ALTER TABLE pd_contatos ADD COLUMN categoria VARCHAR(20) NULL'); } catch (Throwable $e) { /* já existe */ }
+        try { $pdo->exec("ALTER TABLE pd_slides ADD COLUMN arte VARCHAR(20) NOT NULL DEFAULT 'generico'"); } catch (Throwable $e) { /* já existe */ }
+        foreach (['Dashboard sob medida para a sua empresa' => 'dashboard', 'Formatação de computador e notebook' => 'formatacao', 'Consultoria de TI para empresas' => 'consultoria', 'Ativação de Windows' => 'windows', 'Criação de sites' => 'site'] as $t => $a) {
+            try { $pdo->prepare("UPDATE pd_slides SET arte = ? WHERE titulo = ? AND arte = 'generico'")->execute([$a, $t]); } catch (Throwable $e) { /* segue */ }
+        }
         if ($v === false) $pdo->exec("INSERT INTO pd_contagem (chave, valor) VALUES ('schema', " . PD_SCHEMA_VERSAO . ")");
         else $pdo->exec("UPDATE pd_contagem SET valor = " . PD_SCHEMA_VERSAO . " WHERE chave = 'schema'");
     } catch (Throwable $e) {

@@ -16,17 +16,17 @@
     const raiz=document.querySelector("#destaques .dest-root");
     if(raiz){
       const PADRAO=[
-        {titulo:"Dashboard sob medida para a sua empresa",texto:"Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.",preco:"A partir de R$ 2.500",botao:"Pedir orçamento",destino:"screens/07-orcamento-empresarial-v2/index.html"},
-        {titulo:"Formatação de computador e notebook",texto:"Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.",preco:"",botao:"Solicitar atendimento",destino:"screens/02-atendimento-v5/index.html"},
-        {titulo:"Consultoria de TI para empresas",texto:"Diagnóstico da estrutura, plano de melhorias e prioridades de investimento para o seu negócio.",preco:"",botao:"Solicitar consultoria",destino:"screens/05-consultoria-ti-v2/index.html"},
-        {titulo:"Ativação de Windows",texto:"Ativação com licença original, de forma rápida e segura.",preco:"",botao:"Pedir orçamento",destino:"screens/14-orcamento-entrada-v2/index.html"},
-        {titulo:"Criação de sites",texto:"Site profissional para a sua empresa, rápido no celular e preparado para a busca.",preco:"Sob orçamento",botao:"Pedir orçamento",destino:"screens/07-orcamento-empresarial-v2/index.html"}];
+        {arte:"dashboard",titulo:"Dashboard sob medida para a sua empresa",texto:"Seus dados, sistemas e APIs reunidos em um único painel, atualizados em tempo real.",preco:"A partir de R$ 2.500",botao:"Pedir orçamento",destino:"screens/07-orcamento-empresarial-v2/index.html"},
+        {arte:"formatacao",titulo:"Formatação de computador e notebook",texto:"Deixe o seu equipamento como novo, com atendimento no seu endereço ou entrega agendada.",preco:"",botao:"Solicitar atendimento",destino:"screens/02-atendimento-v5/index.html"},
+        {arte:"consultoria",titulo:"Consultoria de TI para empresas",texto:"Diagnóstico da estrutura, plano de melhorias e prioridades de investimento para o seu negócio.",preco:"",botao:"Solicitar consultoria",destino:"screens/05-consultoria-ti-v2/index.html"},
+        {arte:"windows",titulo:"Ativação de Windows",texto:"Ativação com licença original, de forma rápida e segura.",preco:"",botao:"Pedir orçamento",destino:"screens/14-orcamento-entrada-v2/index.html"},
+        {arte:"site",titulo:"Criação de sites",texto:"Site profissional para a sua empresa, rápido no celular e preparado para a busca.",preco:"Sob orçamento",botao:"Pedir orçamento",destino:"screens/07-orcamento-empresarial-v2/index.html"}];
       let timer=0,indice=0,cards=[],bolinhas=[],track;
       const reduzido=matchMedia("(prefers-reduced-motion: reduce)").matches;
       const ir=(i)=>{indice=(i+cards.length)%cards.length;track.scrollTo({left:cards[indice].offsetLeft-track.offsetLeft,behavior:reduzido?"auto":"smooth"});marcar();};
       const marcar=()=>bolinhas.forEach((b,k)=>b.setAttribute("aria-current",String(k===indice)));
       const parar=()=>{clearInterval(timer);timer=0;};
-      const iniciar=()=>{parar();if(!reduzido&&cards.length>1)timer=setInterval(()=>ir(indice+1),6500);};
+      const iniciar=()=>{parar();if(!reduzido&&cards.length>1)timer=setInterval(()=>ir(indice+1),3000);};
       const montar=(lista)=>{
         parar();raiz.replaceChildren();
         if(!lista.length){raiz.parentElement.parentElement.hidden=true;return;}
@@ -37,12 +37,17 @@
           const tag=document.createElement("span");tag.className="dest-tag";tag.textContent="Novidade";
           const h=document.createElement("h3");h.textContent=d.titulo;
           const p=document.createElement("p");p.textContent=d.texto;
-          c.append(tag,h,p);
-          if(d.preco){const pr=document.createElement("span");pr.className="dest-preco";pr.textContent=d.preco;c.append(pr);}
+          const texto=document.createElement("div");texto.className="dest-texto";
+          texto.append(tag,h,p);
+          if(d.preco){const pr=document.createElement("span");pr.className="dest-preco";pr.textContent=d.preco;texto.append(pr);}
           const a=document.createElement("a");a.className="dest-botao";a.textContent=d.botao+" →";
           a.href=/^https:\/\/wa\.me\//.test(d.destino)?d.destino:new URL(d.destino,base).href;
           if(/^https:/.test(a.href)&&a.href.includes("wa.me")){a.target="_blank";a.rel="noopener noreferrer";}
-          c.append(a);track.append(c);return c;});
+          texto.append(a);
+          const arte=document.createElement("img");arte.className="dest-arte";arte.alt="";arte.decoding="async";
+          arte.src=new URL("assets/destaque-"+(["dashboard","formatacao","consultoria","windows","site"].includes(d.arte)?d.arte:"generico")+".svg",base).href;
+          if(i>0)arte.loading="lazy";
+          c.append(texto,arte);track.append(c);return c;});
         const nav=document.createElement("div");nav.className="dest-nav";
         const dots=document.createElement("div");dots.className="dest-dots";
         bolinhas=cards.map((_,k)=>{const b=document.createElement("button");b.type="button";b.setAttribute("aria-label","Ir para o destaque "+(k+1));b.addEventListener("click",()=>{ir(k);iniciar();});dots.append(b);return b;});

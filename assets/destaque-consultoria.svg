@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" role="img" aria-hidden="true">
+<defs>
+<radialGradient id="glow" cx="50%" cy="50%" r="55%"><stop offset="0" stop-color="#58b978" stop-opacity=".30"/><stop offset="1" stop-color="#58b978" stop-opacity="0"/></radialGradient>
+<linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#143222"/><stop offset="1" stop-color="#0a1710"/></linearGradient>
+<linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#79d497" stop-opacity=".35"/><stop offset="1" stop-color="#79d497" stop-opacity="0"/></linearGradient>
+<style>
+.l{fill:none;stroke:#79d497;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.s{fill:none;stroke:#58b978;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.8}
+.f{fill:rgba(88,185,120,.14);stroke:#79d497;stroke-width:2.5}
+.d{fill:#0a1710;stroke:#79d497;stroke-width:2.5}
+.g{fill:#79d497}
+.y{fill:#e6c777}
+.t{fill:#cfe9d7;font:600 15px Inter,Arial,sans-serif}
+.tb{fill:#fff;font:700 18px "Space Grotesk",Inter,Arial,sans-serif}
+@keyframes flutua{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes sobe{0%{transform:scaleY(.15)}60%,100%{transform:scaleY(1)}}
+@keyframes pisca{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes corre{to{stroke-dashoffset:-40}}
+@keyframes enche{0%{width:0}80%,100%{width:230px}}
+@keyframes gira{to{transform:rotate(360deg)}}
+.fl{animation:flutua 5s ease-in-out infinite}
+.fl2{animation:flutua 6.5s ease-in-out -2s infinite}
+.bar{transform-box:fill-box;transform-origin:bottom;animation:sobe 3.6s ease-in-out infinite}
+.pi{animation:pisca 1.6s ease-in-out infinite}
+.co{stroke-dasharray:6 8;animation:corre 1.4s linear infinite}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+
+</style></defs>
+<circle cx="300" cy="210" r="210" fill="url(#glow)"/>
+
+<g class="fl">
+<rect x="210" y="150" width="180" height="120" rx="16" fill="url(#panel)" stroke="#79d497" stroke-width="3"/>
+<path d="M236 188h128M236 212h128M236 236h80" class="s"/><circle cx="350" cy="236" r="6" class="g pi"/>
+<text x="300" y="176" text-anchor="middle" class="tb" font-size="16">Sua empresa</text>
+</g>
+<g class="fl2">
+<g transform="translate(76 70)"><rect width="84" height="60" rx="10" class="d"/><path d="M26 76h32M42 60v16" class="l"/></g>
+<g transform="translate(440 64)"><rect width="84" height="60" rx="10" class="d"/><path d="M26 76h32M42 60v16" class="l"/></g>
+<g transform="translate(64 290)"><rect width="76" height="52" rx="10" class="d"/><path d="M16 26h44M16 38h28" class="s"/></g>
+<g transform="translate(452 290)"><path d="M0 40q38-46 76 0" class="l"/><path d="M14 52q24-28 48 0" class="l"/><circle cx="38" cy="62" r="5" class="g"/></g>
+</g>
+<path d="M160 120L220 160M440 112L390 160M140 316L212 262M452 322L388 262" class="s co"/>
+<g transform="translate(270 300)"><path d="M30 0l34 12v24c0 22-14 38-34 46C10 74-4 58-4 36V12z" class="f" transform="translate(0 -6)"/><path d="M16 36l10 10 20-22" class="l"/></g>
+<g transform="translate(236 34)"><circle cx="30" cy="30" r="22" class="d"/><path d="M46 46l18 18" class="l"/><path d="M20 30h20M30 20v20" class="s"/></g>
+</svg>

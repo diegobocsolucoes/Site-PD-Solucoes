@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" role="img" aria-hidden="true">
+<defs>
+<radialGradient id="glow" cx="50%" cy="50%" r="55%"><stop offset="0" stop-color="#58b978" stop-opacity=".30"/><stop offset="1" stop-color="#58b978" stop-opacity="0"/></radialGradient>
+<linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#143222"/><stop offset="1" stop-color="#0a1710"/></linearGradient>
+<linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#79d497" stop-opacity=".35"/><stop offset="1" stop-color="#79d497" stop-opacity="0"/></linearGradient>
+<style>
+.l{fill:none;stroke:#79d497;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.s{fill:none;stroke:#58b978;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.8}
+.f{fill:rgba(88,185,120,.14);stroke:#79d497;stroke-width:2.5}
+.d{fill:#0a1710;stroke:#79d497;stroke-width:2.5}
+.g{fill:#79d497}
+.y{fill:#e6c777}
+.t{fill:#cfe9d7;font:600 15px Inter,Arial,sans-serif}
+.tb{fill:#fff;font:700 18px "Space Grotesk",Inter,Arial,sans-serif}
+@keyframes flutua{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes sobe{0%{transform:scaleY(.15)}60%,100%{transform:scaleY(1)}}
+@keyframes pisca{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes corre{to{stroke-dashoffset:-40}}
+@keyframes enche{0%{width:0}80%,100%{width:230px}}
+@keyframes gira{to{transform:rotate(360deg)}}
+.fl{animation:flutua 5s ease-in-out infinite}
+.fl2{animation:flutua 6.5s ease-in-out -2s infinite}
+.bar{transform-box:fill-box;transform-origin:bottom;animation:sobe 3.6s ease-in-out infinite}
+.pi{animation:pisca 1.6s ease-in-out infinite}
+.co{stroke-dasharray:6 8;animation:corre 1.4s linear infinite}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+
+</style></defs>
+<circle cx="300" cy="210" r="210" fill="url(#glow)"/>
+
+<g class="fl">
+<rect x="80" y="60" width="440" height="290" rx="18" fill="url(#panel)" stroke="#79d497" stroke-width="3"/>
+<path d="M80 96h440" class="s"/><circle cx="102" cy="78" r="5" class="y"/><circle cx="120" cy="78" r="5" class="g" opacity=".7"/><circle cx="138" cy="78" r="5" class="g" opacity=".4"/>
+<rect x="98" y="112" width="62" height="222" rx="10" class="f" opacity=".7"/>
+<path d="M112 134h34M112 158h26M112 182h30M112 206h22" class="s"/>
+<rect x="176" y="112" width="104" height="62" rx="10" class="f"/><text x="190" y="136" class="t" font-size="12">Vendas</text><text x="190" y="162" class="tb">R$ 48 mil</text>
+<rect x="292" y="112" width="104" height="62" rx="10" class="f"/><text x="306" y="136" class="t" font-size="12">Pedidos</text><text x="306" y="162" class="tb">1.284</text>
+<rect x="408" y="112" width="94" height="62" rx="10" class="f"/><text x="420" y="136" class="t" font-size="12">Meta</text><text x="420" y="162" class="tb">92%</text>
+<rect x="176" y="188" width="200" height="146" rx="10" class="f"/>
+<g><rect class="bar g" x="196" y="262" width="22" height="58" rx="4" style="animation-delay:0s"/><rect class="bar g" x="228" y="236" width="22" height="84" rx="4" style="animation-delay:.2s"/><rect class="bar g" x="260" y="250" width="22" height="70" rx="4" style="animation-delay:.4s"/><rect class="bar g" x="292" y="214" width="22" height="106" rx="4" style="animation-delay:.6s"/><rect class="bar y" x="324" y="200" width="22" height="120" rx="4" style="animation-delay:.8s"/></g>
+<rect x="388" y="188" width="114" height="146" rx="10" class="f"/>
+<path d="M402 300l24-34 22 20 28-52 20 24" class="l"/><path d="M402 300l24-34 22 20 28-52 20 24v50h-94z" fill="url(#area)" stroke="none"/>
+</g>
+<g class="fl2">
+<circle cx="64" cy="330" r="26" class="d"/><text x="64" y="336" text-anchor="middle" class="t" font-size="14">API</text>
+<circle cx="548" cy="92" r="24" class="d"/><text x="548" y="98" text-anchor="middle" class="t" font-size="13">ERP</text>
+<circle cx="552" cy="320" r="22" class="d"/><text x="552" y="326" text-anchor="middle" class="t" font-size="12">CRM</text>
+<path d="M90 326C110 340 90 352 120 348" class="s co"/><path d="M526 100c-8 18-12 28-22 40" class="s co"/><path d="M530 316c-10 0-16 6-28 10" class="s co"/>
+</g>
+</svg>
